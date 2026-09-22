@@ -55,3 +55,5 @@ as $$
 $$;
 
 grant execute on function public.search_quran_quote(text,integer) to anon, authenticated;
+
+alter function public.azwo_normalize_arabic(text) set search_path = pg_catalog;
