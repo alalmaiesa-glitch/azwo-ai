@@ -139,6 +139,13 @@
       return data;
     },
 
+    async searchQuranQuote(query,limit=10){
+      if(!client)throw new Error("Supabase غير مهيأ");
+      const {data,error}=await client.rpc("search_quran_quote",{q:query,limit_count:limit});
+      if(error)throw error;
+      return data||[];
+    },
+
     async invokeFreeSource(params){
       if(!client)throw new Error("Supabase غير مهيأ");
       const {data:{session}}=await client.auth.getSession();
