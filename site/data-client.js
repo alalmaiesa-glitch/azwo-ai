@@ -133,6 +133,44 @@
       return data||[];
     },
 
+    async listReviewQueue(){
+      if(!client)throw new Error("Supabase غير مهيأ");
+      const membership=await firstOrganization();
+      if(!membership)return [];
+      const {data,error}=await client
+        .from("claims")
+        .select("id,ordinal,claim_text,claim_type,status,explanation,requires_human_review,created_at,verification_jobs!inner(id,organization_id,created_at)")
+        .eq("verification_jobs.organization_id",membership.organization_id)
+        .or("requires_human_review.eq.true,status.eq.partial,status.eq.human_review")
+        .order("created_at",{ascending:false})
+        .limit(50);
+      if(error)throw error;
+      return data||[];
+    },
+
+    async submitReview(claimId,decision,comment=""){
+      if(!client)throw new Error("Supabase غير مهيأ");
+      const user=await currentUser();
+      if(!user)throw new Error("يلزم تسجيل الدخول");
+      const {data,error}=await client.from("reviews").insert({
+        claim_id:claimId,
+        reviewer_id:user.id,
+        decision,
+        comment,
+        is_final:true
+      }).select().single();
+      if(error)throw error;
+      const {error:claimError}=await client
+        .from("claims")
+        .update({
+          status:decision,
+          requires_human_review:decision==="human_review"
+        })
+        .eq("id",claimId);
+      if(claimError)throw claimError;
+      return data;
+    },
+
     async listSources(){
       if(!client||config.demoMode)return [];
       const membership=await firstOrganization();
