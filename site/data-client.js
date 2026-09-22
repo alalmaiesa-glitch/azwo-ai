@@ -152,6 +152,14 @@
       if(!client)throw new Error("Supabase غير مهيأ");
       const user=await currentUser();
       if(!user)throw new Error("يلزم تسجيل الدخول");
+
+      const {data:claimRow,error:claimReadError}=await client
+        .from("claims")
+        .select("id,job_id")
+        .eq("id",claimId)
+        .single();
+      if(claimReadError)throw claimReadError;
+
       const {data,error}=await client.from("reviews").insert({
         claim_id:claimId,
         reviewer_id:user.id,
@@ -160,6 +168,7 @@
         is_final:true
       }).select().single();
       if(error)throw error;
+
       const {error:claimError}=await client
         .from("claims")
         .update({
@@ -168,6 +177,22 @@
         })
         .eq("id",claimId);
       if(claimError)throw claimError;
+
+      if(decision!=="human_review"){
+        const {data:pending,error:pendingError}=await client
+          .from("claims")
+          .select("id")
+          .eq("job_id",claimRow.job_id)
+          .or("requires_human_review.eq.true,status.eq.partial,status.eq.human_review")
+          .limit(1);
+        if(pendingError)throw pendingError;
+        if(!pending?.length){
+          await client
+            .from("verification_jobs")
+            .update({status:"completed",completed_at:new Date().toISOString()})
+            .eq("id",claimRow.job_id);
+        }
+      }
       return data;
     },
 
