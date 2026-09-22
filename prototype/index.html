@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>عَزْو — من الادعاء إلى مصدره</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><div class="mark">ع</div><div><strong>عَزْو</strong><small>AZWO</small></div></div>
+  <div class="baseline"><span class="dot"></span> PRE-CHALLENGE BASELINE</div>
+</header>
+<main>
+<section class="hero">
+  <div>
+    <span class="eyebrow">أداة تحقق للمحتوى الإسلامي</span>
+    <h1>من الادعاء<br><em>إلى مصدره.</em></h1>
+    <p>يفكك عَزْو المحتوى إلى ادعاءات، ثم يربط كل ادعاء بدليله وحالة إسناده — مع الامتناع والإحالة عندما لا تكفي المرجعية.</p>
+  </div>
+  <aside class="principle"><span>قاعدة عَزْو</span><b>النموذج لا ينشئ المصدر.</b><p>المصدر يجب أن يأتي من سجل معرفة معتمد وقابل للتتبع.</p></aside>
+</section>
+<section class="workspace">
+  <div class="panel input-panel">
+    <div class="panel-head"><div><span>01</span><h2>النص المراد مراجعته</h2></div><button id="fillDemo" class="ghost">نص تجريبي</button></div>
+    <textarea id="contentInput" placeholder="ألصق هنا مقالًا أو منشورًا أو نصًا مولدًا بالذكاء الاصطناعي...">ورد في المادة: «قُلْ هُوَ اللَّهُ أَحَدٌ». كما نُسب حديث إلى المرجع التجريبي HD-FIX-03. ويقرر النص أن هذا الحكم ينطبق على جميع الصور بلا استثناء، وأن جميع العلماء اتفقوا عليه، ويستشهد أيضًا بالمرجع HD-MISSING-09.</textarea>
+    <div class="input-foot"><span><b id="wordCount">0</b> كلمة</span><button id="analyzeBtn" class="primary">تشغيل العرض التجريبي <span>←</span></button></div>
+    <div class="demo-warning">هذه النسخة تستخدم fixtures فقط. لا يوجد محرك تحقق فعلي قبل 4 أكتوبر 2026.</div>
+  </div>
+  <div class="panel process-panel" id="processPanel">
+    <div class="panel-head"><div><span>02</span><h2>مسار عَزْو</h2></div><div class="mode">DEMO</div></div>
+    <div class="pipeline">
+      <div class="step"><i>1</i><div><b>استخراج الادعاءات</b><small>Claim extraction</small></div><strong id="s1">جاهز</strong></div>
+      <div class="step"><i>2</i><div><b>تصنيف نوع الادعاء</b><small>Claim routing</small></div><strong id="s2">جاهز</strong></div>
+      <div class="step"><i>3</i><div><b>استرجاع الأدلة</b><small>Fixture retrieval</small></div><strong id="s3">جاهز</strong></div>
+      <div class="step"><i>4</i><div><b>تقييم حالة الدليل</b><small>Evidence status</small></div><strong id="s4">جاهز</strong></div>
+    </div>
+  </div>
+</section>
+<section id="results" class="results hidden">
+  <div class="results-head">
+    <div><span class="eyebrow">تقرير تجريبي</span><h2>خريطة الادعاءات والأدلة</h2><p>Audit ID: <code>AZW-DEMO-2026-001</code></p></div>
+    <button id="downloadJson" class="ghost">تنزيل JSON</button>
+  </div>
+  <div class="notice">بيانات تجريبية — ليست تحققًا فعليًا</div>
+  <div class="stats">
+    <div><b>5</b><span>ادعاءات</span></div><div><b>2</b><span>مدعومة</span></div><div><b>1</b><span>جزئي</span></div><div><b>1</b><span>غير مسند</span></div><div><b>1</b><span>مراجعة مختص</span></div>
+  </div>
+  <div id="claimCards" class="claims"></div>
+</section>
+</main>
+<footer><span>عَزْو — AZWO</span><span>Pre-challenge baseline · 2026</span></footer>
+<script src="app.js"></script>
+</body></html>
