@@ -127,6 +127,46 @@
       return data||[];
     },
 
+    async getQuranVerse(surah,ayah){
+      if(!client)throw new Error("Supabase غير مهيأ");
+      const {data,error}=await client
+        .from("quran_verses")
+        .select("surah,ayah,text_uthmani,source_version")
+        .eq("surah",Number(surah))
+        .eq("ayah",Number(ayah))
+        .maybeSingle();
+      if(error)throw error;
+      return data;
+    },
+
+    async invokeFreeSource(params){
+      if(!client)throw new Error("Supabase غير مهيأ");
+      const {data:{session}}=await client.auth.getSession();
+      if(!session)throw new Error("سجل الدخول لاستخدام المصادر الخارجية");
+      const qs=new URLSearchParams(params).toString();
+      const response=await fetch(`${config.supabaseUrl}/functions/v1/azwo-sources?${qs}`,{
+        headers:{
+          Authorization:`Bearer ${session.access_token}`,
+          apikey:config.supabaseAnonKey
+        }
+      });
+      const payload=await response.json();
+      if(!response.ok)throw new Error(payload.error||"تعذر الاتصال بالمصدر");
+      return payload;
+    },
+
+    async searchDorar(query){
+      return this.invokeFreeSource({provider:"dorar",q:query});
+    },
+
+    async listQuranEnc(language="ar"){
+      return this.invokeFreeSource({provider:"quranenc",mode:"list",language});
+    },
+
+    async getQuranEncAya(translation,sura,aya){
+      return this.invokeFreeSource({provider:"quranenc",mode:"aya",translation,String:sura,aya:String(aya)});
+    },
+
     async createSource(payload){
       if(!client)throw new Error("Supabase غير مهيأ");
       const user=await currentUser();
