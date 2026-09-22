@@ -138,7 +138,17 @@ $("#verifyBtn").addEventListener("click",async()=>{
       language:$("#langSelect")?.value==="الإنجليزية"?"en":"ar"
     });
     renderEngineResults(report);
-    refreshRecentHistory();
+    const exampleText="قال الله تعالى: «قُلْ هُوَ اللَّهُ أَحَدٌ». وقال رسول الله ﷺ: «إنما الأعمال بالنيات». ويقال إن جميع العلماء اتفقوا على أن كل مسألة خلافية لها قول واحد فقط.";
+document.getElementById("exampleBtn")?.addEventListener("click",()=>{
+  mode="text";
+  tabs.forEach(t=>t.classList.toggle("active",t.dataset.mode==="text"));
+  panels.forEach(p=>p.classList.toggle("active",p.dataset.panel==="text"));
+  textarea.value=exampleText;
+  count.textContent=String(textarea.value.length);
+  textarea.focus();
+});
+
+refreshRecentHistory();
   }catch(err){
     renderEngineError(err?.message||"تعذر تشغيل محرك عَزْو");
   }finally{
