@@ -1,0 +1,15 @@
+<!doctype html><html lang="ar" dir="rtl"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>إنشاء حساب | عَزْو</title><link rel="icon" href="./favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Noto+Kufi+Arabic:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./styles.css"><link rel="stylesheet" href="./portal.css"></head>
+<body class="portal-body">
+<main class="auth-shell">
+<section class="auth-brand"><a class="brand portal-brand" href="./index.html"><div class="brand-mark">ع</div><div><strong>عَزْو</strong><span>تأصيل المعرفة</span></div></a>
+<div class="auth-message"><span class="overline">ابدأ مساحة معرفية</span><h1>أنشئ حسابك<br>وابنِ مساحة مؤسستك.</h1><p>يمكنك لاحقًا دعوة المحررين والمراجعين وإدارة مصادر مؤسستك.</p></div></section>
+<section class="auth-card"><div><span class="overline">حساب جديد</span><h2>إنشاء حساب</h2><p>استخدم بريدًا فعّالًا لإدارة مساحة عَزْو.</p></div>
+<form id="signupForm"><label>الاسم<input id="fullName" required></label><label>البريد الإلكتروني<input id="email" type="email" required></label><label>كلمة المرور<input id="password" type="password" minlength="8" required></label><button class="primary-btn wide" type="submit">إنشاء الحساب</button><p id="signupMessage" class="form-message"></p></form>
+<div class="auth-divider"><span>لديك حساب؟</span></div><a class="secondary-btn wide center-link" href="./login.html">تسجيل الدخول</a></section>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="./config.js"></script><script src="./data-client.js"></script><script src="./signup.js"></script></body></html>
