@@ -79,3 +79,48 @@ document.getElementById("sourceForm").addEventListener("submit",async e=>{
 });
 
 loadSources();
+
+async function ensureSourceLabAuth(){
+  if(window.AZWO_DATA?.mode!=="supabase") return true;
+  const session=await window.AZWO_DATA.getSession();
+  return Boolean(session);
+}
+
+document.getElementById("quranLookup")?.addEventListener("click",async()=>{
+  const box=document.getElementById("quranResult");
+  const sura=document.getElementById("quranSura").value;
+  const aya=document.getElementById("quranAya").value;
+  box.textContent="جارٍ التحميل...";
+  try{
+    const verse=await window.AZWO_DATA.getQuranVerse(sura,aya);
+    if(!verse){box.textContent="لم يتم العثور على الآية.";return}
+    box.innerHTML=`<div class="quran-text">${verse.text_uthmani}</div><small>سورة ${verse.surah}، آية ${verse.ayah} — ${verse.source_version} · Tanzil Project</small>`;
+  }catch(err){box.textContent=err.message||"تعذر تحميل الآية"}
+});
+
+document.getElementById("dorarSearch")?.addEventListener("click",async()=>{
+  const box=document.getElementById("dorarResult");
+  const q=document.getElementById("dorarQuery").value.trim();
+  if(q.length<2){box.textContent="أدخل كلمتين على الأقل.";return}
+  box.textContent="جارٍ البحث...";
+  try{
+    if(!(await ensureSourceLabAuth())){box.textContent="سجل الدخول أولًا لاستخدام البحث الخارجي.";return}
+    const res=await window.AZWO_DATA.searchDorar(q);
+    const items=(res.items||[]).slice(0,5);
+    box.innerHTML=items.length
+      ?items.map(x=>`<div class="result-item">${x.text||"نتيجة"}</div>`).join("")
+      :"لا توجد نتائج.";
+  }catch(err){box.textContent=err.message||"تعذر البحث في الدرر السنية"}
+});
+
+document.getElementById("quranEncLoad")?.addEventListener("click",async()=>{
+  const box=document.getElementById("quranEncResult");
+  const lang=document.getElementById("quranEncLang").value;
+  box.textContent="جارٍ التحميل...";
+  try{
+    if(!(await ensureSourceLabAuth())){box.textContent="سجل الدخول أولًا لاستخدام المصدر الخارجي.";return}
+    const res=await window.AZWO_DATA.listQuranEnc(lang);
+    const data=Array.isArray(res.data)?res.data:(res.data?.translations||[]);
+    box.innerHTML=data.slice(0,12).map(x=>`<div class="result-item"><b>${x.title||x.key}</b><br><small>${x.key||""} ${x.version?"· "+x.version:""}</small></div>`).join("")||"لا توجد ترجمات.";
+  }catch(err){box.textContent=err.message||"تعذر تحميل الترجمات"}
+});
