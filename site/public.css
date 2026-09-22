@@ -46,13 +46,14 @@ button,input,textarea,select{font:inherit}
   border-bottom:1px solid #eee7d9
 }
 .hero-layout{
+  direction:ltr;
   position:relative;z-index:4;max-width:1420px;margin:0 auto;
   min-height:590px;padding:55px 92px 30px;
   display:grid;grid-template-columns:minmax(570px,1.05fr) minmax(470px,.95fr);
   grid-template-areas:"studio identity";gap:70px;align-items:center
 }
-.identity-column{grid-area:identity;text-align:right;padding-inline:18px}
-.hero-wordmark{position:relative;width:max-content;margin:0 auto 0 0}
+.identity-column{grid-area:identity;direction:rtl;text-align:right;padding-inline:18px}
+.hero-wordmark{position:relative;width:max-content;margin:0 0 0 auto}
 .hero-wordmark h1{
   margin:0;font-family:"Noto Kufi Arabic";font-size:84px;line-height:1;
   letter-spacing:-4px;color:var(--azwo-green-dark);font-weight:700
@@ -74,7 +75,7 @@ button,input,textarea,select{font:inherit}
 .trust-features b{display:block;font-size:12px;color:#304039}
 .trust-features small{display:block;color:#7a827e;font-size:9px;margin-top:2px}
 
-.verification-studio{grid-area:studio;position:relative}
+.verification-studio{grid-area:studio;direction:rtl;position:relative}
 .studio-grid{
   display:grid;grid-template-columns:1.05fr .82fr;direction:rtl;
   background:rgba(255,255,255,.93);border:1px solid #e8e0d1;border-radius:18px;
