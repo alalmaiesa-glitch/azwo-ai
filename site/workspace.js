@@ -20,6 +20,7 @@
 
   const rows=await window.AZWO_DATA.listRecent();
   document.getElementById("jobsCount").textContent=rows.length;
+  try{const reviewRows=await window.AZWO_DATA.listReviewQueue();document.getElementById("reviewMetric").textContent=reviewRows.length}catch{}
   const host=document.getElementById("workspaceJobs");
   if(rows.length){
     host.innerHTML=rows.slice(0,8).map(row=>`
