@@ -7,7 +7,27 @@
 <div class="org-card"><small>مساحة العمل</small><strong>مؤسسة تجريبية</strong><span>Workspace</span></div>
 <nav><a href="./workspace.html">نظرة عامة</a><a href="./index.html#verify">تحقق جديد</a><a class="active" href="./sources.html">المصادر</a><a href="./review.html">المراجعات</a></nav></aside>
 <main class="workspace-main"><header class="workspace-top"><div><span class="overline">سجل المعرفة</span><h1>المصادر</h1><p class="muted">مصادر وقفية عامة + مصادر خاصة بالمؤسسة، مع حالة اعتماد وترخيص وإصدار.</p></div><button class="primary-btn" id="newSourceBtn">+ إضافة مصدر</button></header>
-<section class="source-tabs"><button class="active" data-filter="all">الكل</button><button data-filter="public">وقفية عامة</button><button data-filter="org">خاصة بالمؤسسة</button></section>
+<section class="live-source-lab">
+    <div class="lab-head"><div><span class="overline">اختبار حي</span><h2>المصادر المجانية المتصلة</h2></div><span class="live-badge">LIVE</span></div>
+    <div class="lab-grid">
+      <article class="lab-card">
+        <div class="lab-title"><span>⌘</span><div><b>القرآن — Tanzil</b><small>6236 آية محفوظة محليًا</small></div></div>
+        <div class="lab-form two-mini"><input id="quranSura" type="number" min="1" max="114" value="1" placeholder="السورة"><input id="quranAya" type="number" min="1" value="1" placeholder="الآية"><button id="quranLookup" class="primary-btn">عرض</button></div>
+        <div id="quranResult" class="lab-result muted">أدخل رقم السورة والآية.</div>
+      </article>
+      <article class="lab-card">
+        <div class="lab-title"><span>◫</span><div><b>الحديث — الدرر السنية</b><small>بحث مباشر عبر API الرسمي</small></div></div>
+        <div class="lab-form"><input id="dorarQuery" placeholder="اكتب كلمات من الحديث..."><button id="dorarSearch" class="primary-btn">بحث</button></div>
+        <div id="dorarResult" class="lab-result muted">يتطلب تسجيل الدخول.</div>
+      </article>
+      <article class="lab-card">
+        <div class="lab-title"><span>文</span><div><b>الترجمات — QuranEnc</b><small>قائمة الترجمات المتاحة</small></div></div>
+        <div class="lab-form"><select id="quranEncLang"><option value="ar">العربية</option><option value="en">English</option><option value="fr">Français</option></select><button id="quranEncLoad" class="primary-btn">تحميل</button></div>
+        <div id="quranEncResult" class="lab-result muted">يتطلب تسجيل الدخول.</div>
+      </article>
+    </div>
+  </section>
+  <section class="source-tabs"><button class="active" data-filter="all">الكل</button><button data-filter="public">وقفية عامة</button><button data-filter="org">خاصة بالمؤسسة</button></section>
 <section id="sourcesGrid" class="sources-grid"></section>
 <dialog id="sourceDialog" class="azwo-dialog"><form method="dialog" id="sourceForm"><div class="dialog-head"><div><span class="overline">مصدر جديد</span><h2>إضافة مصدر</h2></div><button value="cancel" class="dialog-close">×</button></div>
 <label>اسم المصدر<input id="sourceTitle" required placeholder="مثال: مصدر معرفي معتمد"></label>
