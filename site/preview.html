@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0d4f3b">
+  <meta name="description" content="عَزْو — وقف معرفي رقمي لتأصيل المعرفة وربط المحتوى بأصوله ومصادره.">
+  <title>عَزْو | تأصيل المعرفة — معاينة</title>
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Noto+Kufi+Arabic:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./portal.css">
+  <link rel="stylesheet" href="./public.css">
+</head>
+<body class="public-site">
+<header class="public-header">
+  <a class="public-brand" href="#home" aria-label="عَزْو">
+    <span class="public-brand-mark">ع</span>
+    <span class="public-brand-copy"><b>عَزْو</b><small>تأصيل المعرفة</small></span>
+  </a>
+  <nav class="public-nav" aria-label="التنقل الرئيسي">
+    <a href="#home">الرئيسية</a>
+    <a href="#how">كيف يعمل</a>
+    <a href="#states">حالات التأصيل</a>
+    <a href="#sources">المصادر</a>
+    <a href="#waqf">وقف عَزْو</a>
+  </nav>
+  <div class="public-actions">
+    <span class="preview-pill">نسخة معاينة</span>
+    <a class="header-cta" href="#verify">ابدأ التأصيل</a>
+  </div>
+</header>
+
+<main>
+  <section class="public-hero" id="home">
+    <div class="hero-orbit hero-orbit-one"></div>
+    <div class="hero-orbit hero-orbit-two"></div>
+
+    <div class="public-hero-copy">
+      <span class="public-kicker">وقف معرفي رقمي</span>
+      <h1>عَزْو</h1>
+      <h2>تأصيل المعرفة</h2>
+      <p>نربط المحتوى بأصوله ومصادره، ونوضح ما يدعمه الدليل وما يحتاج إلى مراجعة؛ ليصل الباحث والمحرر إلى المصدر بخطوات أوضح وأسرع.</p>
+      <div class="hero-principle">
+        <span></span>
+        <b>المصدر قبل الاستنتاج، والدليل قبل الاعتماد.</b>
+      </div>
+    </div>
+
+    <section class="verify-stage" id="verify" aria-label="أداة التأصيل">
+      <div class="verify-stage-head">
+        <div>
+          <span class="live-dot"></span>
+          <b>أداة التأصيل</b>
+          <em>نسخة مشاهدة عامة</em>
+        </div>
+        <button class="example-btn" id="exampleBtn" type="button">جرّب مثالًا</button>
+      </div>
+
+      <div class="input-tabs" role="tablist">
+        <button class="tab active" data-mode="text" type="button">نص</button>
+        <button class="tab" data-mode="file" type="button">ملف <small>قريبًا</small></button>
+        <button class="tab" data-mode="link" type="button">رابط <small>قريبًا</small></button>
+        <button class="tab" data-mode="image" type="button">صورة <small>قريبًا</small></button>
+      </div>
+
+      <div class="mode-panel active" data-panel="text">
+        <textarea id="verifyText" maxlength="10000" placeholder="ألصق نصًا يحتوي على آية أو حديث أو قول علمي أو معلومة تريد تأصيلها..."></textarea>
+      </div>
+      <div class="mode-panel" data-panel="file">
+        <div class="coming-panel"><b>رفع الملفات في المرحلة التالية</b><span>ستدعم الخدمة PDF وWord وTXT.</span></div>
+      </div>
+      <div class="mode-panel" data-panel="link">
+        <div class="coming-panel"><b>تحليل الروابط في المرحلة التالية</b><span>سيقرأ عَزْو الصفحة ويستخرج المعلومات القابلة للتأصيل.</span></div>
+      </div>
+      <div class="mode-panel" data-panel="image">
+        <div class="coming-panel"><b>قراءة الصور في المرحلة التالية</b><span>ستُستخرج النصوص أولًا ثم تمر على محرك التأصيل نفسه.</span></div>
+      </div>
+
+      <div class="verify-actions">
+        <div class="filters">
+          <label>المجال
+            <select id="domainSelect">
+              <option>عام</option>
+              <option>قرآن وتفسير</option>
+              <option>حديث</option>
+              <option>فقه</option>
+              <option>سيرة وتاريخ</option>
+            </select>
+          </label>
+          <label>اللغة
+            <select id="langSelect">
+              <option>العربية</option>
+              <option>الإنجليزية</option>
+            </select>
+          </label>
+        </div>
+        <div class="verify-cta-wrap">
+          <span class="counter"><b id="charCount">0</b>/10,000</span>
+          <button class="primary-btn public-primary" id="verifyBtn" type="button">أصّل النص <span>←</span></button>
+        </div>
+      </div>
+      <p class="verify-note">هذه معاينة تصميم فقط؛ لا تدخل بيانات حساسة. النتائج أدناه توضيحية وليست تحققًا فعليًا.</p>
+    </section>
+
+    <div class="source-trust">
+      <span>مصادر متصلة حاليًا</span>
+      <b>Tanzil</b>
+      <i></i>
+      <b>الدرر السنية</b>
+      <i></i>
+      <b>QuranEnc</b>
+    </div>
+  </section>
+
+  <section class="results-section hidden public-results" id="resultsSection">
+    <div class="section-head">
+      <div><span class="public-kicker">نتيجة التأصيل</span><h2>خريطة المعرفة والمصادر</h2></div>
+      <div class="result-actions">
+        <button class="secondary-btn" id="copyReport" type="button">نسخ التقرير</button>
+        <button class="secondary-btn" id="downloadReport" type="button">تنزيل JSON</button>
+      </div>
+    </div>
+    <div class="analysis-summary">
+      <div class="summary-score">
+        <span>تغطية الأدلة</span>
+        <strong id="scoreValue">—</strong>
+        <small>نسبة المعلومات التي وجد لها عَزْو دليلًا أو دعمًا جزئيًا، وليست حكمًا شرعيًا نهائيًا.</small>
+      </div>
+      <div class="summary-items">
+        <div><b id="supportedCount">0</b><span>مدعوم</span></div>
+        <div><b id="partialCount">0</b><span>دعم جزئي</span></div>
+        <div><b id="unsupportedCount">0</b><span>غير مسند</span></div>
+        <div><b id="reviewCount">0</b><span>مراجعة مختص</span></div>
+      </div>
+    </div>
+    <div class="claim-list" id="claimList"></div>
+  </section>
+
+  <section class="public-section how-section" id="how">
+    <div class="public-section-head">
+      <span class="public-kicker">كيف يعمل عَزْو؟</span>
+      <h2>من النص إلى الدليل، دون قفزات خفية</h2>
+      <p>كل خطوة في التأصيل قابلة للتتبع، والمصدر يبقى منفصلًا عن تفسير النظام.</p>
+    </div>
+    <div class="how-grid">
+      <article><span>01</span><div class="step-icon">ن</div><h3>يقرأ المحتوى</h3><p>يحدد الجمل والاقتباسات والمعلومات التي يمكن تأصيلها.</p></article>
+      <article><span>02</span><div class="step-icon">ف</div><h3>يفهم النوع</h3><p>يفرق بين آية وحديث وقول علمي ومعلومة عامة.</p></article>
+      <article><span>03</span><div class="step-icon">م</div><h3>يبحث في المصدر</h3><p>يوجّه كل نوع إلى المصدر الأنسب بدل البحث العشوائي.</p></article>
+      <article><span>04</span><div class="step-icon">د</div><h3>يعرض الدليل</h3><p>يظهر المصدر والموضع وحالة التأصيل وما يحتاج مراجعة بشرية.</p></article>
+    </div>
+  </section>
+
+  <section class="public-section states-section" id="states">
+    <div class="public-section-head compact">
+      <span class="public-kicker">حالات التأصيل</span>
+      <h2>النتيجة ليست «صح أو خطأ» فقط</h2>
+    </div>
+    <div class="state-grid">
+      <article class="state-card state-supported"><span></span><h3>مدعوم</h3><p>المصدر المتصل يدعم المعلومة بصورة واضحة.</p></article>
+      <article class="state-card state-partial"><span></span><h3>دعم جزئي</h3><p>الدليل يؤيد جزءًا من العبارة لكن الصياغة أوسع منه.</p></article>
+      <article class="state-card state-unsupported"><span></span><h3>غير مسند</h3><p>لم نجد ضمن المصادر المتصلة ما يكفي لإسنادها.</p></article>
+      <article class="state-card state-multiple"><span></span><h3>متعدد</h3><p>ظهرت مصادر أو أقوال متعددة تستلزم عرض التعدد.</p></article>
+      <article class="state-card state-review"><span></span><h3>مراجعة مختص</h3><p>المسألة تتجاوز ما ينبغي أن يحسمه النظام آليًا.</p></article>
+    </div>
+  </section>
+
+  <section class="public-section source-section" id="sources">
+    <div class="public-section-head">
+      <span class="public-kicker">شبكة المصادر</span>
+      <h2>كل نوع من المعرفة إلى مصدره الأنسب</h2>
+      <p>لا يعتمد عَزْو على نموذج لغوي بوصفه مصدر حقيقة، بل على مصادر مسجلة ومحددة الحقوق.</p>
+    </div>
+    <div class="public-source-grid">
+      <article class="source-live"><div><b>Tanzil</b><span>القرآن الكريم</span></div><em>متصل</em><p>6236 آية محفوظة حرفيًا للمطابقة والبحث النصي.</p></article>
+      <article class="source-live"><div><b>الدرر السنية</b><span>الموسوعة الحديثية</span></div><em>متصل</em><p>بحث حديث مباشر وإرجاع النتائج من المصدر وقت الطلب.</p></article>
+      <article class="source-live"><div><b>QuranEnc</b><span>ترجمات القرآن</span></div><em>متصل</em><p>وصول إلى الترجمات مع المحافظة على بيانات المصدر والإصدار.</p></article>
+      <article class="source-limited"><div><b>OpenITI</b><span>التراث الإسلامي</span></div><em>مقيّد</em><p>مسجل للاستخدام الوقفي وغير التجاري وفق الترخيص الحالي.</p></article>
+      <article class="source-planned"><div><b>المكتبة الشاملة</b><span>الكتب التراثية</span></div><em>مخطط</em><p>البنية التقنية جاهزة، والتفعيل ينتظر وضوح حقوق API والفهرسة.</p></article>
+    </div>
+    <a class="source-page-link" href="./sources.html">استكشف سجل المصادر والتراخيص <span>←</span></a>
+  </section>
+
+  <section class="public-section boundary-section">
+    <div class="boundary-card">
+      <div class="boundary-mark">↳</div>
+      <div>
+        <span class="public-kicker">حدود واضحة</span>
+        <h2>عَزْو ليس محرك فتاوى</h2>
+        <p>لا يستبدل الباحث أو المراجع أو المختص؛ بل يجعل طريقه إلى المصدر أوضح، ويمنع النظام من ملء فراغات المعرفة بمراجع مختلقة.</p>
+      </div>
+      <a href="#verify" class="boundary-link">جرّب المعاينة</a>
+    </div>
+  </section>
+
+  <section class="waqf-section" id="waqf">
+    <div class="waqf-copy">
+      <span class="public-kicker light">وقف عَزْو</span>
+      <h2>معرفة موثوقة… وأثر ممتد</h2>
+      <p>عَزْو مشروع وقفي معرفي رقمي لبناء أدوات ومصادر تساعد على تأصيل المعرفة وإتاحتها بصورة مستدامة للباحثين والمؤسسات والمجتمع.</p>
+      <div class="waqf-actions">
+        <a href="#how" class="waqf-primary">تعرف على المنهج</a>
+        <a href="./sources.html" class="waqf-secondary">المصادر والتراخيص</a>
+      </div>
+    </div>
+    <div class="waqf-principles">
+      <div><span>01</span><b>أصل معرفي محفوظ</b></div>
+      <div><span>02</span><b>منفعة عامة مستدامة</b></div>
+      <div><span>03</span><b>حوكمة علمية قابلة للتتبع</b></div>
+    </div>
+  </section>
+</main>
+
+<footer class="public-footer">
+  <div class="footer-brand">
+    <span class="public-brand-mark small">ع</span>
+    <div><b>عَزْو</b><small>تأصيل المعرفة</small></div>
+  </div>
+  <nav>
+    <a href="#home">الرئيسية</a>
+    <a href="#sources">المصادر</a>
+    <a href="#">الخصوصية</a>
+    <a href="#">حدود الاستخدام</a>
+    <a href="#">تواصل معنا</a>
+  </nav>
+  <p>وقف معرفي رقمي — المعرفة الموثوقة أثر باقٍ.</p>
+</footer>
+
+<script src="./preview.js"></script>
+</body>
+</html>
