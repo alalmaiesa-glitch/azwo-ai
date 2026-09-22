@@ -74,6 +74,24 @@
       return data;
     },
 
+    async runEngine(payload){
+      if(!client)throw new Error("Supabase غير مهيأ");
+      const {data:{session}}=await client.auth.getSession();
+      if(!session)throw new Error("يلزم تسجيل الدخول لتشغيل محرك التأصيل الحقيقي");
+      const response=await fetch(`${config.supabaseUrl}/functions/v1/azwo-engine`,{
+        method:"POST",
+        headers:{
+          Authorization:`Bearer ${session.access_token}`,
+          apikey:config.supabaseAnonKey,
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify(payload)
+      });
+      const data=await response.json();
+      if(!response.ok)throw new Error(data.error||"تعذر تشغيل محرك التأصيل");
+      return data;
+    },
+
     async createVerification(payload){
       if(!client||config.demoMode){
         const row={id:"DEMO-"+Date.now(),...payload,status:"completed",created_at:new Date().toISOString()};
@@ -171,7 +189,7 @@
     },
 
     async getQuranEncAya(translation,sura,aya){
-      return this.invokeFreeSource({provider:"quranenc",mode:"aya",translation,String:sura,aya:String(aya)});
+      return this.invokeFreeSource({provider:"quranenc",mode:"aya",translation,sura:String(sura),aya:String(aya)});
     },
 
     async createSource(payload){
