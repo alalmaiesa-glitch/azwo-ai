@@ -124,3 +124,17 @@ document.getElementById("quranEncLoad")?.addEventListener("click",async()=>{
     box.innerHTML=data.slice(0,12).map(x=>`<div class="result-item"><b>${x.title||x.key}</b><br><small>${x.key||""} ${x.version?"· "+x.version:""}</small></div>`).join("")||"لا توجد ترجمات.";
   }catch(err){box.textContent=err.message||"تعذر تحميل الترجمات"}
 });
+
+
+document.getElementById("quranQuoteSearch")?.addEventListener("click",async()=>{
+  const box=document.getElementById("quranResult");
+  const q=document.getElementById("quranQuote").value.trim();
+  if(q.length<3){box.textContent="أدخل جزءًا من الآية.";return}
+  box.textContent="جارٍ البحث...";
+  try{
+    const rows=await window.AZWO_DATA.searchQuranQuote(q,8);
+    box.innerHTML=rows.length
+      ?rows.map(v=>`<div class="result-item"><div class="quran-text">${v.text_uthmani}</div><small>سورة ${v.surah}، آية ${v.ayah} — ${v.source_version}</small></div>`).join("")
+      :"لم يتم العثور على تطابق.";
+  }catch(err){box.textContent=err.message||"تعذر البحث في النص القرآني"}
+});
