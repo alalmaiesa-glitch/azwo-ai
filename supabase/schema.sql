@@ -175,12 +175,16 @@ create policy "profile self read" on public.profiles for select using (id = auth
 create policy "profile self update" on public.profiles for update using (id = auth.uid());
 
 create policy "org members read org" on public.organizations for select using (public.is_org_member(id));
+create policy "authenticated create org" on public.organizations for insert
+with check (auth.uid() is not null and created_by = auth.uid());
 create policy "org admins update org" on public.organizations for update using (public.has_org_role(id,array['owner','admin']::public.member_role[]));
 
 create policy "members read memberships" on public.organization_members for select using (public.is_org_member(organization_id));
 create policy "admins manage memberships" on public.organization_members for all using (public.has_org_role(organization_id,array['owner','admin']::public.member_role[]));
 
-create policy "members read sources" on public.sources for select using (public.is_org_member(organization_id));
+create policy "read public or org sources" on public.sources for select using (
+  is_public = true or (organization_id is not null and public.is_org_member(organization_id))
+);
 create policy "editors manage sources" on public.sources for all using (public.has_org_role(organization_id,array['owner','admin','reviewer','editor']::public.member_role[]));
 
 create policy "members read source versions" on public.source_versions for select using (
@@ -223,6 +227,24 @@ create policy "members read reports" on public.reports for select using (
 create policy "admins read audit" on public.audit_log for select using (
  public.has_org_role(organization_id,array['owner','admin']::public.member_role[])
 );
+
+-- Add organization creator as owner
+create or replace function public.handle_new_organization()
+returns trigger language plpgsql security definer set search_path = public as $
+begin
+  if new.created_by is not null then
+    insert into public.organization_members(organization_id,user_id,role)
+    values(new.id,new.created_by,'owner')
+    on conflict (organization_id,user_id) do nothing;
+  end if;
+  return new;
+end;
+$;
+
+drop trigger if exists on_organization_created on public.organizations;
+create trigger on_organization_created
+after insert on public.organizations
+for each row execute procedure public.handle_new_organization();
 
 -- Create profile after signup
 create or replace function public.handle_new_user()
