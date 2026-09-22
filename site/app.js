@@ -29,10 +29,10 @@ function renderClaims(){
  $("#reviewCount").textContent=fixtures.filter(x=>x.status==="review").length;
 }
 
-$("#verifyBtn").addEventListener("click",()=>{
+$("#verifyBtn").addEventListener("click",async()=>{
   const value=mode==="text"?textarea.value.trim():"uploaded";
   if(!value){textarea.focus();textarea.placeholder="أدخل نصًا أولًا ليبدأ عَزْو عملية التأصيل.";return}
-  renderClaims();results.classList.remove("hidden");setTimeout(()=>results.scrollIntoView({behavior:"smooth",block:"start"}),70);
+  try{\n    await window.AZWO_DATA?.createVerification?.({input_type:mode,input_text:mode==="text"?textarea.value:null,input_url:mode==="link"?$("#linkInput")?.value:null,domain:$("#domainSelect")?.value||"عام",language:$("#langSelect")?.value||"العربية"});\n  }catch(err){console.warn("AZWO data layer:",err)}\n  renderClaims();results.classList.remove("hidden");setTimeout(()=>results.scrollIntoView({behavior:"smooth",block:"start"}),70);
 });
 
 $("#downloadReport").addEventListener("click",()=>{
@@ -44,3 +44,23 @@ $("#copyReport").addEventListener("click",async()=>{
   const text=fixtures.map(x=>`${x.title}: ${x.label} — ${x.source}`).join("\n");
   await navigator.clipboard?.writeText(text);$("#copyReport").textContent="تم النسخ";setTimeout(()=>$("#copyReport").textContent="نسخ التقرير",1500);
 });
+
+
+async function refreshRecentHistory(){
+  const host=document.querySelector(".recent-panel");
+  if(!host||!window.AZWO_DATA)return;
+  try{
+    const rows=await window.AZWO_DATA.listRecent();
+    if(!rows?.length)return;
+    const existing=[...host.querySelectorAll(".history-row")];
+    existing.forEach(el=>el.remove());
+    rows.slice(0,3).forEach(row=>{
+      const div=document.createElement("div");
+      div.className="history-row";
+      const when=new Date(row.created_at||Date.now()).toLocaleString("ar-SA",{dateStyle:"short",timeStyle:"short"});
+      div.innerHTML=`<span class="status ok"></span><div><strong>${row.input_type==="text"?"تحقق من نص":"عملية تحقق"}</strong><small>${when}</small></div><em class="tag supported">محفوظ</em>`;
+      host.appendChild(div);
+    });
+  }catch(err){console.warn(err)}
+}
+refreshRecentHistory();
