@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0d4f3b" />
+  <meta name="description" content="عَزْو — منصة وقفية لتأصيل المعرفة وربط المحتوى بأصوله ومصادره الموثوقة." />
+  <title>عَزْو | تأصيل المعرفة</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Noto+Kufi+Arabic:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="#home" aria-label="عَزْو">
+      <div class="brand-mark">ع</div>
+      <div>
+        <strong>عَزْو</strong>
+        <span>تأصيل المعرفة</span>
+      </div>
+    </a>
+
+    <nav class="side-nav" aria-label="التنقل الرئيسي">
+      <a class="nav-item active" href="#home" data-page="home"><span>⌂</span>الصفحة الرئيسية</a>
+      <a class="nav-item" href="#verify" data-page="verify"><span>✓</span>التحقق</a>
+      <a class="nav-item" href="#library" data-page="library"><span>▤</span>المكتبة المعرفية</a>
+      <a class="nav-item" href="#history" data-page="history"><span>◷</span>السجل والتقارير</a>
+      <a class="nav-item" href="#sources" data-page="sources"><span>◫</span>المصادر</a>
+      <a class="nav-item" href="#waqf" data-page="waqf"><span>∞</span>وقف عَزْو</a>
+    </nav>
+
+    <div class="sidebar-divider"></div>
+    <nav class="side-nav secondary">
+      <button class="nav-item ghost-nav"><span>⚙</span>الإعدادات</button>
+      <button class="nav-item ghost-nav"><span>?</span>المساعدة</button>
+    </nav>
+
+    <div class="waqf-mini">
+      <span class="waqf-icon">❧</span>
+      <strong>معًا لتأصيل المعرفة</strong>
+      <p>يسهم دعم الوقف في تطوير الأدوات وإتاحة الخدمات المعرفية.</p>
+      <button class="mini-cta">دعم الوقف</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <button class="menu-btn" id="menuBtn" aria-label="القائمة">☰</button>
+      <div class="top-links">
+        <a href="#home" class="active">الرئيسية</a>
+        <a href="#verify">التحقق</a>
+        <a href="#sources">المصادر</a>
+        <a href="#library">المكتبة</a>
+        <a href="#waqf">عن الوقف</a>
+      </div>
+      <div class="user-area">
+        <button class="icon-btn" title="الإشعارات">●</button>
+        <button class="lang-btn">العربية⌄</button>
+        <div class="avatar">ع</div>
+      </div>
+    </header>
+
+    <section class="hero" id="home">
+      <div class="hero-copy">
+        <span class="overline">منصة معرفية وقفية</span>
+        <h1>عَزْو</h1>
+        <h2>تأصيل المعرفة</h2>
+        <p>نربط المحتوى بأصوله ومصادره الموثوقة، ونساعد الباحث والمحرر وصانع المحتوى على مراجعة المعلومة قبل نشرها.</p>
+        <div class="trust-pills">
+          <span>القرآن الكريم</span>
+          <span>الحديث النبوي</span>
+          <span>المراجع المعتمدة</span>
+          <span>التحقق الذكي</span>
+        </div>
+      </div>
+      <div class="hero-quote">
+        <span>مبدأ عَزْو</span>
+        <blockquote>المعرفة الموثوقة تبدأ من أصلٍ معلوم.</blockquote>
+        <small>المصدر قبل الاستنتاج، والدليل قبل الاعتماد.</small>
+      </div>
+
+      <div class="verify-box" id="verify">
+        <div class="input-tabs" role="tablist">
+          <button class="tab active" data-mode="text">نص</button>
+          <button class="tab" data-mode="file">ملف</button>
+          <button class="tab" data-mode="link">رابط</button>
+          <button class="tab" data-mode="image">صورة</button>
+        </div>
+
+        <div class="mode-panel active" data-panel="text">
+          <textarea id="verifyText" maxlength="10000" placeholder="ألصق النص هنا لتحليل مصادره وتأصيل معلوماته..."></textarea>
+        </div>
+        <div class="mode-panel" data-panel="file">
+          <label class="dropzone">
+            <input type="file" id="fileInput" accept=".pdf,.doc,.docx,.txt" />
+            <strong>اسحب ملفك هنا أو اختر ملفًا</strong>
+            <span>PDF, Word, TXT — حتى 20MB</span>
+          </label>
+        </div>
+        <div class="mode-panel" data-panel="link">
+          <input class="single-input" id="linkInput" type="url" placeholder="https://example.com/article" />
+        </div>
+        <div class="mode-panel" data-panel="image">
+          <label class="dropzone">
+            <input type="file" id="imageInput" accept="image/*" />
+            <strong>ارفع صورة تحتوي على نص</strong>
+            <span>PNG, JPG, WEBP</span>
+          </label>
+        </div>
+
+        <div class="verify-actions">
+          <div class="filters">
+            <label>المجال
+              <select id="domainSelect">
+                <option>عام</option>
+                <option>قرآن وتفسير</option>
+                <option>حديث</option>
+                <option>فقه</option>
+                <option>سيرة وتاريخ</option>
+              </select>
+            </label>
+            <label>اللغة
+              <select id="langSelect">
+                <option>العربية</option>
+                <option>الإنجليزية</option>
+              </select>
+            </label>
+          </div>
+          <div class="verify-cta-wrap">
+            <span class="counter"><b id="charCount">0</b>/10,000</span>
+            <button class="primary-btn" id="verifyBtn">تحقق الآن <span>✦</span></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="quick-grid">
+      <article class="feature-card">
+        <span class="feature-icon">◉</span>
+        <div><h3>تحقق دقيق</h3><p>تحليل العبارات وربطها بالسياق والمصدر المرجعي.</p></div>
+      </article>
+      <article class="feature-card">
+        <span class="feature-icon">⌘</span>
+        <div><h3>تحقق من الآيات</h3><p>مطابقة النص القرآني ومرجعه بدقة.</p></div>
+      </article>
+      <article class="feature-card">
+        <span class="feature-icon">◫</span>
+        <div><h3>تحقق من الأحاديث</h3><p>ربط النص بمصدره وبياناته المرجعية عند توفرها.</p></div>
+      </article>
+      <article class="feature-card">
+        <span class="feature-icon">▤</span>
+        <div><h3>مراجعة المراجع</h3><p>إظهار مصدر المعلومة ودرجة علاقتها بالنص.</p></div>
+      </article>
+      <article class="feature-card">
+        <span class="feature-icon">⚠</span>
+        <div><h3>تنبيهات ذكية</h3><p>لفت الانتباه إلى ما يحتاج توثيقًا أو مراجعة بشرية.</p></div>
+      </article>
+      <article class="feature-card">
+        <span class="feature-icon">↗</span>
+        <div><h3>تقرير تفصيلي</h3><p>تقرير قابل للحفظ والمشاركة مع فريق المراجعة.</p></div>
+      </article>
+    </section>
+
+    <section class="metrics">
+      <div><strong>120+</strong><span>حالة اختبار معرفية</span></div>
+      <div><strong>6</strong><span>فئات مصادر في النسخة الأولى</span></div>
+      <div><strong>5</strong><span>حالات واضحة للدليل</span></div>
+      <div><strong>∞</strong><span>أثر معرفي مستدام</span></div>
+    </section>
+
+    <section class="results-section hidden" id="resultsSection">
+      <div class="section-head">
+        <div><span class="overline">نتيجة التحليل</span><h2>خريطة التأصيل</h2></div>
+        <div class="result-actions">
+          <button class="secondary-btn" id="copyReport">نسخ التقرير</button>
+          <button class="secondary-btn" id="downloadReport">تنزيل JSON</button>
+        </div>
+      </div>
+      <div class="analysis-summary">
+        <div class="summary-score"><span>مؤشر القابلية للتوثيق</span><strong id="scoreValue">84%</strong><small>مؤشر تقني وليس حكمًا علميًا نهائيًا</small></div>
+        <div class="summary-items">
+          <div><b id="supportedCount">0</b><span>مدعوم</span></div>
+          <div><b id="partialCount">0</b><span>جزئي</span></div>
+          <div><b id="reviewCount">0</b><span>مراجعة</span></div>
+        </div>
+      </div>
+      <div class="claim-list" id="claimList"></div>
+    </section>
+
+    <section class="content-grid" id="library">
+      <article class="panel recent-panel" id="history">
+        <div class="panel-title"><h2>آخر عمليات التحقق</h2><button>عرض الكل</button></div>
+        <div class="history-row"><span class="status ok"></span><div><strong>مقال: فضل طلب العلم</strong><small>تحقق من نص · اليوم 10:24</small></div><em class="tag supported">موثّق</em></div>
+        <div class="history-row"><span class="status warn"></span><div><strong>مقال: منهج الوسطية</strong><small>تحقق من ملف · اليوم 09:15</small></div><em class="tag partial">يحتاج مراجعة</em></div>
+        <div class="history-row"><span class="status ok"></span><div><strong>مرجع إلكتروني</strong><small>تحقق من رابط · أمس</small></div><em class="tag supported">مدعوم</em></div>
+      </article>
+
+      <article class="panel library-panel" id="sources">
+        <div class="panel-title"><h2>المكتبة المعرفية</h2><button>جميع المصادر</button></div>
+        <div class="library-grid">
+          <div><span>⌘</span><b>القرآن الكريم</b><small>نص مرجعي</small></div>
+          <div><span>◫</span><b>السنة النبوية</b><small>مصادر حديثية</small></div>
+          <div><span>▤</span><b>التفسير</b><small>مصادر معتمدة</small></div>
+          <div><span>◈</span><b>الفقه</b><small>مصادر متعددة</small></div>
+          <div><span>أ</span><b>اللغة العربية</b><small>معاجم ومراجع</small></div>
+          <div><span>◌</span><b>العقيدة</b><small>مصادر مؤصلة</small></div>
+        </div>
+      </article>
+
+      <article class="panel mission-panel" id="waqf">
+        <span class="overline">وقف عَزْو</span>
+        <h2>معرفةٌ موثوقة… وأثرٌ ممتد</h2>
+        <p>نطوّر بنية معرفية وتقنية تساعد على تأصيل المحتوى وربطه بمصادره، مع إتاحة منفعة عامة مستدامة للباحثين والمؤسسات والمجتمع.</p>
+        <div class="mission-actions"><button class="primary-btn">تعرف على الوقف</button><button class="secondary-btn">دعم عَزْو</button></div>
+      </article>
+    </section>
+
+    <footer class="footer">
+      <div><strong>عَزْو</strong><span>تأصيل المعرفة</span></div>
+      <div class="footer-links"><a href="#">الخصوصية</a><a href="#">الشروط</a><a href="#">المصادر والتراخيص</a><a href="#">تواصل معنا</a></div>
+      <p>وقف معرفي رقمي — المعرفة الموثوقة أثرٌ باقٍ.</p>
+    </footer>
+  </main>
+</div>
+<script src="./app.js"></script>
+</body>
+</html>
