@@ -1,230 +1,145 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#0d4f3b">
-  <meta name="description" content="عَزْو — وقف معرفي رقمي لتأصيل المعرفة وربط المحتوى بأصوله ومصادره.">
-  <title>عَزْو | تأصيل المعرفة</title>
-  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Noto+Kufi+Arabic:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css">
-  <link rel="stylesheet" href="./portal.css">
-  <link rel="stylesheet" href="./public.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#075640">
+<meta name="description" content="عَزْو — تأصيل المعرفة وربط المحتوى بأصوله ومصادره الموثوقة.">
+<title>عَزْو | تأصيل المعرفة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Noto+Kufi+Arabic:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./styles.css">
+<link rel="stylesheet" href="./public.css">
 </head>
-<body class="public-site">
-<header class="public-header">
-  <a class="public-brand" href="#home" aria-label="عَزْو">
-    <span class="public-brand-mark">ع</span>
-    <span class="public-brand-copy"><b>عَزْو</b><small>تأصيل المعرفة</small></span>
+<body class="azwo-public">
+<header class="azwo-header">
+  <a class="azwo-brand" href="#home">
+    <img src="data:image/webp;base64,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" alt="شعار عَزْو">
+    <span><b>عَزْو</b><small>تأصيل المعرفة</small></span>
   </a>
-  <nav class="public-nav" aria-label="التنقل الرئيسي">
-    <a href="#home">الرئيسية</a>
+  <nav class="azwo-nav">
+    <a class="active" href="#home">الرئيسية</a>
     <a href="#how">كيف يعمل</a>
-    <a href="#states">حالات التأصيل</a>
     <a href="#sources">المصادر</a>
     <a href="#waqf">وقف عَزْو</a>
   </nav>
-  <div class="public-actions">
-    <a class="text-link" href="./login.html">دخول</a>
-    <a class="header-cta" href="#verify">ابدأ التأصيل</a>
+  <div class="azwo-header-actions">
+    <button class="search-pill" aria-label="بحث">⌕</button>
+    <a class="header-start" href="#verify">ابدأ التأصيل <span>‹</span></a>
   </div>
 </header>
 
 <main>
-  <section class="public-hero" id="home">
-    <div class="hero-orbit hero-orbit-one"></div>
-    <div class="hero-orbit hero-orbit-two"></div>
+<section class="reference-hero" id="home">
+  <div class="library-ribbon" aria-hidden="true">
+    <div class="book-lines"></div>
+    <p>المعرفة<br><b>جذور أعمق</b><br>لمستقبل أوسع</p>
+  </div>
+  <div class="left-quote" aria-hidden="true">
+    <p>كلُّ معرفةٍ<br>بمصدرٍ<br>أقوى أثرًا</p>
+  </div>
+  <div class="leaf-shape" aria-hidden="true"></div>
 
-    <div class="public-hero-copy">
-      <span class="public-kicker">وقف معرفي رقمي</span>
-      <h1>عَزْو</h1>
+  <div class="hero-layout">
+    <section class="identity-column">
+      <div class="hero-wordmark">
+        <span class="gold-mark one"></span><span class="gold-mark two"></span>
+        <h1>عَزْو</h1>
+      </div>
       <h2>تأصيل المعرفة</h2>
-      <p>نربط المحتوى بأصوله ومصادره، ونوضح ما يدعمه الدليل وما يحتاج إلى مراجعة؛ ليصل الباحث والمحرر إلى المصدر بخطوات أوضح وأسرع.</p>
-      <div class="hero-principle">
-        <span></span>
-        <b>المصدر قبل الاستنتاج، والدليل قبل الاعتماد.</b>
+      <p class="hero-description">منصة تربط المحتوى بمصادره الموثوقة،<br>لتكون المعرفة أكثر دقة وموثوقية وأصالة.</p>
+      <div class="hero-buttons">
+        <a class="hero-primary" href="#verify">ابدأ التأصيل <span>‹</span></a>
+        <a class="hero-secondary" href="#how"><span class="play">▷</span> شاهد كيف يعمل</a>
       </div>
-    </div>
-
-    <section class="verify-stage" id="verify" aria-label="أداة التأصيل">
-      <div class="verify-stage-head">
-        <div>
-          <span class="live-dot"></span>
-          <b>أداة التأصيل</b>
-          <em>نسخة تشغيلية</em>
-        </div>
-        <button class="example-btn" id="exampleBtn" type="button">جرّب مثالًا</button>
+      <div class="trust-features">
+        <article><span class="trust-icon">◇</span><div><b>مصادر موثوقة</b><small>منظومة مصادر معتمدة</small></div></article>
+        <article><span class="trust-icon">▣</span><div><b>نتائج موثقة</b><small>مع إسناد دقيق</small></div></article>
+        <article><span class="trust-icon">✦</span><div><b>معرفة أصيلة</b><small>تجمع بين التقنية والتراث</small></div></article>
       </div>
-
-      <div class="input-tabs" role="tablist">
-        <button class="tab active" data-mode="text" type="button">نص</button>
-        <button class="tab" data-mode="file" type="button">ملف <small>قريبًا</small></button>
-        <button class="tab" data-mode="link" type="button">رابط <small>قريبًا</small></button>
-        <button class="tab" data-mode="image" type="button">صورة <small>قريبًا</small></button>
-      </div>
-
-      <div class="mode-panel active" data-panel="text">
-        <textarea id="verifyText" maxlength="10000" placeholder="ألصق نصًا يحتوي على آية أو حديث أو قول علمي أو معلومة تريد تأصيلها..."></textarea>
-      </div>
-      <div class="mode-panel" data-panel="file">
-        <div class="coming-panel"><b>رفع الملفات في المرحلة التالية</b><span>ستدعم الخدمة PDF وWord وTXT.</span></div>
-      </div>
-      <div class="mode-panel" data-panel="link">
-        <div class="coming-panel"><b>تحليل الروابط في المرحلة التالية</b><span>سيقرأ عَزْو الصفحة ويستخرج المعلومات القابلة للتأصيل.</span></div>
-      </div>
-      <div class="mode-panel" data-panel="image">
-        <div class="coming-panel"><b>قراءة الصور في المرحلة التالية</b><span>ستُستخرج النصوص أولًا ثم تمر على محرك التأصيل نفسه.</span></div>
-      </div>
-
-      <div class="verify-actions">
-        <div class="filters">
-          <label>المجال
-            <select id="domainSelect">
-              <option>عام</option>
-              <option>قرآن وتفسير</option>
-              <option>حديث</option>
-              <option>فقه</option>
-              <option>سيرة وتاريخ</option>
-            </select>
-          </label>
-          <label>اللغة
-            <select id="langSelect">
-              <option>العربية</option>
-              <option>الإنجليزية</option>
-            </select>
-          </label>
-        </div>
-        <div class="verify-cta-wrap">
-          <span class="counter"><b id="charCount">0</b>/10,000</span>
-          <button class="primary-btn public-primary" id="verifyBtn" type="button">أصّل النص <span>←</span></button>
-        </div>
-      </div>
-      <p class="verify-note">يتطلب تشغيل المحرك الحقيقي حسابًا مجانيًا. لا يعتبر عَزْو عدم العثور على مصدر حكمًا ببطلان المعلومة.</p>
     </section>
 
-    <div class="source-trust">
-      <span>مصادر متصلة حاليًا</span>
-      <b>Tanzil</b>
-      <i></i>
-      <b>الدرر السنية</b>
-      <i></i>
-      <b>QuranEnc</b>
-    </div>
-  </section>
+    <section class="verification-studio" id="verify">
+      <div class="studio-grid">
+        <div class="studio-input">
+          <div class="studio-title"><b>أدخل النص</b><span>نص عربي أو معلومة تريد تأصيلها</span></div>
+          <textarea id="verifyText" maxlength="10000" placeholder="اطلب من عَزْو تأصيل هذا النص...&#10;مثلاً: «طلب العلم فريضة على كل مسلم»"></textarea>
+          <div class="char-row"><span><b id="charCount">0</b>/10000</span></div>
+          <div class="studio-controls">
+            <button class="clip-btn" type="button">⌕</button>
+            <select id="domainSelect"><option>عام</option><option>قرآن وتفسير</option><option>حديث</option><option>فقه</option><option>سيرة وتاريخ</option></select>
+            <select id="langSelect" class="language-select"><option>العربية</option><option>الإنجليزية</option></select>
+            <button id="verifyBtn" class="studio-submit" type="button">✦ تأصيل النص</button>
+          </div>
+          <button id="exampleBtn" class="try-example" type="button">جرّب مثالًا جاهزًا</button>
+        </div>
 
-  <section class="results-section hidden public-results" id="resultsSection">
-    <div class="section-head">
-      <div><span class="public-kicker">نتيجة التأصيل</span><h2>خريطة المعرفة والمصادر</h2></div>
-      <div class="result-actions">
-        <button class="secondary-btn" id="copyReport" type="button">نسخ التقرير</button>
-        <button class="secondary-btn" id="downloadReport" type="button">تنزيل JSON</button>
+        <aside class="studio-result" id="studioResult">
+          <div class="result-title"><b>نتيجة التأصيل</b><span id="miniResultStatus">جاهز للتحليل</span></div>
+          <div class="result-success" id="miniSuccess">
+            <span class="check">✓</span>
+            <div><b id="miniHeadline">أدخل نصًا للبدء</b><small id="miniSubline">سيعرض عَزْو المصادر وحالة التأصيل هنا.</small></div>
+          </div>
+          <div class="mini-source-list" id="miniSourceList">
+            <div><span class="num">1</span><p><b>القرآن الكريم</b><small>Tanzil — مصدر متصل</small></p></div>
+            <div><span class="num">2</span><p><b>الحديث النبوي</b><small>الدرر السنية — مصدر متصل</small></p></div>
+            <div><span class="num">3</span><p><b>الترجمات</b><small>QuranEnc — مصدر متصل</small></p></div>
+          </div>
+          <a class="all-sources" href="#sources">عرض جميع المصادر <span>‹</span></a>
+        </aside>
       </div>
-    </div>
-    <div class="analysis-summary">
-      <div class="summary-score">
-        <span>تغطية الأدلة</span>
-        <strong id="scoreValue">—</strong>
-        <small>نسبة المعلومات التي وجد لها عَزْو دليلًا أو دعمًا جزئيًا، وليست حكمًا شرعيًا نهائيًا.</small>
-      </div>
-      <div class="summary-items">
-        <div><b id="supportedCount">0</b><span>مدعوم</span></div>
-        <div><b id="partialCount">0</b><span>دعم جزئي</span></div>
-        <div><b id="unsupportedCount">0</b><span>غير مسند</span></div>
-        <div><b id="reviewCount">0</b><span>مراجعة مختص</span></div>
-      </div>
-    </div>
-    <div class="claim-list" id="claimList"></div>
-  </section>
+      <div class="studio-caption">▤ يدعم النصوص العربية بمختلف أنواعها &nbsp;•&nbsp; من الكتب التراثية إلى المحتوى الحديث</div>
+    </section>
+  </div>
+</section>
 
-  <section class="public-section how-section" id="how">
-    <div class="public-section-head">
-      <span class="public-kicker">كيف يعمل عَزْو؟</span>
-      <h2>من النص إلى الدليل، دون قفزات خفية</h2>
-      <p>كل خطوة في التأصيل قابلة للتتبع، والمصدر يبقى منفصلًا عن تفسير النظام.</p>
+<section class="results-section hidden public-results" id="resultsSection">
+  <div class="section-head">
+    <div><span class="section-kicker">نتيجة التأصيل</span><h2>خريطة المعرفة والمصادر</h2></div>
+    <div class="result-actions"><button class="secondary-btn" id="copyReport" type="button">نسخ التقرير</button><button class="secondary-btn" id="downloadReport" type="button">تنزيل JSON</button></div>
+  </div>
+  <div class="analysis-summary">
+    <div class="summary-score"><span>تغطية الأدلة</span><strong id="scoreValue">—</strong><small>مؤشر تغطية المصادر، وليس حكمًا شرعيًا نهائيًا.</small></div>
+    <div class="summary-items">
+      <div><b id="supportedCount">0</b><span>مدعوم</span></div>
+      <div><b id="partialCount">0</b><span>دعم جزئي</span></div>
+      <div><b id="unsupportedCount">0</b><span>غير مسند</span></div>
+      <div><b id="reviewCount">0</b><span>مراجعة مختص</span></div>
     </div>
-    <div class="how-grid">
-      <article><span>01</span><div class="step-icon">ن</div><h3>يقرأ المحتوى</h3><p>يحدد الجمل والاقتباسات والمعلومات التي يمكن تأصيلها.</p></article>
-      <article><span>02</span><div class="step-icon">ف</div><h3>يفهم النوع</h3><p>يفرق بين آية وحديث وقول علمي ومعلومة عامة.</p></article>
-      <article><span>03</span><div class="step-icon">م</div><h3>يبحث في المصدر</h3><p>يوجّه كل نوع إلى المصدر الأنسب بدل البحث العشوائي.</p></article>
-      <article><span>04</span><div class="step-icon">د</div><h3>يعرض الدليل</h3><p>يظهر المصدر والموضع وحالة التأصيل وما يحتاج مراجعة بشرية.</p></article>
-    </div>
-  </section>
+  </div>
+  <div class="claim-list" id="claimList"></div>
+</section>
 
-  <section class="public-section states-section" id="states">
-    <div class="public-section-head compact">
-      <span class="public-kicker">حالات التأصيل</span>
-      <h2>النتيجة ليست «صح أو خطأ» فقط</h2>
-    </div>
-    <div class="state-grid">
-      <article class="state-card state-supported"><span></span><h3>مدعوم</h3><p>المصدر المتصل يدعم المعلومة بصورة واضحة.</p></article>
-      <article class="state-card state-partial"><span></span><h3>دعم جزئي</h3><p>الدليل يؤيد جزءًا من العبارة لكن الصياغة أوسع منه.</p></article>
-      <article class="state-card state-unsupported"><span></span><h3>غير مسند</h3><p>لم نجد ضمن المصادر المتصلة ما يكفي لإسنادها.</p></article>
-      <article class="state-card state-multiple"><span></span><h3>متعدد</h3><p>ظهرت مصادر أو أقوال متعددة تستلزم عرض التعدد.</p></article>
-      <article class="state-card state-review"><span></span><h3>مراجعة مختص</h3><p>المسألة تتجاوز ما ينبغي أن يحسمه النظام آليًا.</p></article>
-    </div>
-  </section>
+<section class="how-reference" id="how">
+  <div class="how-heading"><h2>كيف يعمل عَزْو؟</h2><p>ثلاث خطوات بسيطة لتصل إلى المعرفة الموثوقة</p></div>
+  <div class="how-cards">
+    <article><span class="step-no">1</span><div class="step-symbol">✎</div><h3>أدخل النص أو السؤال</h3><p>اكتب ما تريد التحقق من مصادره بكل سهولة</p></article>
+    <article><span class="step-no">2</span><div class="step-symbol">⌕</div><h3>يحلل ويبحث في المصادر</h3><p>يوجه كل معلومة إلى المصدر الأنسب ويبحث عن الدليل</p></article>
+    <article><span class="step-no">3</span><div class="step-symbol">▤</div><h3>احصل على النتائج الموثقة</h3><p>تعرّف على المصدر والموضع وحالة التأصيل بوضوح</p></article>
+  </div>
+</section>
 
-  <section class="public-section source-section" id="sources">
-    <div class="public-section-head">
-      <span class="public-kicker">شبكة المصادر</span>
-      <h2>كل نوع من المعرفة إلى مصدره الأنسب</h2>
-      <p>لا يعتمد عَزْو على نموذج لغوي بوصفه مصدر حقيقة، بل على مصادر مسجلة ومحددة الحقوق.</p>
-    </div>
-    <div class="public-source-grid">
-      <article class="source-live"><div><b>Tanzil</b><span>القرآن الكريم</span></div><em>متصل</em><p>6236 آية محفوظة حرفيًا للمطابقة والبحث النصي.</p></article>
-      <article class="source-live"><div><b>الدرر السنية</b><span>الموسوعة الحديثية</span></div><em>متصل</em><p>بحث حديث مباشر وإرجاع النتائج من المصدر وقت الطلب.</p></article>
-      <article class="source-live"><div><b>QuranEnc</b><span>ترجمات القرآن</span></div><em>متصل</em><p>وصول إلى الترجمات مع المحافظة على بيانات المصدر والإصدار.</p></article>
-      <article class="source-limited"><div><b>OpenITI</b><span>التراث الإسلامي</span></div><em>مقيّد</em><p>مسجل للاستخدام الوقفي وغير التجاري وفق الترخيص الحالي.</p></article>
-      <article class="source-planned"><div><b>المكتبة الشاملة</b><span>الكتب التراثية</span></div><em>مخطط</em><p>البنية التقنية جاهزة، والتفعيل ينتظر وضوح حقوق API والفهرسة.</p></article>
-    </div>
-    <a class="source-page-link" href="./sources.html">استكشف سجل المصادر والتراخيص <span>←</span></a>
-  </section>
+<section class="connected-strip" id="sources">
+  <div class="sources-copy"><h2>المصادر المتصلة</h2><p>يبحث عَزْو في مصادر موثوقة ومتعددة</p></div>
+  <div class="source-chips">
+    <span><b>القرآن الكريم</b><small>Tanzil</small></span>
+    <span><b>الدرر السنية</b><small>الحديث</small></span>
+    <span><b>QuranEnc</b><small>الترجمات</small></span>
+    <span class="muted-source"><b>OpenITI</b><small>مقيّد</small></span>
+    <span class="muted-source"><b>الشاملة</b><small>مخطط</small></span>
+  </div>
+  <a href="./sources.html">استعرض جميع المصادر <span>‹</span></a>
+</section>
 
-  <section class="public-section boundary-section">
-    <div class="boundary-card">
-      <div class="boundary-mark">↳</div>
-      <div>
-        <span class="public-kicker">حدود واضحة</span>
-        <h2>عَزْو ليس محرك فتاوى</h2>
-        <p>لا يستبدل الباحث أو المراجع أو المختص؛ بل يجعل طريقه إلى المصدر أوضح، ويمنع النظام من ملء فراغات المعرفة بمراجع مختلقة.</p>
-      </div>
-      <a href="./login.html" class="boundary-link">دخول مساحة المراجعة</a>
-    </div>
-  </section>
-
-  <section class="waqf-section" id="waqf">
-    <div class="waqf-copy">
-      <span class="public-kicker light">وقف عَزْو</span>
-      <h2>معرفة موثوقة… وأثر ممتد</h2>
-      <p>عَزْو مشروع وقفي معرفي رقمي لبناء أدوات ومصادر تساعد على تأصيل المعرفة وإتاحتها بصورة مستدامة للباحثين والمؤسسات والمجتمع.</p>
-      <div class="waqf-actions">
-        <a href="#how" class="waqf-primary">تعرف على المنهج</a>
-        <a href="./sources.html" class="waqf-secondary">المصادر والتراخيص</a>
-      </div>
-    </div>
-    <div class="waqf-principles">
-      <div><span>01</span><b>أصل معرفي محفوظ</b></div>
-      <div><span>02</span><b>منفعة عامة مستدامة</b></div>
-      <div><span>03</span><b>حوكمة علمية قابلة للتتبع</b></div>
-    </div>
-  </section>
+<section class="waqf-block" id="waqf">
+  <div><span>وقف عَزْو</span><h2>معرفة موثوقة… وأثر ممتد</h2><p>وقف معرفي رقمي يبني أصلًا تقنيًا ومعرفيًا مستدامًا لتأصيل المعرفة وخدمة الباحثين والمؤسسات.</p></div>
+  <div class="waqf-points"><b>أصل معرفي محفوظ</b><b>منفعة عامة مستدامة</b><b>حوكمة قابلة للتتبع</b></div>
+</section>
 </main>
 
-<footer class="public-footer">
-  <div class="footer-brand">
-    <span class="public-brand-mark small">ع</span>
-    <div><b>عَزْو</b><small>تأصيل المعرفة</small></div>
-  </div>
-  <nav>
-    <a href="#home">الرئيسية</a>
-    <a href="#sources">المصادر</a>
-    <a href="#">الخصوصية</a>
-    <a href="#">حدود الاستخدام</a>
-    <a href="#">تواصل معنا</a>
-  </nav>
+<footer class="azwo-footer">
+  <a class="footer-logo" href="#home"><img src="data:image/webp;base64,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" alt=""><span><b>عَزْو</b><small>تأصيل المعرفة</small></span></a>
   <p>وقف معرفي رقمي — المعرفة الموثوقة أثر باقٍ.</p>
 </footer>
 
