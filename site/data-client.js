@@ -327,6 +327,73 @@
       return {rows:data||[],count:count||0,page,pageSize};
     },
 
+    async getKnowledgeRepositoryStats(){
+      if(!client)throw new Error("Supabase غير مهيأ");
+      const {data,error}=await client
+        .from("knowledge_repository_catalog")
+        .select("repository_type,arabic_support,iiif_support,verification_status,integration_status,media_types,enabled");
+      if(error)throw error;
+      const rows=data||[];
+      return {
+        total:rows.length,
+        researched:rows.filter(x=>x.verification_status==="researched").length,
+        approved:rows.filter(x=>x.verification_status==="approved").length,
+        connected:rows.filter(x=>x.integration_status==="connected"&&x.enabled).length,
+        arabicStrong:rows.filter(x=>["native","substantial"].includes(x.arabic_support)).length,
+        iiif:rows.filter(x=>!["none","unknown",null].includes(x.iiif_support)).length,
+        multimodal:rows.filter(x=>(x.media_types||[]).some(v=>["image","audio","video","3d","manuscript","map","photograph"].includes(v))).length
+      };
+    },
+
+    async getKnowledgeRepositoryFilterOptions(){
+      if(!client)throw new Error("Supabase غير مهيأ");
+      const {data,error}=await client
+        .from("knowledge_repository_catalog")
+        .select("repository_type,domains,media_types,arabic_support,iiif_support,azwo_use_cases,verification_status")
+        .order("relevance_score",{ascending:false});
+      if(error)throw error;
+      const rows=data||[];
+      const uniq=(values)=>[...new Set(values.filter(Boolean))]
+        .sort((a,b)=>String(a).localeCompare(String(b),"ar"));
+      return {
+        types:uniq(rows.map(x=>x.repository_type)),
+        domains:uniq(rows.flatMap(x=>x.domains||[])),
+        mediaTypes:uniq(rows.flatMap(x=>x.media_types||[])),
+        arabic:uniq(rows.map(x=>x.arabic_support)),
+        iiif:uniq(rows.map(x=>x.iiif_support)),
+        useCases:uniq(rows.flatMap(x=>x.azwo_use_cases||[])),
+        statuses:uniq(rows.map(x=>x.verification_status))
+      };
+    },
+
+    async listKnowledgeRepositories(filters={}){
+      if(!client)throw new Error("Supabase غير مهيأ");
+      let query=client
+        .from("knowledge_repository_catalog")
+        .select("*",{count:"exact"})
+        .order("relevance_score",{ascending:false})
+        .order("name",{ascending:true});
+
+      if(filters.type)query=query.eq("repository_type",filters.type);
+      if(filters.arabic)query=query.eq("arabic_support",filters.arabic);
+      if(filters.iiif)query=query.eq("iiif_support",filters.iiif);
+      if(filters.status)query=query.eq("verification_status",filters.status);
+      if(filters.mediaType)query=query.contains("media_types",[filters.mediaType]);
+      if(filters.domain)query=query.contains("domains",[filters.domain]);
+      if(filters.useCase)query=query.contains("azwo_use_cases",[filters.useCase]);
+      if(filters.minScore!==undefined&&filters.minScore!==null&&filters.minScore!==""){
+        query=query.gte("relevance_score",Number(filters.minScore));
+      }
+      if(filters.search){
+        const safe=String(filters.search).replace(/[%_,()]/g," ").trim();
+        if(safe)query=query.or(`name.ilike.%${safe}%,description.ilike.%${safe}%`);
+      }
+
+      const {data,count,error}=await query;
+      if(error)throw error;
+      return {rows:data||[],count:count||0};
+    },
+
     async createSource(payload){
       if(!client)throw new Error("Supabase غير مهيأ");
       const user=await currentUser();
