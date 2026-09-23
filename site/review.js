@@ -29,7 +29,7 @@ function render(items){
         <span class="risk">${esc(labels[x.status]||x.status||"مراجعة")}</span>
       </div>
       <div class="review-evidence">
-        <div><b>نتيجة عَزْو</b><p>${esc(x.explanation||"تحتاج هذه الحالة إلى قرار بشري.")}</p></div>
+        <div><b>نتيجة محرك عَزْو الداخلي</b><p>${esc(x.explanation||"تحتاج هذه الحالة إلى قرار بشري.")}</p></div>
         <div><b>حالة المعالجة</b><p>القرار الآلي: ${esc(labels[x.status]||x.status||"—")}</p></div>
       </div>
       <label class="review-comment">ملاحظة المراجع<textarea rows="2" placeholder="سبب القرار أو ملاحظة علمية..."></textarea></label>
