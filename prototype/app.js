@@ -201,43 +201,25 @@ function parseDorarResult(item,index,query){
   };
 }
 
-function searchDorarJsonp(query){
-  return new Promise((resolve,reject)=>{
-    const cb='__taatheelDorar_'+Date.now()+'_'+Math.random().toString(36).slice(2);
-    const script=document.createElement('script');
-    let settled=false;
-
-    const cleanup=()=>{
-      if(script.parentNode) script.parentNode.removeChild(script);
-      try{ delete window[cb]; }catch(e){ window[cb]=undefined; }
-    };
-
-    const timer=setTimeout(()=>{
-      if(settled) return;
-      settled=true;
-      cleanup();
-      reject(new Error('timeout'));
-    },12000);
-
-    window[cb]=(data)=>{
-      if(settled) return;
-      settled=true;
-      clearTimeout(timer);
-      cleanup();
-      resolve(data);
-    };
-
-    script.onerror=()=>{
-      if(settled) return;
-      settled=true;
-      clearTimeout(timer);
-      cleanup();
-      reject(new Error('network'));
-    };
-
-    script.src='https://dorar.net/dorar_api.json?skey='+encodeURIComponent(query)+'&callback='+encodeURIComponent(cb);
-    document.head.appendChild(script);
+async function searchDorarLive(query){
+  const endpoint='https://kywffsqebvjoyuswxtiz.supabase.co/functions/v1/hadith-search';
+  const response=await fetch(endpoint,{
+    method:'POST',
+    headers:{
+      'Content-Type':'application/json',
+      'apikey':'sb_publishable_vNFWU3vMDfb04KxO80DHVA_N4I5UPTx'
+    },
+    body:JSON.stringify({q:query})
   });
+
+  let data=null;
+  try{ data=await response.json(); }catch(e){}
+
+  if(!response.ok || !data || data.ok!==true){
+    const reason=data && data.error ? data.error : 'proxy_unavailable';
+    throw new Error(reason);
+  }
+  return data;
 }
 
 function setResultHeading(label,idPrefix='TAT'){
@@ -332,7 +314,7 @@ async function run(){
       const query=prepareHadithQuery(input.value);
 
       setStep(2,'running','بحث حي');
-      const data=await searchDorarJsonp(query);
+      const data=await searchDorarLive(query);
       setStep(2,'done','تم');
 
       const raw=(data && Array.isArray(data.ahadith)) ? data.ahadith : [];
