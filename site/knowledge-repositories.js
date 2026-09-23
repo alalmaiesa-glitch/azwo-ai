@@ -69,7 +69,7 @@ function render(rows){
       </div>
 
       <div class="repo-section">
-        <b>استخدامه المحتمل في عَزْو</b>
+        <b>استخدامه المحتمل في تَأْثِيل</b>
         <div class="repo-chips usecase">${chips(x.azwo_use_cases,"repo-chip use")}</div>
       </div>
 
