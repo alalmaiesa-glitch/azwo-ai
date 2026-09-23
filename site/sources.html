@@ -1,0 +1,38 @@
+<!doctype html><html lang="ar" dir="rtl"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>المصادر | تَأْثِيل</title><link rel="icon" href="./favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Noto+Kufi+Arabic:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./styles.css"><link rel="stylesheet" href="./portal.css"><link rel="stylesheet" href="./manage.css"></head><body class="workspace-body">
+<div class="workspace-shell"><aside class="workspace-nav"><a class="brand portal-brand" href="./index.html"><div class="brand-mark">ت</div><div><strong>تَأْثِيل</strong><span>اعرف أصل المحتوى</span></div></a>
+<div class="org-card"><small>مساحة العمل</small><strong>مؤسسة تجريبية</strong><span>Workspace</span></div>
+<nav><a href="./workspace.html">نظرة عامة</a><a href="./index.html#verify">تأثيل جديد</a><a class="active" href="./sources.html">المصادر المتصلة</a><a href="./api-catalog.html">دليل المصادر والـ APIs</a><a href="./knowledge-repositories.html">مستودعات المعرفة</a><a href="./provenance.html">خريطة التأثيل</a><a href="./review.html">المراجعات</a></nav></aside>
+<main class="workspace-main"><header class="workspace-top"><div><span class="overline">سجل المعرفة</span><h1>المصادر</h1><p class="muted">مصادر وقفية عامة + مصادر خاصة بالمؤسسة، مع حالة اعتماد وترخيص وإصدار.</p></div><div class="mission-actions"><a class="secondary-btn" href="./knowledge-repositories.html">مستودعات المعرفة</a><a class="secondary-btn" href="./api-catalog.html">دليل الـ APIs</a><button class="primary-btn" id="newSourceBtn">+ إضافة مصدر</button></div></header>
+<section class="live-source-lab">
+    <div class="lab-head"><div><span class="overline">اختبار حي</span><h2>المصادر المجانية المتصلة</h2></div><span class="live-badge">LIVE</span></div>
+    <div class="lab-grid">
+      <article class="lab-card">
+        <div class="lab-title"><span>⌘</span><div><b>القرآن — Tanzil</b><small>6236 آية محفوظة محليًا</small></div></div>
+        <div class="lab-form two-mini"><input id="quranSura" type="number" min="1" max="114" value="1" placeholder="السورة"><input id="quranAya" type="number" min="1" value="1" placeholder="الآية"><button id="quranLookup" class="primary-btn">عرض</button></div>
+        <div class="lab-form"><input id="quranQuote" placeholder="أو ابحث بنص الآية دون تشكيل..."><button id="quranQuoteSearch" class="secondary-btn">بحث بالنص</button></div>
+        <div id="quranResult" class="lab-result muted">أدخل رقم السورة والآية.</div>
+      </article>
+      <article class="lab-card">
+        <div class="lab-title"><span>◫</span><div><b>الحديث — الدرر السنية</b><small>بحث مباشر عبر API الرسمي</small></div></div>
+        <div class="lab-form"><input id="dorarQuery" placeholder="اكتب كلمات من الحديث..."><button id="dorarSearch" class="primary-btn">بحث</button></div>
+        <div id="dorarResult" class="lab-result muted">يتطلب تسجيل الدخول.</div>
+      </article>
+      <article class="lab-card">
+        <div class="lab-title"><span>文</span><div><b>الترجمات — QuranEnc</b><small>قائمة الترجمات المتاحة</small></div></div>
+        <div class="lab-form"><select id="quranEncLang"><option value="ar">العربية</option><option value="en">English</option><option value="fr">Français</option></select><button id="quranEncLoad" class="primary-btn">تحميل</button></div>
+        <div id="quranEncResult" class="lab-result muted">يتطلب تسجيل الدخول.</div>
+      </article>
+    </div>
+  </section>
+  <section class="source-tabs"><button class="active" data-filter="all">الكل</button><button data-filter="public">وقفية عامة</button><button data-filter="org">خاصة بالمؤسسة</button></section>
+<section id="sourcesGrid" class="sources-grid"></section>
+<dialog id="sourceDialog" class="azwo-dialog"><form method="dialog" id="sourceForm"><div class="dialog-head"><div><span class="overline">مصدر جديد</span><h2>إضافة مصدر</h2></div><button value="cancel" class="dialog-close">×</button></div>
+<label>اسم المصدر<input id="sourceTitle" required placeholder="مثال: مصدر معرفي معتمد"></label>
+<div class="two-cols"><label>النوع<select id="sourceType"><option>قرآن</option><option>حديث</option><option>تفسير</option><option>فقه</option><option>لغة</option><option>مرجع عام</option></select></label><label>النطاق<select id="sourceScope"><option value="org">خاص بالمؤسسة</option><option value="public">وقفي عام</option></select></label></div>
+<label>الرابط<input id="sourceUrl" type="url" placeholder="https://..."></label><label>الترخيص<input id="sourceLicense" placeholder="اسم الترخيص أو شروط الاستخدام"></label>
+<div class="dialog-actions"><button value="cancel" class="secondary-btn">إلغاء</button><button id="saveSource" value="default" class="primary-btn">حفظ المصدر</button></div></form></dialog>
+</main></div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="./config.js"></script><script src="./data-client.js"></script><script src="./manage.js"></script></body></html>
