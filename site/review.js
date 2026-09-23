@@ -19,7 +19,7 @@ const esc=(v)=>String(v??"")
 function render(items){
   count.textContent=items.length;
   if(!items.length){
-    host.innerHTML='<div class="workspace-panel"><strong>لا توجد حالات معلقة.</strong><p class="muted">تمت مراجعة جميع الحالات الحالية أو لم تُجرَ عمليات تأصيل بعد.</p></div>';
+    host.innerHTML='<div class="workspace-panel"><strong>لا توجد حالات معلقة.</strong><p class="muted">تمت مراجعة جميع الحالات الحالية أو لم تُجرَ عمليات تأثيل بعد.</p></div>';
     return;
   }
   host.innerHTML=items.map(x=>`
