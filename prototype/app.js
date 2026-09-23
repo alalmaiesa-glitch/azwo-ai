@@ -1,92 +1,201 @@
-const input=document.getElementById('contentInput');
-const count=document.getElementById('wordCount');
-const results=document.getElementById('results');
-const cards=document.getElementById('claimCards');
-const uploadHint=document.getElementById('uploadHint');
-const demoText='تذكر المادة أن صورة أرشيفية نُشرت أول مرة في سجل IMG-FIX-14، وتنسب اقتباسًا إلى المرجع TXT-FIX-07، ثم تقرر أن الرواية نفسها تكررت في جميع المصادر اللاحقة، وتشير أيضًا إلى المرجع ARC-MISSING-09.';
+const input = document.getElementById('contentInput');
+const count = document.getElementById('wordCount');
+const results = document.getElementById('results');
+const cards = document.getElementById('claimCards');
+const uploadArea = document.getElementById('uploadArea');
+const fileInput = document.getElementById('fileInput');
+const uploadTitle = document.getElementById('uploadTitle');
+const uploadMeta = document.getElementById('uploadMeta');
+const selectedFile = document.getElementById('selectedFile');
+const inputMeta = document.getElementById('inputMeta');
+const analyzeBtn = document.getElementById('analyzeBtn');
 
-const fixtures=[
- {id:'T1',claim:'نسبة الصورة الأرشيفية إلى السجل IMG-FIX-14',status:'SUPPORTED',label:'مدعوم مباشرة',source:'سجل تجريبي: IMG-FIX-14',evidence:'توجد مطابقة تجريبية بين العنصر والسجل المرجعي.',note:'في النسخة الحقيقية يُحفظ الأصل والموضع والبيانات الوصفية معًا.'},
- {id:'T2',claim:'نسبة الاقتباس إلى المرجع TXT-FIX-07',status:'SUPPORTED',label:'مدعوم مباشرة',source:'سجل تجريبي: TXT-FIX-07',evidence:'الاقتباس مرتبط بمرجع موجود في بيانات العرض.',note:'هذا مثال تقني وليس توثيقًا حقيقيًا لمصدر خارجي.'},
- {id:'T3',claim:'الرواية نفسها تكررت في جميع المصادر اللاحقة',status:'PARTIAL',label:'دعم جزئي',source:'سجل تجريبي: ARC-07',evidence:'تظهر الشواهد في بعض السجلات فقط، ولا تثبت التعميم.',note:'يُظهر تَأْثِيل الفارق بين ما يقوله المحتوى وما يثبته الدليل.'},
- {id:'T4',claim:'اتساق السياق التاريخي لجميع النسخ',status:'HUMAN_REVIEW',label:'تحتاج مراجعة',source:'لا يوجد دليل حاسم في بيانات العرض',evidence:'الحكم يتطلب فحصًا أوسع للسياق والتسلسل الزمني.',note:'عند نقص الدليل لا يحوّل النظام الاحتمال إلى حقيقة.'},
- {id:'T5',claim:'الاستشهاد بالمرجع ARC-MISSING-09',status:'UNSUPPORTED',label:'غير مسند',source:'مرجع غير موجود في بيانات العرض',evidence:'لم يُعثر على سجل مطابق ضمن مجموعة الاختبار.',note:'محرك عَزْو لا ينشئ مرجعًا بديلًا لسد الفجوة.'}
-];
+let activeType = 'text';
 
-function words(){
-  const v=input.value.trim();
-  count.textContent=v?v.split(/\s+/).length:0;
-}
-words();
-input.addEventListener('input',words);
-
-document.getElementById('fillDemo').onclick=()=>{
-  document.querySelector('[data-type="text"]').click();
-  input.value=demoText;
-  words();
+const typeConfig = {
+  text: { label:'النص', accept:'text/plain,.txt,.md,.doc,.docx,.pdf' },
+  image: { label:'الصورة', accept:'image/*' },
+  audio: { label:'الصوت', accept:'audio/*' },
+  video: { label:'الفيديو', accept:'video/*' },
+  manuscript: { label:'المخطوط', accept:'image/*,.pdf' },
+  document: { label:'الوثيقة', accept:'.pdf,.doc,.docx,.txt,image/*' }
 };
 
-document.querySelectorAll('.media-tab').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    document.querySelectorAll('.media-tab').forEach(x=>x.classList.remove('active'));
-    btn.classList.add('active');
-    const isText=btn.dataset.type==='text';
-    input.classList.toggle('hidden',!isText);
-    uploadHint.classList.toggle('hidden',isText);
-    document.getElementById('analyzeBtn').disabled=!isText;
-    document.getElementById('analyzeBtn').style.opacity=isText?'1':'.55';
+const demoText = 'تذكر المادة أن الصورة الأرشيفية نُشرت أول مرة في سجل IMG-FIX-14، وتنسب اقتباسًا إلى المرجع TXT-FIX-07، ثم تقرر أن الرواية نفسها تكررت في جميع المصادر اللاحقة، وتشير أيضًا إلى المرجع ARC-MISSING-09.';
+
+const fixtures = {
+  text: [
+    {id:'T1',claim:'نسبة الصورة الأرشيفية إلى السجل IMG-FIX-14',status:'SUPPORTED',label:'مدعوم مباشرة',source:'سجل تجريبي: IMG-FIX-14',location:'صفحة مرجعية تجريبية',evidence:'توجد مطابقة تجريبية بين العنصر والسجل المرجعي.',note:'في النسخة الحقيقية يُحفظ الأصل والموضع والبيانات الوصفية معًا.'},
+    {id:'T2',claim:'نسبة الاقتباس إلى المرجع TXT-FIX-07',status:'SUPPORTED',label:'مدعوم مباشرة',source:'سجل تجريبي: TXT-FIX-07',location:'فقرة 3',evidence:'الاقتباس مرتبط بمرجع موجود في بيانات العرض.',note:'هذا مثال تقني وليس توثيقًا حقيقيًا لمصدر خارجي.'},
+    {id:'T3',claim:'الرواية نفسها تكررت في جميع المصادر اللاحقة',status:'PARTIAL',label:'دعم جزئي',source:'سجل تجريبي: ARC-07',location:'عدة مواضع',evidence:'تظهر الشواهد في بعض السجلات فقط، ولا تثبت التعميم.',note:'يظهر تَأْثِيل الفرق بين صياغة المحتوى وما يثبته الدليل.'},
+    {id:'T4',claim:'اتساق السياق التاريخي لجميع النسخ',status:'HUMAN_REVIEW',label:'تحتاج مراجعة',source:'لا يوجد دليل حاسم',location:'—',evidence:'الحكم يتطلب فحصًا أوسع للسياق والتسلسل الزمني.',note:'عند نقص الدليل لا يحوّل النظام الاحتمال إلى حقيقة.'},
+    {id:'T5',claim:'الاستشهاد بالمرجع ARC-MISSING-09',status:'UNSUPPORTED',label:'غير مسند',source:'مرجع غير موجود في بيانات العرض',location:'—',evidence:'لم يُعثر على سجل مطابق ضمن مجموعة الاختبار.',note:'محرك عَزْو لا ينشئ مرجعًا بديلًا لسد الفجوة.'}
+  ],
+  image: [
+    {id:'I1',claim:'العثور على نسخة أقدم بصريًا من الصورة',status:'SUPPORTED',label:'مدعوم مباشرة',source:'أرشيف صور تجريبي IMG-03',location:'نسخة 2019',evidence:'تشابه بصري مرتفع في بيانات العرض.',note:'النتيجة التجريبية لا تمثل بحثًا عكسيًا حيًا.'},
+    {id:'I2',claim:'سياق النشر مطابق للوصف الحالي',status:'PARTIAL',label:'دعم جزئي',source:'سجل وصف تجريبي META-02',location:'العنوان الوصفي',evidence:'المكان متطابق بينما التاريخ غير محسوم.',note:'اختلاف عنصر واحد يمنع توصيف النتيجة كدعم كامل.'},
+    {id:'I3',claim:'تحديد المصور الأصلي',status:'HUMAN_REVIEW',label:'تحتاج مراجعة',source:'عدة نسب متعارضة',location:'—',evidence:'لا يوجد اسم واحد حاسم ضمن السجلات التجريبية.',note:'تظهر المنصة التعارض بدل اختيار نسبة غير مؤكدة.'}
+  ],
+  audio: [
+    {id:'A1',claim:'مطابقة المقطع مع تسجيل مرجعي أقدم',status:'SUPPORTED',label:'مدعوم مباشرة',source:'AUDIO-FIX-11',location:'01:12–01:29',evidence:'مطابقة بصمة تجريبية.',note:'العرض الحالي لا ينفذ بصمة صوتية فعلية.'},
+    {id:'A2',claim:'نسبة المتحدث',status:'HUMAN_REVIEW',label:'تحتاج مراجعة',source:'بيانات وصف غير كافية',location:'—',evidence:'السجلات المتاحة لا تكفي لإثبات الهوية.',note:'لا تُستنتج الهوية من الصوت وحده في هذه التجربة.'}
+  ],
+  video: [
+    {id:'V1',claim:'العثور على نسخة أقدم من اللقطة',status:'SUPPORTED',label:'مدعوم مباشرة',source:'VIDEO-FIX-04',location:'00:18–00:31',evidence:'المشهد موجود في سجل تجريبي أقدم.',note:'عرض واجهة فقط.'},
+    {id:'V2',claim:'الوصف الحالي يطابق سياق الحدث',status:'PARTIAL',label:'دعم جزئي',source:'ARCHIVE-FIX-22',location:'وصف الأرشيف',evidence:'الحدث متطابق لكن زمن التصوير مختلف.',note:'السياق لا يُختزل في تشابه المشهد.'}
+  ],
+  manuscript: [
+    {id:'M1',claim:'ربط الصفحة بفهرس نسخة محفوظة',status:'SUPPORTED',label:'مدعوم مباشرة',source:'MS-FIX-02',location:'ورقة 17ب',evidence:'رقم الورقة والعنوان متطابقان في العرض.',note:'بيانات تجريبية فقط.'},
+    {id:'M2',claim:'إثبات تاريخ النسخ',status:'HUMAN_REVIEW',label:'تحتاج مراجعة',source:'وصف فهرسي غير حاسم',location:'—',evidence:'التاريخ تقريبي ولا يوجد نص صريح كافٍ.',note:'يُحال الحكم للمختص عند ضعف البيانات.'}
+  ],
+  document: [
+    {id:'D1',claim:'العثور على إصدار أقدم من الوثيقة',status:'SUPPORTED',label:'مدعوم مباشرة',source:'DOC-FIX-08',location:'الإصدار 1.2',evidence:'تطابق تجريبي في العنوان والبنية.',note:'لا يوجد مستودع وثائق حي في هذه النسخة.'},
+    {id:'D2',claim:'الفقرة الحالية موجودة حرفيًا في الإصدار السابق',status:'UNSUPPORTED',label:'غير مسند',source:'لم توجد مطابقة كاملة',location:'—',evidence:'توجد صياغة قريبة فقط.',note:'التشابه لا يُعامل كمطابقة حرفية.'}
+  ]
+};
+
+function wordCount(){
+  const v = input.value.trim();
+  count.textContent = v ? v.split(/\s+/).length : 0;
+}
+wordCount();
+input.addEventListener('input', wordCount);
+
+function setActiveType(type){
+  activeType = type;
+  document.querySelectorAll('.media-tab').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.type === type);
   });
+
+  const isText = type === 'text';
+  input.classList.toggle('hidden', !isText);
+  uploadArea.classList.toggle('hidden', isText);
+  selectedFile.textContent = '';
+  fileInput.value = '';
+
+  if(isText){
+    inputMeta.innerHTML = '<b id="wordCount">' + (input.value.trim() ? input.value.trim().split(/\s+/).length : 0) + '</b> كلمة';
+    window.requestAnimationFrame(() => {
+      const liveCount = document.getElementById('wordCount');
+      if(liveCount){
+        input.removeEventListener('input', wordCount);
+        input.addEventListener('input', () => {
+          const v=input.value.trim();
+          liveCount.textContent=v?v.split(/\s+/).length:0;
+        });
+      }
+    });
+  } else {
+    const cfg = typeConfig[type];
+    fileInput.accept = cfg.accept;
+    uploadTitle.textContent = 'ارفع ' + cfg.label;
+    uploadMeta.textContent = 'اسحب الملف هنا أو اضغط للاختيار — عرض واجهة تجريبي';
+    inputMeta.textContent = 'لم يتم اختيار ملف';
+  }
+  results.classList.add('hidden');
+}
+
+document.querySelectorAll('.media-tab').forEach(btn => {
+  btn.addEventListener('click', () => setActiveType(btn.dataset.type));
 });
 
-const badgeClass=s=>s==='PARTIAL'?'partial':s==='UNSUPPORTED'?'unsupported':s==='HUMAN_REVIEW'?'review':'';
+fileInput.addEventListener('change', () => {
+  if(!fileInput.files.length) return;
+  const file = fileInput.files[0];
+  selectedFile.textContent = file.name;
+  inputMeta.textContent = 'ملف محدد: ' + file.name;
+});
 
-function render(){
-  cards.innerHTML=fixtures.map(x=>`<article class="claim">
-    <div class="claim-head">
-      <h3>${x.id} — ${x.claim}</h3>
-      <span class="badge ${badgeClass(x.status)}">${x.label}</span>
-    </div>
-    <dl>
-      <dt>الأصل/المصدر</dt><dd>${x.source}</dd>
-      <dt>الدليل</dt><dd>${x.evidence}</dd>
-      <dt>حدود النتيجة</dt><dd>${x.note}</dd>
-    </dl>
-  </article>`).join('');
+document.getElementById('fillDemo').addEventListener('click', () => {
+  setActiveType('text');
+  input.value = demoText;
+  const wc = document.getElementById('wordCount');
+  if(wc) wc.textContent = demoText.trim().split(/\s+/).length;
+  input.focus();
+});
+
+function badgeClass(status){
+  if(status === 'PARTIAL') return 'partial';
+  if(status === 'UNSUPPORTED') return 'unsupported';
+  if(status === 'HUMAN_REVIEW') return 'review';
+  return '';
+}
+
+function render(items){
+  cards.innerHTML = items.map(x => `
+    <article class="claim">
+      <div class="claim-head">
+        <h4>${x.id} — ${x.claim}</h4>
+        <span class="badge ${badgeClass(x.status)}">${x.label}</span>
+      </div>
+      <dl>
+        <dt>الأصل / المصدر</dt><dd>${x.source}</dd>
+        <dt>الموضع</dt><dd>${x.location}</dd>
+        <dt>الدليل</dt><dd>${x.evidence}</dd>
+        <dt>حدود النتيجة</dt><dd>${x.note}</dd>
+      </dl>
+    </article>`
+  ).join('');
+
+  const statuses = items.map(x=>x.status);
+  document.getElementById('statTotal').textContent = items.length;
+  document.getElementById('statSupported').textContent = statuses.filter(x=>x==='SUPPORTED').length;
+  document.getElementById('statPartial').textContent = statuses.filter(x=>x==='PARTIAL').length;
+  document.getElementById('statUnsupported').textContent = statuses.filter(x=>x==='UNSUPPORTED').length;
+  document.getElementById('statReview').textContent = statuses.filter(x=>x==='HUMAN_REVIEW').length;
 }
 
 async function run(){
-  const steps=[1,2,3,4];
-  for(const n of steps){
-    const status=document.getElementById('s'+n);
-    const el=status.closest('.step');
-    el.classList.remove('done');
-    el.classList.add('running');
-    status.textContent='جارٍ التأثيل';
-    await new Promise(r=>setTimeout(r,260));
-    el.classList.remove('running');
-    el.classList.add('done');
-    status.textContent='تم';
+  if(activeType !== 'text' && !fileInput.files.length){
+    uploadArea.animate(
+      [{transform:'translateX(0)'},{transform:'translateX(-5px)'},{transform:'translateX(5px)'},{transform:'translateX(0)'}],
+      {duration:260}
+    );
+    uploadMeta.textContent = 'اختر ملفًا أولًا لتشغيل العرض التجريبي';
+    return;
   }
-  render();
+
+  analyzeBtn.disabled = true;
+  analyzeBtn.style.opacity = '.72';
+
+  for(let n=1;n<=4;n++){
+    const status = document.getElementById('s'+n);
+    const row = status.closest('.process-row');
+    row.classList.remove('done');
+    row.classList.add('running');
+    status.textContent = 'جارٍ';
+    await new Promise(r=>setTimeout(r,320));
+    row.classList.remove('running');
+    row.classList.add('done');
+    status.textContent = 'تم';
+  }
+
+  const items = fixtures[activeType] || fixtures.text;
+  render(items);
+  document.getElementById('auditId').textContent = 'TAT-DEMO-2026-' + String(Math.floor(100 + Math.random()*899));
   results.classList.remove('hidden');
-  results.scrollIntoView({behavior:'smooth',block:'start'});
+  results.scrollIntoView({behavior:'smooth', block:'start'});
+
+  analyzeBtn.disabled = false;
+  analyzeBtn.style.opacity = '1';
 }
 
-document.getElementById('analyzeBtn').onclick=run;
+analyzeBtn.addEventListener('click', run);
 
-document.getElementById('downloadJson').onclick=()=>{
-  const payload={
+document.getElementById('downloadJson').addEventListener('click', () => {
+  const payload = {
     platform:'تَأْثِيل',
     engine:'عَزْو',
-    audit_id:'TAT-DEMO-2026-001',
-    mode:'synthetic-fixture-demo',
-    warning:'نتيجة تجريبية وليست تحققًا حيًا',
-    claims:fixtures
+    content_type:activeType,
+    audit_id:document.getElementById('auditId').textContent,
+    mode:'synthetic-interface-demo',
+    warning:'بيانات اختبار ثابتة وليست تحققًا حيًا',
+    items:fixtures[activeType] || fixtures.text
   };
-  const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(blob);
-  a.download='taatheel-demo-audit.json';
+  const blob = new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'taatheel-demo-audit.json';
   a.click();
   URL.revokeObjectURL(a.href);
-};
+});
