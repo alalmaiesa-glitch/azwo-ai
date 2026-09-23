@@ -9,7 +9,7 @@
 <aside class="workspace-nav">
  <a class="brand portal-brand" href="./index.html"><div class="brand-mark">ع</div><div><strong>عَزْو</strong><span>تأصيل المعرفة</span></div></a>
  <div class="org-card"><small>مساحة العمل</small><strong id="orgName">مؤسسة تجريبية</strong><span>Workspace</span></div>
- <nav><a class="active" href="#overview">نظرة عامة</a><a href="./index.html#verify">عملية تحقق جديدة</a><a href="#jobs">عمليات التحقق</a><a href="./sources.html">المصادر</a><a href="./review.html">المراجعات</a><a href="#team">الفريق</a></nav>
+ <nav><a class="active" href="#overview">نظرة عامة</a><a href="./index.html#verify">عملية تحقق جديدة</a><a href="#jobs">عمليات التحقق</a><a href="./sources.html">المصادر</a><a href="./api-catalog.html">دليل الـ APIs</a><a href="./review.html">المراجعات</a><a href="#team">الفريق</a></nav>
  <button id="signOut" class="signout">تسجيل الخروج</button>
 </aside>
 <main class="workspace-main">
@@ -17,13 +17,16 @@
 <section id="orgOnboarding" class="workspace-panel hidden"><div class="panel-title"><h2>أنشئ مساحة مؤسستك</h2></div><p class="muted">لم يتم العثور على مؤسسة مرتبطة بحسابك. أنشئ مساحة لبدء حفظ عمليات التحقق والمصادر والمراجعات.</p><div class="mission-actions"><input id="newOrgName" class="single-input" placeholder="اسم المؤسسة أو الجهة"><button id="createOrgBtn" class="primary-btn">إنشاء المساحة</button></div><p id="orgMessage" class="form-message"></p></section>\n<section class="workspace-metrics">
  <article><span>عمليات هذا الشهر</span><strong id="jobsCount">0</strong><small>عملية</small></article>
  <article><span>بحاجة لمراجعة</span><strong id="reviewMetric">0</strong><small>حالة</small></article>
- <article><span>المصادر المعتمدة</span><strong>0</strong><small>سيتم ربطها من قاعدة البيانات</small></article>
+ <article><span>APIs مكتشفة</span><strong id="apiCatalogTotal">0</strong><small>Discovery Catalog</small></article>
+ <article><span>APIs مناسبة لعَزْو</span><strong id="apiCatalogRelevant">0</strong><small>Relevant</small></article>
+ <article><span>APIs معتمدة</span><strong id="apiCatalogApproved">0</strong><small>Approved</small></article>
  <article><span>أعضاء الفريق</span><strong>1</strong><small>نسخة أولية</small></article>
 </section>
 <section class="workspace-grid">
  <article class="workspace-panel" id="jobs"><div class="panel-title"><h2>آخر عمليات التحقق</h2><a href="./index.html#verify">عملية جديدة</a></div><div id="workspaceJobs" class="workspace-list"><p class="empty">لا توجد عمليات محفوظة بعد.</p></div></article>
  <article class="workspace-panel"><div class="panel-title"><h2>مسار المراجعة</h2></div><div class="review-flow"><div><b>1</b><span>إدخال المحتوى</span></div><div><b>2</b><span>تحليل عَزْو</span></div><div><b>3</b><span>مراجعة المختص</span></div><div><b>4</b><span>اعتماد التقرير</span></div></div></article>
- <article class="workspace-panel" id="sources"><div class="panel-title"><h2>المصادر</h2></div><p class="muted">تُدار المصادر لكل مؤسسة مع حالة اعتماد وإصدار وترخيص وسجل تغييرات.</p><a class="secondary-btn" href="#">إدارة المصادر قريبًا</a></article>
+ <article class="workspace-panel" id="sources"><div class="panel-title"><h2>المصادر</h2></div><p class="muted">المصادر المتصلة والمصادر المؤسسية لها حالة اعتماد وترخيص وإصدار.</p><a class="secondary-btn" href="./sources.html">إدارة المصادر</a></article>
+ <article class="workspace-panel"><div class="panel-title"><h2>دليل المصادر والـ APIs</h2><a href="./api-catalog.html">فتح الدليل</a></div><p class="muted">Public APIs Repository → API Catalog → Discovery Engine. جميع APIs المكتشفة غير متصلة حتى اعتمادها واختبارها.</p><div class="role-chips"><span>Discovered</span><span>Relevant</span><span>Reviewed</span><span>Tested</span><span>Approved</span></div></article>
  <article class="workspace-panel" id="team"><div class="panel-title"><h2>الأدوار</h2></div><div class="role-chips"><span>Owner</span><span>Admin</span><span>Reviewer</span><span>Editor</span><span>Viewer</span></div></article>
 </section>
 </main></div>
