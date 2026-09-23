@@ -63,14 +63,33 @@
     <section class="verification-studio" id="verify">
       <div class="studio-grid">
         <div class="studio-input">
-          <div class="studio-title"><b>أدخل النص</b><span>نص عربي أو معلومة تريد تأصيلها</span></div>
-          <textarea id="verifyText" maxlength="10000" placeholder="اطلب من عَزْو تأصيل هذا النص...&#10;مثلاً: «طلب العلم فريضة على كل مسلم»"></textarea>
+          <div class="multimodal-tabs" aria-label="أنواع المحتوى">
+            <button class="active" type="button"><b>نص</b><small>يعمل الآن</small></button>
+            <button disabled type="button"><b>وثيقة</b><small>قريبًا</small></button>
+            <button disabled type="button"><b>صورة</b><small>قريبًا</small></button>
+            <button disabled type="button"><b>مخطوط</b><small>قريبًا</small></button>
+            <button disabled type="button"><b>صوت</b><small>قريبًا</small></button>
+            <button disabled type="button"><b>فيديو</b><small>قريبًا</small></button>
+            <button disabled type="button"><b>رابط</b><small>قريبًا</small></button>
+          </div>
+          <div class="studio-title"><b>أصّل المحتوى</b><span>ابدأ الآن بالنص؛ البنية متعددة الوسائط أصبحت جاهزة للتوسع</span></div>
+          <textarea id="verifyText" maxlength="10000" placeholder="أدخل نصًا تريد معرفة أصله ومصادره وأدلته...&#10;يمكن أن يكون معلومة، اقتباسًا، فقرة من بحث، نصًا تاريخيًا أو محتوى معرفيًا."></textarea>
           <div class="char-row"><span><b id="charCount">0</b>/10000</span></div>
           <div class="studio-controls">
             <button class="clip-btn" type="button">⌕</button>
-            <select id="domainSelect"><option>عام</option><option>قرآن وتفسير</option><option>حديث</option><option>فقه</option><option>سيرة وتاريخ</option></select>
+            <select id="domainSelect">
+              <option>عام</option>
+              <option>علوم شرعية</option>
+              <option>أبحاث علمية</option>
+              <option>تاريخ وتراث</option>
+              <option>لغة وأدب</option>
+              <option>طب وصحة</option>
+              <option>اقتصاد وأعمال</option>
+              <option>تقنية وهندسة</option>
+              <option>علوم اجتماعية وإنسانية</option>
+            </select>
             <select id="langSelect" class="language-select"><option>العربية</option><option>الإنجليزية</option></select>
-            <button id="verifyBtn" class="studio-submit" type="button">✦ تأصيل النص</button>
+            <button id="verifyBtn" class="studio-submit" type="button">✦ أصّل المحتوى</button>
           </div>
           <button id="exampleBtn" class="try-example" type="button">جرّب مثالًا جاهزًا</button>
         </div>
@@ -89,7 +108,7 @@
           <a class="all-sources" href="#sources">عرض جميع المصادر <span>‹</span></a>
         </aside>
       </div>
-      <div class="studio-caption">▤ يدعم النصوص العربية بمختلف أنواعها &nbsp;•&nbsp; من الكتب التراثية إلى المحتوى الحديث</div>
+      <div class="studio-caption">▤ عَزْو يبني سلسلة أصل للمحتوى: مصدره، نسخته، موضع الدليل، والعلاقات التي تربطه بما سبقه</div>
     </section>
   </div>
 </section>
