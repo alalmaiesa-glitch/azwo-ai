@@ -11,6 +11,8 @@ const inputMeta = document.getElementById('inputMeta');
 const analyzeBtn = document.getElementById('analyzeBtn');
 
 let activeType = 'text';
+let lastItems = [];
+let lastMode = 'none';
 
 const typeConfig = {
   text: { label:'النص', accept:'text/plain,.txt,.md,.doc,.docx,.pdf' },
@@ -111,19 +113,154 @@ function badgeClass(status){
   return '';
 }
 
+function escapeHtml(value=''){
+  return String(value)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#039;');
+}
+
+function normalizeArabic(value=''){
+  return String(value)
+    .replace(/[\u064B-\u065F\u0670]/g,'')
+    .replace(/ـ/g,'')
+    .replace(/[إأآٱ]/g,'ا')
+    .replace(/ى/g,'ي')
+    .replace(/ؤ/g,'و')
+    .replace(/ئ/g,'ي')
+    .replace(/\s+/g,' ')
+    .trim();
+}
+
+function isLikelyHadith(value=''){
+  const raw=String(value);
+  const n=normalizeArabic(raw);
+  return /(ﷺ|صلى الله عليه وسلم|رسول الله|النبي|حديث)/.test(raw)
+    || /لا تزال طائفه من امتي/.test(n)
+    || /قال رسول الله/.test(n);
+}
+
+function prepareHadithQuery(value=''){
+  let q=String(value)
+    .replace(/صلى الله عليه وسلم/g,' ')
+    .replace(/ﷺ/g,' ')
+    .replace(/النبي\s*[،,:؛-]*\s*(?:يقول|قال)?/g,' ')
+    .replace(/رسول الله\s*[،,:؛-]*\s*(?:يقول|قال)?/g,' ')
+    .replace(/^\s*حديث\s*[،,:؛-]*/,' ')
+    .replace(/[“”"«»]/g,' ')
+    .replace(/\s+/g,' ')
+    .trim();
+  return q.slice(0,260);
+}
+
+function htmlToPlainText(html=''){
+  const box=document.createElement('div');
+  box.innerHTML=String(html);
+  return (box.textContent || box.innerText || '').replace(/\s+/g,' ').trim();
+}
+
+function extractDorarField(text,label){
+  const labels='الراوي|المحدث|المصدر|الصفحة أو الرقم|خلاصة حكم المحدث|التخريج';
+  const re=new RegExp(label+'\\s*:\\s*(.*?)(?=\\s*(?:'+labels+')\\s*:|$)');
+  const m=String(text).match(re);
+  return m ? m[1].trim().replace(/^\|\s*|\s*\|$/g,'').trim() : '';
+}
+
+function classifyGrade(grade=''){
+  const g=normalizeArabic(grade);
+  if(/موضوع|باطل|مكذوب|لا يصح|لا يثبت|متروك/.test(g)) return 'UNSUPPORTED';
+  if(/ضعيف|منكر|منقطع|مرسل/.test(g)) return 'HUMAN_REVIEW';
+  if(/صحيح|حسن|ثابت|اسناده جيد|رجاله ثقات/.test(g)) return 'SUPPORTED';
+  return 'PARTIAL';
+}
+
+function parseDorarResult(item,index,query){
+  const text=htmlToPlainText(item && item.th ? item.th : '');
+  const beforeRawi=text.split(/الراوي\s*:/)[0] || '';
+  const hadith=beforeRawi.replace(/^\s*\d+\s*[-–—]\s*/,'').trim();
+  const rawi=extractDorarField(text,'الراوي');
+  const mohdith=extractDorarField(text,'المحدث');
+  const book=extractDorarField(text,'المصدر');
+  const page=extractDorarField(text,'الصفحة أو الرقم');
+  const grade=extractDorarField(text,'خلاصة حكم المحدث');
+  const source=[book,page].filter(Boolean).join(' — ') || 'الموسوعة الحديثية في الدرر السنية';
+  const status=classifyGrade(grade);
+  const label=grade || 'نتيجة من الموسوعة الحديثية';
+  return {
+    id:'H'+(index+1),
+    claim:hadith || query,
+    status,
+    label,
+    source,
+    location:rawi ? 'الراوي: '+rawi : '—',
+    evidence:mohdith ? 'حكم المحدث: '+mohdith : 'نتيجة مسترجعة مباشرة من الموسوعة الحديثية.',
+    note:grade ? 'خلاصة الحكم: '+grade : 'راجع المصدر الأصلي قبل اعتماد النتيجة النهائية.',
+    url:'https://dorar.net/hadith/search?q='+encodeURIComponent(query)+'&st=w'
+  };
+}
+
+function searchDorarJsonp(query){
+  return new Promise((resolve,reject)=>{
+    const cb='__taatheelDorar_'+Date.now()+'_'+Math.random().toString(36).slice(2);
+    const script=document.createElement('script');
+    let settled=false;
+
+    const cleanup=()=>{
+      if(script.parentNode) script.parentNode.removeChild(script);
+      try{ delete window[cb]; }catch(e){ window[cb]=undefined; }
+    };
+
+    const timer=setTimeout(()=>{
+      if(settled) return;
+      settled=true;
+      cleanup();
+      reject(new Error('timeout'));
+    },12000);
+
+    window[cb]=(data)=>{
+      if(settled) return;
+      settled=true;
+      clearTimeout(timer);
+      cleanup();
+      resolve(data);
+    };
+
+    script.onerror=()=>{
+      if(settled) return;
+      settled=true;
+      clearTimeout(timer);
+      cleanup();
+      reject(new Error('network'));
+    };
+
+    script.src='https://dorar.net/dorar_api.json?skey='+encodeURIComponent(query)+'&callback='+encodeURIComponent(cb);
+    document.head.appendChild(script);
+  });
+}
+
+function setResultHeading(label,idPrefix='TAT'){
+  const labelEl=document.querySelector('.results-head .section-label');
+  if(labelEl) labelEl.textContent=label;
+  document.getElementById('auditId').textContent=idPrefix+'-'+new Date().getFullYear()+'-'+String(Math.floor(1000+Math.random()*8999));
+}
+
 function render(items){
+  lastItems=items;
   cards.innerHTML = items.map(x => `
     <article class="claim">
       <div class="claim-head">
-        <h4>${x.id} — ${x.claim}</h4>
-        <span class="badge ${badgeClass(x.status)}">${x.label}</span>
+        <h4>${escapeHtml(x.id)} — ${escapeHtml(x.claim)}</h4>
+        <span class="badge ${badgeClass(x.status)}">${escapeHtml(x.label)}</span>
       </div>
       <dl>
-        <dt>الأصل / المصدر</dt><dd>${x.source}</dd>
-        <dt>الموضع</dt><dd>${x.location}</dd>
-        <dt>الدليل</dt><dd>${x.evidence}</dd>
-        <dt>حدود النتيجة</dt><dd>${x.note}</dd>
+        <dt>الأصل / المصدر</dt><dd>${escapeHtml(x.source)}</dd>
+        <dt>الموضع</dt><dd>${escapeHtml(x.location)}</dd>
+        <dt>الدليل</dt><dd>${escapeHtml(x.evidence)}</dd>
+        <dt>حدود النتيجة</dt><dd>${escapeHtml(x.note)}</dd>
       </dl>
+      ${x.url ? '<a class="claim-source-link" href="'+escapeHtml(x.url)+'" target="_blank" rel="noopener noreferrer">فتح المصدر والبحث الأصلي ↗</a>' : ''}
     </article>`
   ).join('');
 
@@ -133,6 +270,29 @@ function render(items){
   document.getElementById('statPartial').textContent = statuses.filter(x=>x==='PARTIAL').length;
   document.getElementById('statUnsupported').textContent = statuses.filter(x=>x==='UNSUPPORTED').length;
   document.getElementById('statReview').textContent = statuses.filter(x=>x==='HUMAN_REVIEW').length;
+}
+
+function renderUnavailable(message){
+  lastMode='unavailable';
+  setResultHeading('حالة التأثيل','TAT-PENDING');
+  render([{
+    id:'—',
+    claim:'لم نعرض نتيجة تجريبية على أنها فحص حقيقي',
+    status:'HUMAN_REVIEW',
+    label:'المصدر الحي غير متصل',
+    source:'—',
+    location:'—',
+    evidence:message,
+    note:'سيبقى تَأْثِيل ممتنعًا عن إصدار حكم حتى يتصل بمصدر مناسب لهذا النوع من المحتوى.'
+  }]);
+}
+
+function setStep(n,state,text){
+  const status=document.getElementById('s'+n);
+  const row=status.closest('.process-row');
+  row.classList.remove('running','done');
+  if(state) row.classList.add(state);
+  status.textContent=text;
 }
 
 async function run(){
@@ -145,29 +305,76 @@ async function run(){
     return;
   }
 
-  analyzeBtn.disabled = true;
-  analyzeBtn.style.opacity = '.72';
-
-  for(let n=1;n<=4;n++){
-    const status = document.getElementById('s'+n);
-    const row = status.closest('.process-row');
-    row.classList.remove('done');
-    row.classList.add('running');
-    status.textContent = 'جارٍ';
-    await new Promise(r=>setTimeout(r,300));
-    row.classList.remove('running');
-    row.classList.add('done');
-    status.textContent = 'تم';
+  if(activeType==='text' && !input.value.trim()){
+    input.focus();
+    return;
   }
 
-  const items = fixtures[activeType] || fixtures.text;
-  render(items);
-  document.getElementById('auditId').textContent = 'TAT-DEMO-2026-' + String(Math.floor(100 + Math.random()*899));
-  results.classList.remove('hidden');
-  results.scrollIntoView({behavior:'smooth', block:'start'});
+  analyzeBtn.disabled=true;
+  analyzeBtn.style.opacity='.72';
+  results.classList.add('hidden');
 
-  analyzeBtn.disabled = false;
-  analyzeBtn.style.opacity = '1';
+  try{
+    setStep(1,'running','جارٍ');
+    await new Promise(r=>setTimeout(r,180));
+    setStep(1,'done','تم');
+
+    if(activeType==='text' && input.value.trim()===demoText.trim()){
+      lastMode='fixture-demo';
+      for(let n=2;n<=4;n++){
+        setStep(n,'running','جارٍ');
+        await new Promise(r=>setTimeout(r,180));
+        setStep(n,'done','تم');
+      }
+      setResultHeading('نتيجة تجريبية','TAT-DEMO');
+      render(fixtures.text);
+    } else if(activeType==='text' && isLikelyHadith(input.value)){
+      const query=prepareHadithQuery(input.value);
+
+      setStep(2,'running','بحث حي');
+      const data=await searchDorarJsonp(query);
+      setStep(2,'done','تم');
+
+      const raw=(data && Array.isArray(data.ahadith)) ? data.ahadith : [];
+      if(!raw.length){
+        setStep(3,'done','لا نتائج');
+        setStep(4,'done','امتناع');
+        renderUnavailable('لم تُرجع الموسوعة الحديثية نتيجة لهذا النص بصيغته الحالية. جرّب جزءًا مميزًا من متن الحديث أو صياغة أقصر.');
+      }else{
+        setStep(3,'running','مطابقة');
+        await new Promise(r=>setTimeout(r,180));
+        const liveItems=raw.slice(0,6).map((item,i)=>parseDorarResult(item,i,query));
+        setStep(3,'done','تم');
+        setStep(4,'done','تم');
+        lastMode='dorar-live';
+        setResultHeading('نتيجة حديثية مباشرة','TAT-HADITH');
+        render(liveItems);
+      }
+    } else if(activeType==='text'){
+      setStep(2,'done','غير متصل');
+      setStep(3,'done','امتناع');
+      setStep(4,'done','لا حكم');
+      renderUnavailable('الموصل العام لمصادر النصوص غير الحديثية لم يُفعّل بعد في النسخة المنشورة.');
+    } else {
+      setStep(2,'done','غير متصل');
+      setStep(3,'done','امتناع');
+      setStep(4,'done','لا حكم');
+      renderUnavailable('التحليل الحي لهذا النوع من الملفات لم يُفعّل بعد في النسخة المنشورة.');
+    }
+
+    results.classList.remove('hidden');
+    results.scrollIntoView({behavior:'smooth',block:'start'});
+  }catch(err){
+    setStep(2,'done','تعذر');
+    setStep(3,'done','امتناع');
+    setStep(4,'done','لا حكم');
+    renderUnavailable('تعذر الاتصال بالمصدر الحديثي الآن. لم تُستخدم أي بيانات تجريبية بدلًا من النتيجة الحقيقية.');
+    results.classList.remove('hidden');
+    results.scrollIntoView({behavior:'smooth',block:'start'});
+  }finally{
+    analyzeBtn.disabled=false;
+    analyzeBtn.style.opacity='1';
+  }
 }
 
 analyzeBtn.addEventListener('click', run);
@@ -177,14 +384,13 @@ document.getElementById('downloadJson').addEventListener('click', () => {
     platform:'تَأْثِيل',
     content_type:activeType,
     audit_id:document.getElementById('auditId').textContent,
-    mode:'synthetic-interface-demo',
-    warning:'بيانات اختبار ثابتة وليست تحققًا حيًا',
-    items:fixtures[activeType] || fixtures.text
+    mode:lastMode,
+    items:lastItems
   };
   const blob = new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = 'taatheel-demo-audit.json';
+  a.download = 'taatheel-audit.json';
   a.click();
   URL.revokeObjectURL(a.href);
 });
