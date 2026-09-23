@@ -1,5 +1,5 @@
 const input = document.getElementById('contentInput');
-const count = document.getElementById('wordCount');
+let count = document.getElementById('wordCount');
 const results = document.getElementById('results');
 const cards = document.getElementById('claimCards');
 const uploadArea = document.getElementById('uploadArea');
@@ -29,7 +29,7 @@ const fixtures = {
     {id:'T2',claim:'نسبة الاقتباس إلى المرجع TXT-FIX-07',status:'SUPPORTED',label:'مدعوم مباشرة',source:'سجل تجريبي: TXT-FIX-07',location:'فقرة 3',evidence:'الاقتباس مرتبط بمرجع موجود في بيانات العرض.',note:'هذا مثال تقني وليس توثيقًا حقيقيًا لمصدر خارجي.'},
     {id:'T3',claim:'الرواية نفسها تكررت في جميع المصادر اللاحقة',status:'PARTIAL',label:'دعم جزئي',source:'سجل تجريبي: ARC-07',location:'عدة مواضع',evidence:'تظهر الشواهد في بعض السجلات فقط، ولا تثبت التعميم.',note:'يظهر تَأْثِيل الفرق بين صياغة المحتوى وما يثبته الدليل.'},
     {id:'T4',claim:'اتساق السياق التاريخي لجميع النسخ',status:'HUMAN_REVIEW',label:'تحتاج مراجعة',source:'لا يوجد دليل حاسم',location:'—',evidence:'الحكم يتطلب فحصًا أوسع للسياق والتسلسل الزمني.',note:'عند نقص الدليل لا يحوّل النظام الاحتمال إلى حقيقة.'},
-    {id:'T5',claim:'الاستشهاد بالمرجع ARC-MISSING-09',status:'UNSUPPORTED',label:'غير مسند',source:'مرجع غير موجود في بيانات العرض',location:'—',evidence:'لم يُعثر على سجل مطابق ضمن مجموعة الاختبار.',note:'محرك عَزْو لا ينشئ مرجعًا بديلًا لسد الفجوة.'}
+    {id:'T5',claim:'الاستشهاد بالمرجع ARC-MISSING-09',status:'UNSUPPORTED',label:'غير مسند',source:'مرجع غير موجود في بيانات العرض',location:'—',evidence:'لم يُعثر على سجل مطابق ضمن مجموعة الاختبار.',note:'لا ينشئ النظام مرجعًا بديلًا لسد الفجوة.'}
   ],
   image: [
     {id:'I1',claim:'العثور على نسخة أقدم بصريًا من الصورة',status:'SUPPORTED',label:'مدعوم مباشرة',source:'أرشيف صور تجريبي IMG-03',location:'نسخة 2019',evidence:'تشابه بصري مرتفع في بيانات العرض.',note:'النتيجة التجريبية لا تمثل بحثًا عكسيًا حيًا.'},
@@ -54,18 +54,18 @@ const fixtures = {
   ]
 };
 
-function wordCount(){
+function syncWordCount(){
+  count = document.getElementById('wordCount');
+  if(!count) return;
   const v = input.value.trim();
   count.textContent = v ? v.split(/\s+/).length : 0;
 }
-wordCount();
-input.addEventListener('input', wordCount);
+syncWordCount();
+input.addEventListener('input', syncWordCount);
 
 function setActiveType(type){
   activeType = type;
-  document.querySelectorAll('.media-tab').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.type === type);
-  });
+  document.querySelectorAll('.media-tab').forEach(btn => btn.classList.toggle('active', btn.dataset.type === type));
 
   const isText = type === 'text';
   input.classList.toggle('hidden', !isText);
@@ -74,17 +74,8 @@ function setActiveType(type){
   fileInput.value = '';
 
   if(isText){
-    inputMeta.innerHTML = '<b id="wordCount">' + (input.value.trim() ? input.value.trim().split(/\s+/).length : 0) + '</b> كلمة';
-    window.requestAnimationFrame(() => {
-      const liveCount = document.getElementById('wordCount');
-      if(liveCount){
-        input.removeEventListener('input', wordCount);
-        input.addEventListener('input', () => {
-          const v=input.value.trim();
-          liveCount.textContent=v?v.split(/\s+/).length:0;
-        });
-      }
-    });
+    inputMeta.innerHTML = '<b id="wordCount">0</b> كلمة';
+    syncWordCount();
   } else {
     const cfg = typeConfig[type];
     fileInput.accept = cfg.accept;
@@ -109,8 +100,7 @@ fileInput.addEventListener('change', () => {
 document.getElementById('fillDemo').addEventListener('click', () => {
   setActiveType('text');
   input.value = demoText;
-  const wc = document.getElementById('wordCount');
-  if(wc) wc.textContent = demoText.trim().split(/\s+/).length;
+  syncWordCount();
   input.focus();
 });
 
@@ -164,7 +154,7 @@ async function run(){
     row.classList.remove('done');
     row.classList.add('running');
     status.textContent = 'جارٍ';
-    await new Promise(r=>setTimeout(r,320));
+    await new Promise(r=>setTimeout(r,300));
     row.classList.remove('running');
     row.classList.add('done');
     status.textContent = 'تم';
@@ -185,7 +175,6 @@ analyzeBtn.addEventListener('click', run);
 document.getElementById('downloadJson').addEventListener('click', () => {
   const payload = {
     platform:'تَأْثِيل',
-    engine:'عَزْو',
     content_type:activeType,
     audit_id:document.getElementById('auditId').textContent,
     mode:'synthetic-interface-demo',
