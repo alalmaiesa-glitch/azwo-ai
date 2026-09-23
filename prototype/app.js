@@ -104,6 +104,8 @@ document.getElementById('fillDemo').addEventListener('click', () => {
   input.value = demoText;
   syncWordCount();
   input.focus();
+  const end = input.value.length;
+  input.setSelectionRange(end, end);
 });
 
 function badgeClass(status){
