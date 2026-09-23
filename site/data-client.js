@@ -394,6 +394,97 @@
       return {rows:data||[],count:count||0};
     },
 
+    async getProvenanceStats(){
+      if(!client)throw new Error("Supabase غير مهيأ");
+      const membership=await firstOrganization();
+      if(!membership)return {assets:0,segments:0,extractions:0,entities:0,relations:0,evidence:0};
+
+      const org=membership.organization_id;
+      const count=async(table)=>{
+        const {count,error}=await client.from(table)
+          .select("id",{count:"exact",head:true})
+          .eq("organization_id",org);
+        if(error)throw error;
+        return count||0;
+      };
+      const [assets,segments,extractions,entities,relations,evidence]=await Promise.all([
+        count("content_assets"),
+        count("asset_segments"),
+        count("content_extractions"),
+        count("provenance_entities"),
+        count("provenance_relations"),
+        count("provenance_evidence")
+      ]);
+      return {assets,segments,extractions,entities,relations,evidence};
+    },
+
+    async listContentAssets(limit=50){
+      if(!client)throw new Error("Supabase غير مهيأ");
+      const membership=await firstOrganization();
+      if(!membership)return [];
+      const {data,error}=await client
+        .from("content_assets")
+        .select("id,asset_type,title,original_filename,canonical_url,mime_type,language,sha256,status,metadata,created_at,updated_at")
+        .eq("organization_id",membership.organization_id)
+        .order("created_at",{ascending:false})
+        .limit(Math.min(100,Math.max(1,Number(limit)||50)));
+      if(error)throw error;
+      return data||[];
+    },
+
+    async getAssetProvenance(assetId){
+      if(!client)throw new Error("Supabase غير مهيأ");
+      const membership=await firstOrganization();
+      if(!membership)return null;
+      const org=membership.organization_id;
+
+      const {data:asset,error:assetErr}=await client
+        .from("content_assets")
+        .select("*")
+        .eq("id",assetId)
+        .eq("organization_id",org)
+        .maybeSingle();
+      if(assetErr)throw assetErr;
+      if(!asset)return null;
+
+      const [segmentsQ,extractionsQ,entitiesQ,activitiesQ,evidenceQ]=await Promise.all([
+        client.from("asset_segments").select("*").eq("asset_id",assetId).eq("organization_id",org).order("ordinal"),
+        client.from("content_extractions").select("*").eq("asset_id",assetId).eq("organization_id",org).order("created_at"),
+        client.from("provenance_entities").select("*").eq("asset_id",assetId).eq("organization_id",org).order("created_at"),
+        client.from("provenance_activities").select("*").eq("asset_id",assetId).eq("organization_id",org).order("created_at"),
+        client.from("provenance_evidence").select("*").eq("organization_id",org).order("created_at")
+      ]);
+      for(const q of [segmentsQ,extractionsQ,entitiesQ,activitiesQ,evidenceQ])if(q.error)throw q.error;
+
+      const entityIds=(entitiesQ.data||[]).map(x=>x.id);
+      let relations=[];
+      if(entityIds.length){
+        const {data,error}=await client
+          .from("provenance_relations")
+          .select("*")
+          .eq("organization_id",org)
+          .in("subject_entity_id",entityIds)
+          .order("created_at");
+        if(error)throw error;
+        relations=data||[];
+      }
+      const relationIds=new Set(relations.map(x=>x.id));
+      const relevantEvidence=(evidenceQ.data||[]).filter(x=>
+        (x.entity_id&&entityIds.includes(x.entity_id))||
+        (x.relation_id&&relationIds.has(x.relation_id))
+      );
+
+      return {
+        asset,
+        segments:segmentsQ.data||[],
+        extractions:extractionsQ.data||[],
+        entities:entitiesQ.data||[],
+        activities:activitiesQ.data||[],
+        relations,
+        evidence:relevantEvidence
+      };
+    },
+
     async createSource(payload){
       if(!client)throw new Error("Supabase غير مهيأ");
       const user=await currentUser();
