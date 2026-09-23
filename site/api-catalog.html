@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>دليل المصادر والـ APIs | عَزْو</title>
+<link rel="icon" href="./favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Noto+Kufi+Arabic:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./styles.css"><link rel="stylesheet" href="./portal.css"><link rel="stylesheet" href="./manage.css">
+</head>
+<body class="workspace-body">
+<div class="workspace-shell">
+<aside class="workspace-nav">
+  <a class="brand portal-brand" href="./index.html"><div class="brand-mark">ع</div><div><strong>عَزْو</strong><span>تأصيل المعرفة</span></div></a>
+  <div class="org-card"><small>مساحة العمل</small><strong>دليل الاكتشاف</strong><span>API Registry</span></div>
+  <nav>
+    <a href="./workspace.html">نظرة عامة</a>
+    <a href="./index.html#verify">تحقق جديد</a>
+    <a href="./sources.html">المصادر المتصلة</a>
+    <a class="active" href="./api-catalog.html">دليل المصادر والـ APIs</a>
+    <a href="./review.html">المراجعات</a>
+  </nav>
+</aside>
+
+<main class="workspace-main api-catalog-page">
+<header class="workspace-top api-catalog-header">
+  <div>
+    <span class="overline">Public APIs → Azwo API Registry</span>
+    <h1>دليل المصادر والـ APIs</h1>
+    <p class="muted">دليل اكتشاف داخلي من <b>public-apis/public-apis</b>. وجود API هنا لا يعني اعتمادها أو اتصالها بمحرك عَزْو.</p>
+  </div>
+  <div class="catalog-sync-state">
+    <span class="discovery-only">DISCOVERY ONLY</span>
+    <small>لا توجد اتصالات خارجية تلقائية</small>
+  </div>
+</header>
+
+<section class="catalog-alert">
+  <b>قاعدة إلزامية:</b>
+  <span>Discovered → Relevant → Reviewed → Tested → Approved → Connected</span>
+  <p>لا تستخدم أي API في نتائج المستخدم قبل وصولها إلى Approved. جميع الخدمات الحالية غير مفعّلة.</p>
+</section>
+
+<section class="catalog-metrics">
+  <article><span>إجمالي APIs</span><strong id="apiTotal">—</strong><small>مستوردة فعليًا</small></article>
+  <article><span>مناسبة لعَزْو</span><strong id="apiRelevant">—</strong><small>Relevant</small></article>
+  <article><span>تم اختبارها</span><strong id="apiTested">—</strong><small>Tested</small></article>
+  <article><span>معتمدة</span><strong id="apiApproved">—</strong><small>Approved</small></article>
+  <article><span>متوقفة</span><strong id="apiStopped">—</strong><small>Disabled / Error</small></article>
+  <article><span>تحتاج API Key</span><strong id="apiNeedsKey">—</strong><small>حسب الدليل</small></article>
+</section>
+
+<section class="catalog-panel">
+  <div class="catalog-panel-head">
+    <div><span class="overline">ApiDiscoveryService</span><h2>استكشاف الخدمات المناسبة</h2></div>
+    <button id="top20Toggle" class="secondary-btn" type="button">أفضل 20 فقط</button>
+  </div>
+
+  <div class="catalog-filters">
+    <label>بحث<input id="apiSearch" placeholder="اسم API أو وصفها..."></label>
+    <label>التصنيف<select id="categoryFilter"><option value="">كل التصنيفات</option></select></label>
+    <label>المصادقة<select id="authFilter"><option value="">كل الأنواع</option></select></label>
+    <label>درجة الملاءمة<select id="scoreFilter"><option value="">الكل</option><option value="80">80+</option><option value="70">70+</option><option value="60">60+</option></select></label>
+    <label>الحالة<select id="statusFilter"><option value="relevant">Relevant</option><option value="">كل الحالات</option></select></label>
+    <label>الاستخدام<select id="useCaseFilter"><option value="">كل الاستخدامات</option></select></label>
+  </div>
+
+  <div class="catalog-result-bar">
+    <span id="catalogCount">جارٍ التحميل…</span>
+    <span class="catalog-legend"><i class="dot relevant-dot"></i> مرشح للاكتشاف فقط</span>
+  </div>
+
+  <div class="api-table-wrap">
+    <table class="api-table">
+      <thead><tr>
+        <th>API</th><th>التصنيف</th><th>المصادقة</th><th>الملاءمة</th><th>الاستخدام المقترح</th><th>الحالة</th><th>الإجراءات</th>
+      </tr></thead>
+      <tbody id="apiCatalogBody"><tr><td colspan="7" class="catalog-loading">جارٍ قراءة api_catalog…</td></tr></tbody>
+    </table>
+  </div>
+
+  <div class="catalog-pagination">
+    <button id="prevPage" class="secondary-btn" type="button">السابق</button>
+    <span id="pageLabel">صفحة 1</span>
+    <button id="nextPage" class="secondary-btn" type="button">التالي</button>
+  </div>
+</section>
+
+<section class="catalog-footnote">
+  <h3>ما الذي لم يتم التحقق منه بعد؟</h3>
+  <p>Rate Limits، شروط الاستخدام التجاري، Free Tier الحالي، الاستقرار الفعلي، جودة البيانات، وعمل endpoints نفسها. هذه البنود تنتقل إلى مرحلتي Reviewed وTested ولا تؤثر على اعتماد أي خدمة تلقائيًا.</p>
+</section>
+</main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="./config.js"></script><script src="./data-client.js"></script><script src="./api-catalog.js"></script>
+</body></html>
