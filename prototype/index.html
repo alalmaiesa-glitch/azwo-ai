@@ -3,52 +3,140 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>عَزْو — من الادعاء إلى مصدره</title>
+<meta name="theme-color" content="#0d4f3c" />
+<title>تَأْثِيل — من المحتوى إلى أصله</title>
 <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 <header class="topbar">
-  <div class="brand"><div class="mark">ع</div><div><strong>عَزْو</strong><small>AZWO</small></div></div>
-  <div class="baseline"><span class="dot"></span> PRE-CHALLENGE BASELINE</div>
+  <a class="brand" href="#" aria-label="تَأْثِيل">
+    <div class="mark">ت</div>
+    <div class="brand-copy">
+      <strong>تَأْثِيل</strong>
+      <small>تتبّع الأصل · المصدر · السياق</small>
+    </div>
+  </a>
+  <nav class="nav" aria-label="التنقل الرئيسي">
+    <a href="#workspace">ابدأ التأثيل</a>
+    <a href="#how">كيف يعمل</a>
+    <a href="#azw">محرك عَزْو</a>
+  </nav>
+  <div class="version"><span class="status-dot"></span>نسخة تجريبية 0.1</div>
 </header>
+
 <main>
 <section class="hero">
-  <div>
-    <span class="eyebrow">أداة تحقق للمحتوى الإسلامي</span>
-    <h1>من الادعاء<br><em>إلى مصدره.</em></h1>
-    <p>يفكك عَزْو المحتوى إلى ادعاءات، ثم يربط كل ادعاء بدليله وحالة إسناده — مع الامتناع والإحالة عندما لا تكفي المرجعية.</p>
-  </div>
-  <aside class="principle"><span>قاعدة عَزْو</span><b>النموذج لا ينشئ المصدر.</b><p>المصدر يجب أن يأتي من سجل معرفة معتمد وقابل للتتبع.</p></aside>
-</section>
-<section class="workspace">
-  <div class="panel input-panel">
-    <div class="panel-head"><div><span>01</span><h2>النص المراد مراجعته</h2></div><button id="fillDemo" class="ghost">نص تجريبي</button></div>
-    <textarea id="contentInput" placeholder="ألصق هنا مقالًا أو منشورًا أو نصًا مولدًا بالذكاء الاصطناعي...">ورد في المادة: «قُلْ هُوَ اللَّهُ أَحَدٌ». كما نُسب حديث إلى المرجع التجريبي HD-FIX-03. ويقرر النص أن هذا الحكم ينطبق على جميع الصور بلا استثناء، وأن جميع العلماء اتفقوا عليه، ويستشهد أيضًا بالمرجع HD-MISSING-09.</textarea>
-    <div class="input-foot"><span><b id="wordCount">0</b> كلمة</span><button id="analyzeBtn" class="primary">تشغيل العرض التجريبي <span>←</span></button></div>
-    <div class="demo-warning">هذه النسخة تستخدم fixtures فقط. لا يوجد محرك تحقق فعلي قبل 4 أكتوبر 2026.</div>
-  </div>
-  <div class="panel process-panel" id="processPanel">
-    <div class="panel-head"><div><span>02</span><h2>مسار عَزْو</h2></div><div class="mode">DEMO</div></div>
-    <div class="pipeline">
-      <div class="step"><i>1</i><div><b>استخراج الادعاءات</b><small>Claim extraction</small></div><strong id="s1">جاهز</strong></div>
-      <div class="step"><i>2</i><div><b>تصنيف نوع الادعاء</b><small>Claim routing</small></div><strong id="s2">جاهز</strong></div>
-      <div class="step"><i>3</i><div><b>استرجاع الأدلة</b><small>Fixture retrieval</small></div><strong id="s3">جاهز</strong></div>
-      <div class="step"><i>4</i><div><b>تقييم حالة الدليل</b><small>Evidence status</small></div><strong id="s4">جاهز</strong></div>
+  <div class="hero-copy">
+    <span class="eyebrow">منصة لتتبّع أصول المعرفة والمحتوى</span>
+    <h1>لا تكتفِ بالمعلومة.<br><em>اعرف أصلها.</em></h1>
+    <p class="hero-lead">تَأْثِيل يربط المحتوى بمنشئه ومصدره وسياقه ومسار انتقاله، ويُظهر ما تدعمه الأدلة وما يحتاج إلى مراجعة — عبر النصوص والصور والصوت والفيديو والمخطوطات والوثائق.</p>
+    <div class="content-types" aria-label="أنواع المحتوى المدعومة">
+      <span>نصوص</span><span>صور</span><span>صوت</span><span>فيديو</span><span>مخطوطات</span><span>وثائق</span>
     </div>
   </div>
+
+  <aside class="origin-card">
+    <div class="origin-top">
+      <span class="origin-kicker">مبدأ تَأْثِيل</span>
+      <span class="origin-icon">↗</span>
+    </div>
+    <b>المصدر لا يُفترض.</b>
+    <p>كل نسبة أو استدلال يجب أن يقود إلى أثر قابل للتتبع. وعندما لا تكفي الأدلة، يصرّح النظام بذلك بدل ملء الفراغ بالتخمين.</p>
+    <div class="origin-path">
+      <span>محتوى</span><i></i><span>دليل</span><i></i><span>أصل</span>
+    </div>
+  </aside>
 </section>
+
+<section class="trust-strip" id="how">
+  <div><b>01</b><span>استخراج العناصر القابلة للتأثيل</span></div>
+  <div><b>02</b><span>البحث في مستودعات المعرفة والمصادر</span></div>
+  <div><b>03</b><span>ربط الدليل بالسياق والموضع</span></div>
+  <div><b>04</b><span>إظهار درجة الإسناد وحدود الثقة</span></div>
+</section>
+
+<section class="workspace" id="workspace">
+  <div class="panel input-panel">
+    <div class="panel-head">
+      <div>
+        <span class="section-no">01</span>
+        <div><h2>مادة التأثيل</h2><p>ابدأ بالنص، ثم تتوسع المنصة لبقية أنواع المحتوى.</p></div>
+      </div>
+      <button id="fillDemo" class="ghost">تحميل مثال تجريبي</button>
+    </div>
+
+    <div class="media-tabs" role="tablist" aria-label="نوع المحتوى">
+      <button class="media-tab active" data-type="text">نص</button>
+      <button class="media-tab" data-type="image">صورة</button>
+      <button class="media-tab" data-type="audio">صوت</button>
+      <button class="media-tab" data-type="video">فيديو</button>
+      <button class="media-tab" data-type="manuscript">مخطوط</button>
+      <button class="media-tab" data-type="document">وثيقة</button>
+    </div>
+
+    <div class="input-shell">
+      <textarea id="contentInput" placeholder="ألصق هنا نصًا تريد تتبّع أصوله ومصادره وسياقه...">تذكر المادة أن صورة أرشيفية نُشرت أول مرة في سجل IMG-FIX-14، وتنسب اقتباسًا إلى المرجع TXT-FIX-07، ثم تقرر أن الرواية نفسها تكررت في جميع المصادر اللاحقة، وتشير أيضًا إلى المرجع ARC-MISSING-09.</textarea>
+      <div id="uploadHint" class="upload-hint hidden">
+        <div class="upload-icon">＋</div>
+        <b>رفع الملف سيُضاف في النسخة التالية</b>
+        <span>واجهة النوع جاهزة تصميميًا، بينما العرض التجريبي الحالي يعمل على النص.</span>
+      </div>
+    </div>
+
+    <div class="input-foot">
+      <span><b id="wordCount">0</b> كلمة</span>
+      <button id="analyzeBtn" class="primary">ابدأ التأثيل <span>←</span></button>
+    </div>
+    <div class="demo-warning">عرض تجريبي ببيانات اختبار فقط — لا يمثل تحققًا نهائيًا من المصادر.</div>
+  </div>
+
+  <div class="panel process-panel" id="azw">
+    <div class="panel-head compact">
+      <div>
+        <span class="section-no">02</span>
+        <div><h2>محرك عَزْو</h2><p>طبقة الإسناد داخل تَأْثِيل</p></div>
+      </div>
+      <div class="engine-badge">عَزْو</div>
+    </div>
+
+    <div class="engine-intro">يعمل «عَزْو» خلف الواجهة لربط الادعاءات والعناصر بمصادرها، مع حفظ موضع الدليل وسياقه وحالة الإسناد.</div>
+
+    <div class="pipeline">
+      <div class="step"><i>1</i><div><b>تفكيك المحتوى</b><small>استخراج الادعاءات والعناصر</small></div><strong id="s1">جاهز</strong></div>
+      <div class="step"><i>2</i><div><b>توجيه البحث</b><small>اختيار المستودعات والمصادر</small></div><strong id="s2">جاهز</strong></div>
+      <div class="step"><i>3</i><div><b>ربط الأدلة</b><small>المصدر · الموضع · السياق</small></div><strong id="s3">جاهز</strong></div>
+      <div class="step"><i>4</i><div><b>تقييم الإسناد</b><small>مدعوم · جزئي · يحتاج مراجعة</small></div><strong id="s4">جاهز</strong></div>
+    </div>
+
+    <div class="engine-rule"><span>قاعدة المحرك</span><b>لا مصدر بلا أثر قابل للتتبع.</b></div>
+  </div>
+</section>
+
 <section id="results" class="results hidden">
   <div class="results-head">
-    <div><span class="eyebrow">تقرير تجريبي</span><h2>خريطة الادعاءات والأدلة</h2><p>Audit ID: <code>AZW-DEMO-2026-001</code></p></div>
-    <button id="downloadJson" class="ghost">تنزيل JSON</button>
+    <div><span class="eyebrow">نتيجة التأثيل</span><h2>خريطة الأصل والدليل</h2><p>معرّف العملية: <code>TAT-DEMO-2026-001</code></p></div>
+    <button id="downloadJson" class="ghost">تنزيل بيانات النتيجة</button>
   </div>
-  <div class="notice">بيانات تجريبية — ليست تحققًا فعليًا</div>
+
+  <div class="notice">النتيجة أدناه مبنية على بيانات تجريبية ثابتة وليست تحققًا حيًا.</div>
+
   <div class="stats">
-    <div><b>5</b><span>ادعاءات</span></div><div><b>2</b><span>مدعومة</span></div><div><b>1</b><span>جزئي</span></div><div><b>1</b><span>غير مسند</span></div><div><b>1</b><span>مراجعة مختص</span></div>
+    <div><b>5</b><span>عناصر مفحوصة</span></div>
+    <div><b>2</b><span>مدعومة</span></div>
+    <div><b>1</b><span>دعم جزئي</span></div>
+    <div><b>1</b><span>غير مسندة</span></div>
+    <div><b>1</b><span>تحتاج مراجعة</span></div>
   </div>
+
   <div id="claimCards" class="claims"></div>
 </section>
 </main>
-<footer><span>عَزْو — AZWO</span><span>Pre-challenge baseline · 2026</span></footer>
+
+<footer>
+  <div><strong>تَأْثِيل</strong><span>من المحتوى إلى أصله.</span></div>
+  <div class="footer-engine">الإسناد التقني بواسطة <b>عَزْو</b></div>
+</footer>
+
 <script src="app.js"></script>
-</body></html>
+</body>
+</html>
