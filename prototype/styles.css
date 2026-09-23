@@ -689,3 +689,24 @@ small{font-size:inherit}
   color:var(--brown);
   border-bottom-color:rgba(138,90,50,.35);
 }
+
+
+/* Media connector query input */
+.media-query-input{
+  width:100%;
+  margin-top:10px;
+  border:1px solid #d9d0c4;
+  border-radius:11px;
+  background:#fff;
+  color:var(--ink);
+  padding:12px 14px;
+  font-family:var(--font-ui);
+  font-size:14px;
+  line-height:1.7;
+  outline:none;
+}
+.media-query-input:focus{
+  border-color:#91b5a5;
+  box-shadow:0 0 0 4px rgba(7,88,67,.055);
+}
+.media-query-input::placeholder{color:#8b928e}
