@@ -92,7 +92,7 @@ function renderEngineResults(report){
   renderMiniResult(report);
 
   if(!claims.length){
-    claimList.innerHTML='<div class="empty-analysis"><strong>لم يستخرج عَزْو معلومات قابلة للتأصيل من النص الحالي.</strong><p>جرّب نصًا يحتوي على آية أو حديث أو نسبة علمية واضحة.</p></div>';
+    claimList.innerHTML='<div class="empty-analysis"><strong>لم يستخرج تَأْثِيل عناصر قابلة للتتبّع من النص الحالي.</strong><p>جرّب نصًا يحتوي على آية أو حديث أو نسبة علمية واضحة.</p></div>';
   }else{
     claimList.innerHTML=claims.map((x)=>`
       <article class="claim-card real-claim">
@@ -132,7 +132,7 @@ async function runVerification(){
   const value=textarea?.value.trim()||"";
   if(!value){
     textarea?.focus();
-    if(textarea) textarea.placeholder="أدخل نصًا أولًا ليبدأ عَزْو عملية التأصيل.";
+    if(textarea) textarea.placeholder="أدخل نصًا أولًا ليبدأ تَأْثِيل عملية التتبّع.";
     return;
   }
 
@@ -143,7 +143,7 @@ async function runVerification(){
   try{
     const session=await window.AZWO_DATA?.getSession?.();
     if(!session){
-      throw new Error("سجّل الدخول أولًا لتشغيل محرك عَزْو الحقيقي. يمكنك استخدام «جرّب مثالًا» لمعاينة شكل النتائج.");
+      throw new Error("سجّل الدخول أولًا لتشغيل محرك عَزْو الداخلي في تَأْثِيل. يمكنك استخدام «جرّب مثالًا» لمعاينة شكل النتائج.");
     }
     const report=await window.AZWO_DATA.runEngine({
       text:value,
@@ -152,7 +152,7 @@ async function runVerification(){
     });
     renderEngineResults(report);
   }catch(err){
-    renderEngineError(err?.message||"تعذر تشغيل محرك عَزْو");
+    renderEngineError(err?.message||"تعذر تشغيل محرك عَزْو الداخلي");
   }finally{
     if(btn){btn.disabled=false;btn.innerHTML=original;}
   }
