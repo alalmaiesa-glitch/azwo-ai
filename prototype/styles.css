@@ -571,3 +571,105 @@ small{font-size:inherit}
   .principle-cards b{font-size:16px}
   .principle-cards p{font-size:13px}
 }
+
+
+/* =========================================================
+   Results UI v2 — compact audit cards
+   ========================================================= */
+.results{
+  padding:28px;
+  border-radius:24px;
+}
+.results-head{
+  align-items:center;
+  padding-bottom:18px;
+  border-bottom:1px solid var(--line);
+}
+.results-head h2{margin:4px 0 2px}
+.results-summary{
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:10px;
+  margin:20px 0 22px;
+}
+.results-summary>div{
+  min-height:84px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:3px;
+  padding:14px 16px;
+  background:#fbfaf6;
+}
+.results-summary b{
+  color:var(--green);
+}
+
+.claims{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+}
+.claim{
+  padding:18px;
+  border-radius:16px;
+  min-height:0;
+  box-shadow:0 7px 22px rgba(41,52,45,.035);
+}
+.claim-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:14px;
+  padding-bottom:12px;
+  border-bottom:1px solid #eee8df;
+}
+.claim h4{
+  flex:1;
+  max-width:none;
+  margin:0;
+  font-size:16px;
+  line-height:1.7;
+}
+.badge{
+  flex:0 0 auto;
+  margin-top:1px;
+  font-size:12px;
+  padding:6px 10px;
+}
+
+.claim dl{
+  display:grid;
+  grid-template-columns:100px minmax(0,1fr);
+  gap:8px 12px;
+  margin:14px 0 0;
+  font-size:13px;
+  line-height:1.75;
+}
+.claim dt{
+  color:#6f7772;
+  font-weight:600;
+}
+.claim dd{
+  color:var(--ink);
+  min-width:0;
+}
+.claim dt:nth-of-type(3),
+.claim dt:nth-of-type(4){
+  margin-top:4px;
+}
+.claim dd:nth-of-type(3),
+.claim dd:nth-of-type(4){
+  margin-top:4px;
+}
+
+@media(max-width:1000px){
+  .claims{grid-template-columns:1fr}
+}
+@media(max-width:680px){
+  .results{padding:16px}
+  .results-summary{grid-template-columns:repeat(2,1fr)}
+  .claim{padding:15px}
+  .claim-head{flex-direction:column}
+  .claim dl{grid-template-columns:1fr}
+  .claim dt{margin-top:7px}
+}
