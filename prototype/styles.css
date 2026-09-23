@@ -673,3 +673,19 @@ small{font-size:inherit}
   .claim dl{grid-template-columns:1fr}
   .claim dt{margin-top:7px}
 }
+
+
+.claim-source-link{
+  display:inline-flex;
+  margin-top:13px;
+  color:var(--green);
+  font-family:var(--font-ui);
+  font-size:13px;
+  font-weight:600;
+  text-decoration:none;
+  border-bottom:1px solid rgba(7,88,67,.25);
+}
+.claim-source-link:hover{
+  color:var(--brown);
+  border-bottom-color:rgba(138,90,50,.35);
+}
