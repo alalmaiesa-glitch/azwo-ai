@@ -191,3 +191,18 @@ button,input,textarea,select{font:inherit}
 .multimodal-tabs b{font-size:8px}.multimodal-tabs small{font-size:6px;color:#9a9f9c}.multimodal-tabs button.active small{color:#57907b}
 .multimodal-tabs button:disabled{opacity:.6}
 @media(max-width:600px){.multimodal-tabs{grid-template-columns:repeat(4,1fr)}}
+
+.tathil-mark{
+  width:54px;height:54px;border-radius:14px;display:grid;place-items:center;
+  background:linear-gradient(145deg,var(--azwo-green),var(--azwo-green-dark));
+  color:var(--azwo-gold-soft);font-family:"Noto Kufi Arabic",serif;
+  font-size:27px;font-weight:700;line-height:1;box-shadow:0 8px 18px rgba(7,86,64,.14)
+}
+.tathil-mark.footer-mark{width:38px;height:38px;border-radius:10px;font-size:20px}
+.hero-wordmark h1{font-size:66px;letter-spacing:-2px}
+.identity-column>h2{font-size:30px;max-width:560px;line-height:1.55}
+@media(max-width:600px){
+  .tathil-mark{width:45px;height:45px;font-size:23px}
+  .hero-wordmark h1{font-size:46px;letter-spacing:-1px}
+  .identity-column>h2{font-size:23px}
+}
