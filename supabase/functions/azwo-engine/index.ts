@@ -25,6 +25,14 @@ const json = (body: unknown, status = 200) =>
     headers: { ...corsHeaders, "Content-Type": "application/json; charset=utf-8" },
   });
 
+async function sha256Hex(value: string) {
+  const bytes = new TextEncoder().encode(value);
+  const digest = await crypto.subtle.digest("SHA-256", bytes);
+  return Array.from(new Uint8Array(digest))
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+}
+
 const stripHtml = (value: string) =>
   value
     .replace(/<br\s*\/?>/gi, "\n")
@@ -195,6 +203,137 @@ Deno.serve(async (req: Request) => {
       .maybeSingle();
     if (!membershipCheck) return json({ error: "لا تملك صلاحية لهذه المؤسسة" }, 403);
 
+    // Multimodal Provenance v0.1 bootstrap.
+    // The current engine still processes text, but every job is now also
+    // represented as a content asset and provenance graph.
+    const textHash = await sha256Hex(text);
+
+    const { data: asset, error: assetErr } = await service
+      .from("content_assets")
+      .insert({
+        organization_id: organizationId,
+        created_by: user.id,
+        asset_type: "text",
+        title: body?.title || text.slice(0, 120),
+        mime_type: "text/plain",
+        language: body?.language || "ar",
+        sha256: textHash,
+        status: "processing",
+        metadata: {
+          source: "azwo-engine",
+          provenance_graph: "0.1",
+          domain: body?.domain || "عام",
+        },
+      })
+      .select()
+      .single();
+    if (assetErr) throw assetErr;
+
+    const { data: wholeSegment, error: wholeSegmentErr } = await service
+      .from("asset_segments")
+      .insert({
+        asset_id: asset.id,
+        organization_id: organizationId,
+        segment_type: "whole",
+        ordinal: 0,
+        start_offset: 0,
+        end_offset: text.length,
+        extracted_text: text,
+        language: body?.language || "ar",
+        metadata: { role: "original_input" },
+      })
+      .select()
+      .single();
+    if (wholeSegmentErr) throw wholeSegmentErr;
+
+    const { data: assetEntity, error: assetEntityErr } = await service
+      .from("provenance_entities")
+      .insert({
+        organization_id: organizationId,
+        entity_type: "asset",
+        asset_id: asset.id,
+        canonical_id: "asset:" + asset.id,
+        title: body?.title || text.slice(0, 120),
+        content_hash: textHash,
+        metadata: { modality: "text" },
+      })
+      .select()
+      .single();
+    if (assetEntityErr) throw assetEntityErr;
+
+    const { data: wholeEntity, error: wholeEntityErr } = await service
+      .from("provenance_entities")
+      .insert({
+        organization_id: organizationId,
+        entity_type: "segment",
+        asset_id: asset.id,
+        segment_id: wholeSegment.id,
+        canonical_id: "segment:" + wholeSegment.id,
+        title: "Original text",
+        metadata: { segment_type: "whole" },
+      })
+      .select()
+      .single();
+    if (wholeEntityErr) throw wholeEntityErr;
+
+    const { data: ingestActivity, error: ingestActivityErr } = await service
+      .from("provenance_activities")
+      .insert({
+        organization_id: organizationId,
+        asset_id: asset.id,
+        activity_type: "ingest",
+        provider: "AZWO",
+        model: "deterministic",
+        status: "completed",
+        started_at: new Date().toISOString(),
+        ended_at: new Date().toISOString(),
+        metadata: { provenance_graph: "0.1" },
+      })
+      .select()
+      .single();
+    if (ingestActivityErr) throw ingestActivityErr;
+
+    const { error: bootstrapRelErr } = await service
+      .from("provenance_relations")
+      .insert([
+        {
+          organization_id: organizationId,
+          subject_entity_id: assetEntity.id,
+          relation_type: "generated_by",
+          activity_id: ingestActivity.id,
+          confidence: 1,
+          asserted_by: "system",
+          review_status: "verified",
+        },
+        {
+          organization_id: organizationId,
+          subject_entity_id: wholeEntity.id,
+          relation_type: "part_of",
+          object_entity_id: assetEntity.id,
+          confidence: 1,
+          asserted_by: "system",
+          review_status: "verified",
+        },
+      ]);
+    if (bootstrapRelErr) throw bootstrapRelErr;
+
+    const { error: parseExtractionErr } = await service
+      .from("content_extractions")
+      .insert({
+        organization_id: organizationId,
+        asset_id: asset.id,
+        segment_id: wholeSegment.id,
+        extraction_type: "text_parse",
+        provider: "AZWO",
+        model: "rules-v0.1",
+        status: "completed",
+        confidence: 1,
+        output_text: text,
+        output_json: { characters: text.length },
+        completed_at: new Date().toISOString(),
+      });
+    if (parseExtractionErr) throw parseExtractionErr;
+
     const { data: job, error: jobErr } = await service
       .from("verification_jobs")
       .insert({
@@ -202,11 +341,17 @@ Deno.serve(async (req: Request) => {
         created_by: user.id,
         input_type: "text",
         input_text: text,
+        content_asset_id: asset.id,
         domain: body?.domain || "عام",
         language: body?.language || "ar",
         status: "processing",
         started_at: new Date().toISOString(),
-        metadata: { engine: "azwo-engine-v0.1", extraction: "deterministic" },
+        metadata: {
+          engine: "azwo-engine-v0.1",
+          extraction: "deterministic",
+          provenance_graph: "0.1",
+          content_asset_id: asset.id,
+        },
       })
       .select()
       .single();
@@ -222,6 +367,23 @@ Deno.serve(async (req: Request) => {
         "المكتبة الشاملة",
       ]);
     const sourceMap = new Map((sourceRows || []).map((x: any) => [x.title, x]));
+
+    const { data: claimExtractionActivity, error: claimActivityErr } = await service
+      .from("provenance_activities")
+      .insert({
+        organization_id: organizationId,
+        asset_id: asset.id,
+        activity_type: "claim_extract",
+        provider: "AZWO",
+        model: "rules-v0.1",
+        status: "completed",
+        parameters: { deterministic: true },
+        started_at: new Date().toISOString(),
+        ended_at: new Date().toISOString(),
+      })
+      .select()
+      .single();
+    if (claimActivityErr) throw claimActivityErr;
 
     const candidates = extractCandidates(text);
     const results: any[] = [];
@@ -338,10 +500,43 @@ Deno.serve(async (req: Request) => {
         explanation = "هذه معلومة عامة؛ المصادر المجانية المتصلة حاليًا لا تكفي لتأصيلها آليًا.";
       }
 
+      const { data: claimSegment, error: claimSegmentErr } = await service
+        .from("asset_segments")
+        .insert({
+          asset_id: asset.id,
+          organization_id: organizationId,
+          segment_type: "sentence",
+          ordinal,
+          start_offset: c.start,
+          end_offset: c.end,
+          extracted_text: c.text,
+          language: body?.language || "ar",
+          metadata: { role: "claim_candidate" },
+        })
+        .select()
+        .single();
+      if (claimSegmentErr) throw claimSegmentErr;
+
+      const { data: segmentEntity, error: segmentEntityErr } = await service
+        .from("provenance_entities")
+        .insert({
+          organization_id: organizationId,
+          entity_type: "segment",
+          asset_id: asset.id,
+          segment_id: claimSegment.id,
+          canonical_id: "segment:" + claimSegment.id,
+          title: c.text.slice(0, 120),
+          metadata: { claim_ordinal: ordinal, cue: c.cue || null },
+        })
+        .select()
+        .single();
+      if (segmentEntityErr) throw segmentEntityErr;
+
       const { data: claim, error: claimErr } = await service
         .from("claims")
         .insert({
           job_id: job.id,
+          asset_segment_id: claimSegment.id,
           ordinal,
           claim_text: c.text,
           claim_type: type,
@@ -357,8 +552,122 @@ Deno.serve(async (req: Request) => {
         .single();
       if (claimErr) throw claimErr;
 
+      const { data: claimEntity, error: claimEntityErr } = await service
+        .from("provenance_entities")
+        .insert({
+          organization_id: organizationId,
+          entity_type: "claim",
+          asset_id: asset.id,
+          segment_id: claimSegment.id,
+          canonical_id: "claim:" + claim.id,
+          title: c.text.slice(0, 160),
+          metadata: {
+            claim_id: claim.id,
+            claim_type: type,
+            status,
+            requires_human_review: requiresHuman,
+          },
+        })
+        .select()
+        .single();
+      if (claimEntityErr) throw claimEntityErr;
+
+      const { error: claimLinkErr } = await service
+        .from("claims")
+        .update({ provenance_entity_id: claimEntity.id })
+        .eq("id", claim.id);
+      if (claimLinkErr) throw claimLinkErr;
+
+      const { error: claimRelationErr } = await service
+        .from("provenance_relations")
+        .insert([
+          {
+            organization_id: organizationId,
+            subject_entity_id: claimEntity.id,
+            relation_type: "extracted_from",
+            object_entity_id: segmentEntity.id,
+            activity_id: claimExtractionActivity.id,
+            confidence: 1,
+            asserted_by: "system",
+            review_status: "verified",
+          },
+          {
+            organization_id: organizationId,
+            subject_entity_id: segmentEntity.id,
+            relation_type: "part_of",
+            object_entity_id: wholeEntity.id,
+            confidence: 1,
+            asserted_by: "system",
+            review_status: "verified",
+          },
+        ]);
+      if (claimRelationErr) throw claimRelationErr;
+
+      const persistedEvidence: any[] = [];
       for (const ev of evidence) {
-        await service.from("evidence").insert({ claim_id: claim.id, ...ev });
+        const { data: sourceEntity, error: sourceEntityErr } = await service
+          .from("provenance_entities")
+          .insert({
+            organization_id: organizationId,
+            entity_type: "source_record",
+            asset_id: asset.id,
+            source_id: ev.source_id || null,
+            title: ev.location_text || ev.metadata?.provider || "Source evidence",
+            metadata: {
+              provider: ev.metadata?.provider || null,
+              relation: ev.relation || null,
+              source_version: ev.metadata?.version || null,
+            },
+          })
+          .select()
+          .single();
+        if (sourceEntityErr) throw sourceEntityErr;
+
+        const { data: supportRelation, error: supportRelationErr } = await service
+          .from("provenance_relations")
+          .insert({
+            organization_id: organizationId,
+            subject_entity_id: sourceEntity.id,
+            relation_type: "supports",
+            object_entity_id: claimEntity.id,
+            confidence: ev.retrieval_score ?? null,
+            asserted_by: "provider",
+            review_status: status === "supported" ? "verified" : "needs_review",
+            metadata: { original_relation: ev.relation || null },
+          })
+          .select()
+          .single();
+        if (supportRelationErr) throw supportRelationErr;
+
+        const { data: provEvidence, error: provEvidenceErr } = await service
+          .from("provenance_evidence")
+          .insert({
+            organization_id: organizationId,
+            entity_id: sourceEntity.id,
+            relation_id: supportRelation.id,
+            source_id: ev.source_id || null,
+            locator: ev.location_text || null,
+            excerpt: ev.passage || null,
+            retrieval_score: ev.retrieval_score ?? null,
+            verification_status: status === "supported" ? "verified" : "needs_review",
+            rights_status: "review_required",
+            metadata: ev.metadata || {},
+          })
+          .select()
+          .single();
+        if (provEvidenceErr) throw provEvidenceErr;
+
+        const { data: legacyEvidence, error: legacyEvidenceErr } = await service
+          .from("evidence")
+          .insert({
+            claim_id: claim.id,
+            ...ev,
+            provenance_evidence_id: provEvidence.id,
+          })
+          .select()
+          .single();
+        if (legacyEvidenceErr) throw legacyEvidenceErr;
+        persistedEvidence.push(legacyEvidence);
       }
 
       results.push({
@@ -387,6 +696,20 @@ Deno.serve(async (req: Request) => {
       : 0;
 
     await service
+      .from("content_assets")
+      .update({
+        status: summary.human_review > 0 || summary.partial > 0 ? "needs_review" : "ready",
+        metadata: {
+          source: "azwo-engine",
+          provenance_graph: "0.1",
+          domain: body?.domain || "عام",
+          evidence_coverage: evidenceCoverage,
+          claim_count: summary.total,
+        },
+      })
+      .eq("id", asset.id);
+
+    await service
       .from("verification_jobs")
       .update({
         status: summary.human_review > 0 || summary.partial > 0 ? "needs_review" : "completed",
@@ -397,6 +720,8 @@ Deno.serve(async (req: Request) => {
           extraction: "deterministic",
           evidence_coverage: evidenceCoverage,
           source_scope: ["Tanzil", "Dorar"],
+          provenance_graph: "0.1",
+          content_asset_id: asset.id,
         },
       })
       .eq("id", job.id);
@@ -415,6 +740,8 @@ Deno.serve(async (req: Request) => {
     return json({
       engine: "azwo-engine-v0.1",
       job_id: job.id,
+      asset_id: asset.id,
+      provenance_graph: "0.1",
       summary: { ...summary, evidence_coverage: evidenceCoverage },
       claims: results,
       limitations: [
