@@ -257,31 +257,39 @@
 
     async getApiCatalogStats(){
       if(!client)throw new Error("Supabase غير مهيأ");
-      const countQuery=async(builder)=>{
-        const {count,error}=await builder.select("id",{count:"exact",head:true});
+      const countQuery=async(apply)=>{
+        let query=client.from("api_catalog").select("id",{count:"exact",head:true});
+        if(apply)query=apply(query);
+        const {count,error}=await query;
         if(error)throw error;
         return count||0;
       };
       const [total,relevant,tested,approved,stopped,needsKey]=await Promise.all([
-        countQuery(client.from("api_catalog")),
-        countQuery(client.from("api_catalog").eq("verification_status","relevant")),
-        countQuery(client.from("api_catalog").eq("verification_status","tested")),
-        countQuery(client.from("api_catalog").eq("verification_status","approved")),
-        countQuery(client.from("api_catalog").in("integration_status",["disabled","error"])),
-        countQuery(client.from("api_catalog").ilike("auth_type","%apiKey%"))
+        countQuery(),
+        countQuery(q=>q.eq("verification_status","relevant")),
+        countQuery(q=>q.eq("verification_status","tested")),
+        countQuery(q=>q.eq("verification_status","approved")),
+        countQuery(q=>q.in("integration_status",["disabled","error"])),
+        countQuery(q=>q.ilike("auth_type","%apiKey%"))
       ]);
       return {total,relevant,tested,approved,stopped,needsKey};
     },
 
     async getApiCatalogFilterOptions(){
       if(!client)throw new Error("Supabase غير مهيأ");
-      const {data,error}=await client
-        .from("api_catalog")
-        .select("category,auth_type,azwo_use_case,verification_status")
-        .order("category")
-        .limit(1000);
-      if(error)throw error;
-      const uniq=(key)=>[...new Set((data||[]).map(x=>x[key]).filter(Boolean))].sort((a,b)=>String(a).localeCompare(String(b),"ar"));
+      const fetchRange=async(from,to)=>{
+        const {data,error}=await client
+          .from("api_catalog")
+          .select("category,auth_type,azwo_use_case,verification_status")
+          .order("category")
+          .range(from,to);
+        if(error)throw error;
+        return data||[];
+      };
+      const chunks=await Promise.all([fetchRange(0,999),fetchRange(1000,1999)]);
+      const data=chunks.flat();
+      const uniq=(key)=>[...new Set(data.map(x=>x[key]).filter(Boolean))]
+        .sort((a,b)=>String(a).localeCompare(String(b),"ar"));
       return {
         categories:uniq("category"),
         authTypes:uniq("auth_type"),
