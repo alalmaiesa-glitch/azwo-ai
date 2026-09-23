@@ -58,7 +58,7 @@ function renderMiniResult(report){
   const list=$("#miniSourceList");
 
   if(status) status.textContent="نتيجة موصّلة";
-  if(headline) headline.textContent=claims.length?"تم التأصيل بنجاح":"لم تُستخرج معلومات واضحة";
+  if(headline) headline.textContent=claims.length?"تم التأثيل بنجاح":"لم تُستخرج معلومات واضحة";
   if(subline) subline.textContent=claims.length
     ? `تم استخراج ${claims.length} معلومة والعثور على ${evidenceCount} دليل/نتيجة مصدر.`
     : "جرّب نصًا يتضمن آية أو حديثًا أو نسبة علمية واضحة.";
@@ -114,10 +114,10 @@ function renderEngineError(message){
   ["scoreValue","supportedCount","partialCount","unsupportedCount","reviewCount"].forEach((id)=>{
     const el=$("#"+id); if(el) el.textContent=id==="scoreValue"?"—":"0";
   });
-  renderMiniNotice("يتطلب تشغيل المحرك حسابًا","سجّل الدخول لاستخدام محرك التأصيل الحقيقي وحفظ التقارير.","يتطلب دخول");
+  renderMiniNotice("يتطلب تشغيل المحرك حسابًا","سجّل الدخول لاستخدام محرك عَزْو الداخلي وحفظ التقارير.","يتطلب دخول");
   claimList.innerHTML=`
     <div class="engine-error">
-      <strong>تعذر تشغيل التأصيل الحقيقي</strong>
+      <strong>تعذر تشغيل محرك عَزْو الداخلي</strong>
       <p>${esc(message)}</p>
       <div class="engine-error-actions">
         <a class="primary-btn" href="./login.html">تسجيل الدخول</a>
@@ -137,8 +137,8 @@ async function runVerification(){
   }
 
   const btn=$("#verifyBtn");
-  const original=btn?.innerHTML||"تأصيل النص";
-  if(btn){btn.disabled=true;btn.innerHTML="جارٍ التأصيل…";}
+  const original=btn?.innerHTML||"تتبّع الأصل";
+  if(btn){btn.disabled=true;btn.innerHTML="جارٍ تتبّع الأصل…";}
 
   try{
     const session=await window.AZWO_DATA?.getSession?.();
