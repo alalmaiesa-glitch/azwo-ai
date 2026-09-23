@@ -361,3 +361,213 @@ p,small,.workspace-note,.hero-trust,.section-label,.eyebrow,.hero-kicker{
   .capability-row small{font-size:11px}
   .principle-layout h2{font-size:33px}
 }
+
+
+/* =========================================================
+   Taatheel Typography System v4 — final optical scale
+   Desktop-first values tuned against 1680px viewport
+   ========================================================= */
+:root{
+  --text-min:13px;
+  --text-sm:14px;
+  --text-md:16px;
+  --text-lg:18px;
+  --title-card:18px;
+  --title-section:42px;
+  --title-hero:68px;
+}
+
+/* Base readability + numerals */
+html{font-size:16px}
+body{
+  font-family:var(--font-body);
+  font-size:16px;
+  line-height:1.85;
+}
+body,button,input,textarea,code{
+  font-variant-numeric:tabular-nums;
+  font-feature-settings:"tnum" 1;
+}
+small{font-size:inherit}
+
+/* Brand + navigation */
+.brand-copy strong{font-size:30px;line-height:1.15}
+.brand-copy small{font-family:var(--font-copy);font-size:13px;line-height:1.55}
+.main-nav a{font-size:15px;line-height:1.5}
+.login-link{font-size:14px}
+.header-cta{font-size:14px;padding:11px 17px}
+
+/* Hero hierarchy */
+.hero-kicker{font-size:14px;line-height:1.6}
+.hero h1{font-size:clamp(52px,4.7vw,68px);line-height:1.22;letter-spacing:-.8px}
+.hero-copy>p{font-size:19px;line-height:2;max-width:680px}
+.primary-btn,.secondary-btn{font-size:15px;padding:13px 21px}
+.play{font-size:12px;width:24px;height:24px}
+.hero-trust{font-size:14px;line-height:1.6}
+
+/* Workspace */
+.eyebrow,.section-label{font-size:14px;line-height:1.6}
+.workspace-card-head h2{font-size:31px;line-height:1.45}
+.workspace-card-head p{font-size:15px;line-height:1.85}
+.demo-badge{font-size:12px;padding:7px 11px}
+.media-tab{font-size:14px;line-height:1.4;padding:11px 8px}
+.input-area textarea{font-size:16px;line-height:2.05;min-height:215px}
+.upload-area b{font-size:16px}
+.upload-area small,.upload-area em{font-size:13px}
+.workspace-controls>span{font-size:13px}
+.workspace-controls>span b,#wordCount{font-family:var(--font-ui);font-size:17px;font-weight:700}
+.sample-btn{font-size:13px;padding:10px 14px}
+.search-btn{font-size:14px;padding:11px 17px}
+.workspace-note{font-size:13px;line-height:1.8;padding:9px 11px}
+.workspace-note span{font-size:13px}
+
+/* Inline processing — no microcopy under 12px */
+.process-row{grid-template-columns:32px 1fr;padding:9px 8px}
+.process-row i{
+  width:31px;height:31px;
+  font-size:13px;
+  font-family:var(--font-ui);
+  font-weight:700;
+}
+.process-row b{font-size:14px;line-height:1.45}
+.process-row small{font-size:12px;line-height:1.55}
+.process-row strong{font-size:12px;left:7px;top:8px}
+.process-arrow{font-size:18px}
+
+/* Trust/assurance */
+.assurance-strip b{font-size:16px;line-height:1.5}
+.assurance-strip small{font-size:13px;line-height:1.75}
+.assurance-icon{width:45px;height:45px;flex-basis:45px;font-size:22px}
+
+/* Section hierarchy */
+.section-title{max-width:800px;margin-bottom:36px}
+.section-title h2{
+  font-family:var(--font-display);
+  font-size:42px;
+  line-height:1.4;
+  margin:8px 0 7px;
+}
+.section-title p{font-size:16px;line-height:1.9}
+.capability-row article{padding:22px 13px}
+.capability-row article>span{width:46px;height:46px;font-size:20px}
+.capability-row b{font-size:16px;line-height:1.5}
+.capability-row small{font-size:13px;line-height:1.7;margin-top:6px}
+
+/* Method section — corrected number/icon/text scale */
+.method{padding-bottom:100px}
+.method-flow{gap:14px;align-items:start}
+.method-flow article{
+  min-height:235px;
+  padding:18px 14px 20px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+}
+.step{
+  position:static;
+  transform:none;
+  width:34px;
+  height:34px;
+  margin:0 auto 13px;
+  border:1px solid #d7e2dc;
+  background:#f3f7f4;
+  font-family:var(--font-ui);
+  font-size:15px;
+  font-weight:700;
+}
+.method-icon{
+  width:68px;
+  height:68px;
+  margin:0 auto 16px;
+  font-size:26px;
+}
+.method-flow h3{
+  font-size:18px;
+  line-height:1.55;
+  margin:0 0 8px;
+}
+.method-flow p{
+  max-width:255px;
+  font-size:14px;
+  line-height:1.9;
+  margin:0 auto;
+}
+.flow-arrow{
+  align-self:center;
+  margin-top:74px;
+  font-size:24px;
+}
+
+/* Results */
+.results-head h2{font-size:34px;line-height:1.4}
+.results-head p{font-size:13px}
+.results-summary>div{padding:14px}
+.results-summary small{font-size:13px;line-height:1.55}
+.results-summary b{
+  font-family:var(--font-heading);
+  font-size:30px;
+  font-weight:700;
+  line-height:1.2;
+}
+.claim{padding:16px}
+.claim h4{font-size:16px;line-height:1.75}
+.badge{font-size:12px;padding:6px 10px}
+.claim dl{
+  font-size:14px;
+  line-height:1.8;
+  grid-template-columns:115px 1fr;
+  gap:7px 12px;
+}
+.claim dt{font-weight:600}
+
+/* Principle */
+.principle-layout h2{font-size:44px;line-height:1.45}
+.principle-cards span{font-size:13px}
+.principle-cards b{font-size:17px;line-height:1.5}
+.principle-cards p{font-size:14px;line-height:1.85}
+
+/* Footer */
+.site-footer{font-size:13px}
+.footer-brand strong{font-size:20px}
+.footer-brand small{font-size:13px}
+.site-footer nav{font-size:13px}
+
+/* Keep Arabic UI legible on tablet/mobile too */
+@media(max-width:1000px){
+  .section-title h2{font-size:38px}
+  .method-flow article{min-height:215px}
+  .method-flow h3{font-size:17px}
+  .method-flow p{font-size:14px}
+}
+
+@media(max-width:680px){
+  body{font-size:15px}
+  .brand-copy strong{font-size:25px}
+  .hero-kicker{font-size:13px}
+  .hero h1{font-size:clamp(40px,11vw,49px)}
+  .hero-copy>p{font-size:17px;line-height:1.9}
+  .hero-trust{font-size:13px}
+  .workspace-card-head h2{font-size:27px}
+  .workspace-card-head p{font-size:14px}
+  .media-tab{font-size:13px}
+  .input-area textarea{font-size:15px}
+  .workspace-note{font-size:12px}
+  .process-row b{font-size:13px}
+  .process-row small,.process-row strong{font-size:12px}
+  .section-title h2{font-size:33px}
+  .section-title p{font-size:15px}
+  .capability-row b{font-size:15px}
+  .capability-row small{font-size:12px}
+  .method-flow article{min-height:auto;padding:16px}
+  .step{width:32px;height:32px;font-size:14px}
+  .method-icon{width:62px;height:62px}
+  .method-flow h3{font-size:17px}
+  .method-flow p{font-size:14px}
+  .results-summary b{font-size:27px}
+  .claim h4{font-size:15px}
+  .claim dl{font-size:13px}
+  .principle-layout h2{font-size:35px}
+  .principle-cards b{font-size:16px}
+  .principle-cards p{font-size:13px}
+}
