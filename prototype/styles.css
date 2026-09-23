@@ -223,3 +223,141 @@ button,a{transition:.2s ease}
   .principle-panel{padding:50px 0}.principle-layout h2{font-size:31px}.principle-cards{grid-template-columns:1fr}
   .site-footer{grid-template-columns:1fr;gap:12px}.site-footer nav{flex-wrap:wrap}.site-footer>span{justify-self:start}
 }
+
+/* =========================================================
+   Taatheel Typography System v3
+   Cairo / Alexandria / Almarai / IBM Plex Sans Arabic / Readex Pro
+   ========================================================= */
+:root{
+  --font-display:"Cairo","IBM Plex Sans Arabic",sans-serif;
+  --font-heading:"Alexandria","Cairo",sans-serif;
+  --font-body:"Readex Pro","IBM Plex Sans Arabic",sans-serif;
+  --font-copy:"Almarai","Readex Pro",sans-serif;
+  --font-ui:"IBM Plex Sans Arabic","Readex Pro",sans-serif;
+  --fs-11:11px;
+  --fs-12:12px;
+  --fs-13:13px;
+  --fs-14:14px;
+  --fs-15:15px;
+  --fs-16:16px;
+  --fs-18:18px;
+  --fs-20:20px;
+  --fs-24:24px;
+  --fs-30:30px;
+  --fs-38:38px;
+}
+
+body{
+  font-family:var(--font-body);
+  font-size:var(--fs-15);
+  line-height:1.85;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+button,input,textarea,code,.media-tab,.sample-btn,.search-btn,.header-cta,.login-link{
+  font-family:var(--font-ui);
+}
+h1,h2,.brand-copy strong,.principle-layout h2{
+  font-family:var(--font-display);
+}
+h3,h4,.main-nav,.capability-row b,.method-flow h3,.assurance-strip b,.process-row b{
+  font-family:var(--font-heading);
+}
+p,small,.workspace-note,.hero-trust,.section-label,.eyebrow,.hero-kicker{
+  font-family:var(--font-copy);
+}
+
+/* Header */
+.brand-copy strong{font-size:27px;font-weight:700;line-height:1.2}
+.brand-copy small{font-size:12px;line-height:1.5}
+.main-nav a{font-size:14px}
+.login-link{font-size:13px}
+.header-cta{font-size:13px;padding:10px 16px}
+
+/* Hero */
+.hero-kicker{font-size:14px}
+.hero h1{font-size:clamp(48px,5.3vw,72px);line-height:1.2;letter-spacing:-1px}
+.hero-copy>p{font-size:18px;line-height:2}
+.primary-btn,.secondary-btn{font-family:var(--font-ui);font-size:14px;padding:12px 19px}
+.play{font-size:11px;width:22px;height:22px}
+.hero-trust{font-size:13px}
+
+/* Main workspace */
+.eyebrow,.section-label{font-size:13px}
+.workspace-card-head h2{font-size:30px;line-height:1.45}
+.workspace-card-head p{font-size:14px;line-height:1.8}
+.demo-badge{font-family:var(--font-ui);font-size:11px;padding:6px 10px}
+.media-tab{font-size:13px;font-weight:600;padding:10px 7px}
+.input-area textarea{font-size:15px;line-height:2.05;min-height:205px}
+.upload-area b{font-size:15px}
+.upload-area small,.upload-area em{font-size:12px}
+.workspace-controls>span{font-size:12px}
+.workspace-controls>span b{font-size:16px;color:var(--green)}
+.sample-btn{font-size:12px;padding:9px 13px}
+.search-btn{font-size:13px;padding:10px 16px}
+.workspace-note{font-size:12px;line-height:1.75;padding:8px 10px}
+.workspace-note span{font-size:12px}
+.process-row{grid-template-columns:30px 1fr;padding:8px}
+.process-row i{width:28px;height:28px;font-size:12px}
+.process-row b{font-size:13px}
+.process-row small{font-size:11px;line-height:1.5}
+.process-row strong{font-family:var(--font-ui);font-size:11px;left:7px;top:8px}
+.process-arrow{font-size:16px}
+
+/* Assurance cards */
+.assurance-strip b{font-size:15px}
+.assurance-strip small{font-size:12px;line-height:1.75}
+.assurance-icon{width:42px;height:42px;flex-basis:42px;font-size:20px}
+
+/* Section headings and content types */
+.section-title{max-width:780px}
+.section-title h2{font-family:var(--font-display);font-size:38px;line-height:1.45;margin:7px 0}
+.section-title p{font-size:15px;line-height:1.9}
+.capability-row article{padding:20px 12px}
+.capability-row article>span{width:42px;height:42px;font-size:18px}
+.capability-row b{font-size:14px}
+.capability-row small{font-size:12px;line-height:1.65;margin-top:5px}
+
+/* Method */
+.step{width:26px;height:26px;font-family:var(--font-ui);font-size:12px}
+.method-icon{width:60px;height:60px;font-size:23px}
+.method-flow h3{font-size:15px}
+.method-flow p{font-size:12px;line-height:1.8}
+.flow-arrow{font-size:21px}
+
+/* Results and numbers */
+.results-head h2{font-size:31px;line-height:1.4}
+.results-head p{font-size:12px}
+.results-summary small{font-size:12px}
+.results-summary b{font-family:var(--font-heading);font-size:26px;line-height:1.25}
+.claim h4{font-size:14px;line-height:1.7}
+.badge{font-family:var(--font-ui);font-size:11px;padding:5px 9px}
+.claim dl{font-size:13px;line-height:1.75;grid-template-columns:105px 1fr}
+.claim dt{font-family:var(--font-heading);font-weight:500}
+
+/* Principle area */
+.principle-layout h2{font-size:42px;line-height:1.45}
+.principle-cards span{font-family:var(--font-ui);font-size:12px}
+.principle-cards b{font-family:var(--font-heading);font-size:15px}
+.principle-cards p{font-size:12px;line-height:1.8}
+
+/* Footer */
+.site-footer{font-size:12px}
+.footer-brand strong{font-family:var(--font-display);font-size:18px}
+.footer-brand small{font-size:12px}
+.site-footer nav{font-family:var(--font-heading);font-size:12px}
+
+@media(max-width:680px){
+  body{font-size:14px}
+  .brand-copy strong{font-size:24px}
+  .hero h1{font-size:clamp(39px,11vw,48px)}
+  .hero-copy>p{font-size:16px}
+  .workspace-card-head h2{font-size:25px}
+  .media-tab{font-size:12px}
+  .input-area textarea{font-size:14px}
+  .section-title h2{font-size:31px}
+  .section-title p{font-size:14px}
+  .capability-row b{font-size:13px}
+  .capability-row small{font-size:11px}
+  .principle-layout h2{font-size:33px}
+}
