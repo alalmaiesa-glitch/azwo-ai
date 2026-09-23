@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>خريطة التأصيل | عَزْو</title>
+<link rel="icon" href="./favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Noto+Kufi+Arabic:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./styles.css"><link rel="stylesheet" href="./portal.css"><link rel="stylesheet" href="./manage.css">
+</head>
+<body class="workspace-body">
+<div class="workspace-shell">
+<aside class="workspace-nav">
+  <a class="brand portal-brand" href="./index.html"><div class="brand-mark">ع</div><div><strong>عَزْو</strong><span>تأصيل المعرفة</span></div></a>
+  <div class="org-card"><small>Multimodal Provenance</small><strong>خريطة التأصيل</strong><span>Graph v0.1</span></div>
+  <nav>
+    <a href="./workspace.html">نظرة عامة</a>
+    <a href="./index.html#verify">تأصيل جديد</a>
+    <a href="./sources.html">المصادر المتصلة</a>
+    <a href="./api-catalog.html">دليل الـ APIs</a>
+    <a href="./knowledge-repositories.html">مستودعات المعرفة</a>
+    <a class="active" href="./provenance.html">خريطة التأصيل</a>
+    <a href="./review.html">المراجعات</a>
+  </nav>
+</aside>
+
+<main class="workspace-main provenance-page">
+<header class="workspace-top api-catalog-header">
+  <div>
+    <span class="overline">AZWO Provenance Graph v0.1</span>
+    <h1>خريطة التأصيل</h1>
+    <p class="muted">من الأصل الرقمي إلى القطعة المستخرجة ثم الكيان والعلاقة والدليل. هذه هي الطبقة التي ستوحد النص والصورة والمخطوط والصوت والفيديو.</p>
+  </div>
+  <span class="graph-version">PROVENANCE · 0.1</span>
+</header>
+
+<section class="graph-architecture">
+  <div><b>Content Asset</b><small>نص · وثيقة · صورة · مخطوط · صوت · فيديو</small></div><i>←</i>
+  <div><b>Segment</b><small>صفحة · فقرة · إطار · توقيت · منطقة</small></div><i>←</i>
+  <div><b>Extraction</b><small>OCR · HTR · STT · Metadata</small></div><i>←</i>
+  <div><b>Entity</b><small>معلومة · عمل · نسخة · مصدر</small></div><i>←</i>
+  <div><b>Relation</b><small>اشتق من · يستشهد · يدعم · نسخة من</small></div><i>←</i>
+  <div><b>Evidence</b><small>موضع · نص · توقيت · منطقة · حقوق</small></div>
+</section>
+
+<section class="catalog-metrics provenance-metrics">
+  <article><span>الأصول</span><strong id="provAssets">—</strong><small>Content Assets</small></article>
+  <article><span>القطع</span><strong id="provSegments">—</strong><small>Segments</small></article>
+  <article><span>الاستخراجات</span><strong id="provExtractions">—</strong><small>Extractions</small></article>
+  <article><span>الكيانات</span><strong id="provEntities">—</strong><small>Entities</small></article>
+  <article><span>العلاقات</span><strong id="provRelations">—</strong><small>Relations</small></article>
+  <article><span>الأدلة</span><strong id="provEvidence">—</strong><small>Evidence</small></article>
+</section>
+
+<section class="modality-readiness">
+  <div class="catalog-panel-head"><div><span class="overline">Multimodal Readiness</span><h2>جاهزية أنواع المحتوى</h2></div></div>
+  <div class="modality-grid">
+    <article class="ready"><span>نص</span><b>يكتب في الرسم الآن</b><small>Parsing + Claims + Evidence</small></article>
+    <article><span>وثيقة</span><b>المخطط جاهز</b><small>PDF parsing / OCR قادم</small></article>
+    <article><span>صورة</span><b>المخطط جاهز</b><small>Metadata / OCR / C2PA قادم</small></article>
+    <article><span>مخطوط</span><b>المخطط جاهز</b><small>IIIF / HTR / Folio قادم</small></article>
+    <article><span>صوت</span><b>المخطط جاهز</b><small>STT / time segments قادم</small></article>
+    <article><span>فيديو</span><b>المخطط جاهز</b><small>Frames / STT / C2PA قادم</small></article>
+  </div>
+</section>
+
+<section class="provenance-browser">
+  <div class="catalog-panel-head">
+    <div><span class="overline">Assets</span><h2>الأصول المؤصّلة</h2></div>
+    <button id="refreshProvenance" class="secondary-btn" type="button">تحديث</button>
+  </div>
+  <div class="provenance-layout">
+    <div id="assetList" class="asset-list"><div class="catalog-loading">جارٍ التحميل…</div></div>
+    <div id="assetDetails" class="asset-details">
+      <div class="empty-graph"><b>اختر أصلًا</b><p>ستظهر هنا القطع والاستخراجات والكيانات والعلاقات والأدلة المرتبطة به.</p></div>
+    </div>
+  </div>
+</section>
+</main>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="./config.js"></script><script src="./data-client.js"></script><script src="./provenance.js"></script>
+</body></html>
