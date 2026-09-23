@@ -27,6 +27,11 @@
     document.getElementById("apiCatalogRelevant").textContent=apiStats.relevant.toLocaleString("ar-SA");
     document.getElementById("apiCatalogApproved").textContent=apiStats.approved.toLocaleString("ar-SA");
   }catch{}
+  try{
+    const repoStats=await window.AZWO_DATA.getKnowledgeRepositoryStats();
+    const el=document.getElementById("knowledgeRepoMetric");
+    if(el)el.textContent=repoStats.total.toLocaleString("ar-SA");
+  }catch{}
   const host=document.getElementById("workspaceJobs");
   if(rows.length){
     host.innerHTML=rows.slice(0,8).map(row=>`
