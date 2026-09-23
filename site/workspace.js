@@ -21,6 +21,12 @@
   const rows=await window.AZWO_DATA.listRecent();
   document.getElementById("jobsCount").textContent=rows.length;
   try{const reviewRows=await window.AZWO_DATA.listReviewQueue();document.getElementById("reviewMetric").textContent=reviewRows.length}catch{}
+  try{
+    const apiStats=await window.AZWO_DATA.getApiCatalogStats();
+    document.getElementById("apiCatalogTotal").textContent=apiStats.total.toLocaleString("ar-SA");
+    document.getElementById("apiCatalogRelevant").textContent=apiStats.relevant.toLocaleString("ar-SA");
+    document.getElementById("apiCatalogApproved").textContent=apiStats.approved.toLocaleString("ar-SA");
+  }catch{}
   const host=document.getElementById("workspaceJobs");
   if(rows.length){
     host.innerHTML=rows.slice(0,8).map(row=>`
