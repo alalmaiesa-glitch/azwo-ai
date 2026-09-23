@@ -43,3 +43,26 @@
 .catalog-footnote{margin-top:15px;background:#f7faf8;border:1px solid var(--line);border-radius:13px;padding:14px}.catalog-footnote h3{margin:0 0 5px;font-size:12px;color:#395349}.catalog-footnote p{margin:0;color:#6d7873;font-size:10px}
 @media(max-width:1250px){.catalog-metrics{grid-template-columns:repeat(3,1fr)}.catalog-filters{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:700px){.catalog-metrics{grid-template-columns:repeat(2,1fr)}.catalog-filters{grid-template-columns:1fr}.catalog-panel-head,.catalog-result-bar{align-items:flex-start;flex-direction:column}.catalog-sync-state{justify-items:start}.api-catalog-header{flex-direction:column}}
+
+/* Knowledge Repository Catalog */
+.knowledge-repo-page{padding-bottom:50px}
+.provenance-flow{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin:18px 0;padding:13px 15px;background:linear-gradient(135deg,#eef5f1,#fbfaf6);border:1px solid var(--line);border-radius:13px}
+.provenance-flow span{background:#fff;border:1px solid #dfe6e2;border-radius:999px;padding:6px 10px;font-size:9px;color:#496057;font-weight:600}.provenance-flow b{color:#ae915a;font-size:13px}
+.knowledge-metrics{grid-template-columns:repeat(6,1fr)}
+.repo-view-note{font-size:9px;color:#7c8580;background:#f7f5ef;border-radius:999px;padding:6px 10px}
+.repo-filters{display:grid;grid-template-columns:1.45fr repeat(5,1fr);gap:8px;margin:15px 0}
+.repo-filters label{display:grid;gap:4px;font-size:9px;color:#65716b}
+.repo-filters input,.repo-filters select{height:39px;border:1px solid var(--line);border-radius:9px;background:#fff;padding:0 9px;color:#35443d;min-width:0}
+.knowledge-repo-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.knowledge-repo-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:0 4px 15px rgba(28,48,40,.025)}
+.repo-card-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}.repo-type{display:inline-block;color:#7d6b49;background:#f5f0e6;border-radius:999px;padding:4px 7px;font-size:8px;font-weight:700}.repo-card-head h3{margin:5px 0 0;font-size:17px}.repo-card-head h3 a{color:#173e30;text-decoration:none}.repo-card-head h3 a:hover{text-decoration:underline}
+.repo-score{width:57px;height:57px;flex:0 0 57px;border-radius:50%;background:#edf5f0;display:grid;place-content:center;text-align:center;color:var(--green);border:1px solid #d9e9e0}.repo-score strong{font-size:18px;line-height:1}.repo-score small{font-size:7px;color:#718078}
+.repo-description{font-size:11px;color:#62706a;line-height:1.75;margin:11px 0}
+.repo-flags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px}.repo-flag{font-size:8px;border-radius:999px;padding:4px 7px;background:#f2f4f3;color:#5b6862}.repo-flag.arabic{background:#edf4ee;color:#3a694f}.repo-flag.iiif{background:#eef0f8;color:#515f88}.repo-flag.bulk{background:#f7f2e8;color:#76623f}
+.repo-section{margin:9px 0}.repo-section>b{display:block;font-size:9px;color:#6d7873;margin-bottom:5px}.repo-chips{display:flex;gap:4px;flex-wrap:wrap}.repo-chip{font-size:8px;background:#f3f5f4;color:#52615a;border-radius:6px;padding:4px 6px}.repo-chip.use{background:#eaf2ee;color:#2e644c}
+.repo-meta{display:grid;grid-template-columns:76px 1fr;gap:5px 8px;margin:12px 0 0;font-size:9px;padding-top:10px;border-top:1px solid #f0eee9}.repo-meta dt{color:#939a96}.repo-meta dd{margin:0;color:#55625c;line-height:1.55}
+.repo-card-footer{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-top:13px;padding-top:10px;border-top:1px solid #f0eee9}.repo-card-footer>div:first-child{display:flex;align-items:center;gap:6px}.repo-card-footer small{font-size:8px;color:#959c98}.repo-links{display:flex;gap:5px;flex-wrap:wrap}.repo-links a{font-size:8px;text-decoration:none;border:1px solid #dde4df;border-radius:7px;padding:4px 7px;color:#35614f;background:#fff}.repo-links a:hover{border-color:#9eb9ac}
+.repo-actions{margin-top:10px;min-width:0}.repo-actions button{font-size:8px}
+@media(max-width:1250px){.knowledge-metrics{grid-template-columns:repeat(3,1fr)}.repo-filters{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:900px){.knowledge-repo-grid{grid-template-columns:1fr}}
+@media(max-width:700px){.knowledge-metrics{grid-template-columns:repeat(2,1fr)}.repo-filters{grid-template-columns:1fr}.provenance-flow{align-items:flex-start;flex-direction:column}.provenance-flow b{transform:rotate(0deg)}}
