@@ -76,7 +76,7 @@ qs("#verifyBtn")?.addEventListener("click",()=>{
   render();
 });
 
-qs("#copyReport")?.addEventListener("click",()=>navigator.clipboard?.writeText("عَزْو — تقرير معاينة توضيحي"));
+qs("#copyReport")?.addEventListener("click",()=>navigator.clipboard?.writeText("تَأْثِيل — تقرير معاينة توضيحي"));
 
 qs("#downloadReport")?.addEventListener("click",()=>{
   const blob=new Blob([JSON.stringify({preview:true,claims:demo},null,2)],{type:"application/json"});
