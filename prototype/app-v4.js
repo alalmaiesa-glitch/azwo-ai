@@ -1,4 +1,4 @@
-window.__TAATHEEL_BUILD__='V1-ROUTER-1';
+window.__TAATHEEL_BUILD__='V1-INGEST-UI-1';
 
 const input=document.getElementById('contentInput');
 let count=document.getElementById('wordCount');
@@ -54,7 +54,7 @@ function setActiveType(type){
     const cfg=typeConfig[type];
     fileInput.accept=cfg.accept;
     uploadTitle.textContent='اختر '+cfg.label;
-    uploadMeta.textContent='يمكن اختيار ملف، والبحث الحالي يعتمد على الوصف أو اسم الملف حتى تتفعّل المطابقة بالبصمة.';
+    uploadMeta.textContent='ارفع ملفًا فعليًا؛ سيُحفظ مؤقتًا لمدة 24 ساعة وتُستخرج منه البيانات المتاحة.';
     mediaQueryInput.placeholder=type==='manuscript'
       ? 'اكتب عنوان المخطوط أو الصق رابط IIIF Manifest…'
       : 'اكتب عنوانًا أو وصفًا أو رابطًا يساعد في العثور على الأصل…';
@@ -74,7 +74,7 @@ fileInput.addEventListener('change',()=>{
   if(!mediaQueryInput.value.trim()){
     mediaQueryInput.value=file.name.replace(/\.[^.]+$/,'').replace(/[_-]+/g,' ');
   }
-  inputMeta.textContent='سيُستخدم اسم الملف للبحث الوصفي ما لم تعدّل الوصف';
+  inputMeta.textContent='الملف جاهز للرفع الفعلي عند بدء التأثيل';
 });
 
 document.getElementById('fillDemo').addEventListener('click',()=>{
@@ -210,15 +210,38 @@ async function callRouter(contentType,query){
   return data;
 }
 
+function fileToBase64(file){
+  return new Promise((resolve,reject)=>{
+    const reader=new FileReader();
+    reader.onload=()=>resolve(String(reader.result||'').split(',')[1]||'');
+    reader.onerror=()=>reject(new Error('file_read_failed'));
+    reader.readAsDataURL(file);
+  });
+}
+
+async function callIngest(file,assetType){
+  const base64=await fileToBase64(file);
+  const response=await fetch('https://kywffsqebvjoyuswxtiz.supabase.co/functions/v1/taatheel-ingest',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','apikey':'sb_publishable_vNFWU3vMDfb04KxO80DHVA_N4I5UPTx'},
+    body:JSON.stringify({filename:file.name,mime_type:file.type||'application/octet-stream',asset_type:assetType,base64})
+  });
+  let data=null;
+  try{data=await response.json();}catch(e){}
+  if(!response.ok || !data || data.ok!==true) throw new Error(data?.message||data?.error||'ingest_unavailable');
+  return data;
+}
+
 async function run(){
   const textValue=input.value.trim();
   const mediaValue=mediaQueryInput ? mediaQueryInput.value.trim() : '';
   const fileName=fileInput.files.length
     ? fileInput.files[0].name.replace(/\.[^.]+$/,'').replace(/[_-]+/g,' ')
     : '';
-  const query=activeType==='text' ? textValue : (mediaValue || fileName);
+  let query=activeType==='text' ? textValue : (mediaValue || fileName);
+  const selected=fileInput.files.length ? fileInput.files[0] : null;
 
-  if(!query){
+  if(!query && !selected){
     (activeType==='text' ? input : mediaQueryInput).focus();
     inputMeta.textContent=activeType==='text' ? 'أدخل نصًا أولًا' : 'أدخل وصفًا أو عنوانًا أو رابطًا، أو اختر ملفًا.';
     return;
@@ -233,7 +256,14 @@ async function run(){
     await new Promise(r=>setTimeout(r,120));
     setStep(1,'done','تم');
 
-    setStep(2,'running','توجيه');
+    setStep(2,'running',selected?'رفع واستخراج':'توجيه');
+    if(selected){
+      const ingest=await callIngest(selected,activeType);
+      const extracted=String(ingest?.extraction?.text||'').trim();
+      if(extracted) query=extracted.slice(0,500);
+      else query=mediaValue || fileName;
+      inputMeta.textContent=ingest?.extraction?.status==='completed' ? 'تم رفع الملف واستخراج محتواه' : 'تم رفع الملف؛ الاستخراج المتخصص قيد الاستكمال';
+    }
     const data=await callRouter(activeType,query);
     setStep(2,'done','تم');
 
