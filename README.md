@@ -41,6 +41,8 @@ python3 scripts/validate_baseline.py
 - `data/test_cases.csv`: 120 حالة اختبار.
 - `docs/SOURCES_AND_LICENSES.csv`: سجل المصادر والحقوق.
 - `docs/ARCHITECTURE.md`: معمارية محرك الإسناد المستهدفة.
+- `docs/ALMAKANAZ_DISCOVERY_CONNECTOR.md`: تصميم ربط «المكانز» كمصدر اكتشاف يمر عبر بوابة تحقق من الأصل.
+- `docs/ALMAKANAZ_TEST_PLAN.md`: خطة اختبار تمنع تحويل نتائج المكانز إلى Evidence قبل التأصيل.
 - `docs/UI_BRIEF.md`: موجز تصميم واجهة «تَأْثِيل».
 - `BASELINE.md`: بيان حالة البداية.
 - `CHANGELOG_CHALLENGE.md`: يسجل ما يتم فقط خلال 4–6 أكتوبر.
