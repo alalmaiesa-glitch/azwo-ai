@@ -1,0 +1,44 @@
+# EIMDADAT security: exact-commit exceptions for reviewed PUBLIC Supabase publishable keys.
+# Values are deliberately not reproduced. Retain all default Gitleaks rules.
+# Every exception requires exact historical commit AND exact path AND generic-api-key.
+[extend]
+useDefault = true
+
+[[rules]]
+id = "generic-api-key"
+
+  [[rules.allowlists]]
+  description = "Historical Supabase sb_publishable client key, reviewed 2026-10-10"
+  condition = "AND"
+  commits = ["940128c34d91208f043f91748f62d0980c61e5c1"]
+  paths = ['''^prototype/app-v2\.js$''']
+
+  [[rules.allowlists]]
+  description = "Historical Supabase sb_publishable client key, reviewed 2026-10-10"
+  condition = "AND"
+  commits = ["fe1910feeed5edaf75cc73255b66d13d8e629ae7"]
+  paths = ['''^prototype/app-v3\.js$''']
+
+  [[rules.allowlists]]
+  description = "Historical Supabase sb_publishable client key, reviewed 2026-10-10"
+  condition = "AND"
+  commits = ["21291875d5e3d5c99b3abab6944875e71fcb5796"]
+  paths = ['''^prototype/app-v4\.js$''']
+
+  [[rules.allowlists]]
+  description = "Historical Supabase sb_publishable client key, reviewed 2026-10-10"
+  condition = "AND"
+  commits = ["743bb41c71ad219891cdcaecbd9b784156179b6c"]
+  paths = ['''^prototype/app-v4\.js$''']
+
+  [[rules.allowlists]]
+  description = "Historical Supabase sb_publishable client key, reviewed 2026-10-10"
+  condition = "AND"
+  commits = ["511778222d576b29cf3cfeb445be7c2a94df361c"]
+  paths = ['''^prototype/app\.js$''']
+
+  [[rules.allowlists]]
+  description = "Historical Supabase sb_publishable client key, reviewed 2026-10-10"
+  condition = "AND"
+  commits = ["409a28dad2ecb46cbdc07454cbcdf6e813454606"]
+  paths = ['''^site/config\.js$''']
