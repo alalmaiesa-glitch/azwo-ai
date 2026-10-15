@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>مستودعات المعرفة | تَأْثِيل</title>
+<link rel="icon" href="./favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Noto+Kufi+Arabic:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./styles.css"><link rel="stylesheet" href="./portal.css"><link rel="stylesheet" href="./manage.css">
+</head>
+<body class="workspace-body">
+<div class="workspace-shell">
+<aside class="workspace-nav">
+  <a class="brand portal-brand" href="./index.html"><div class="brand-mark">ت</div><div><strong>تَأْثِيل</strong><span>اعرف أصل المحتوى</span></div></a>
+  <div class="org-card"><small>بنية التأثيل</small><strong>مستودعات المعرفة</strong><span>Knowledge Registry</span></div>
+  <nav>
+    <a href="./workspace.html">نظرة عامة</a>
+    <a href="./index.html#verify">تأثيل جديد</a>
+    <a href="./sources.html">المصادر المتصلة</a>
+    <a href="./api-catalog.html">دليل الـ APIs</a><a href="./provenance.html">خريطة التأثيل</a>
+    <a class="active" href="./knowledge-repositories.html">مستودعات المعرفة</a>
+    <a href="./review.html">المراجعات</a>
+  </nav>
+</aside>
+
+<main class="workspace-main knowledge-repo-page">
+<header class="workspace-top api-catalog-header">
+  <div>
+    <span class="overline">Multimodal Provenance → Knowledge Layer</span>
+    <h1>مستودعات المعرفة</h1>
+    <p class="muted">سجل داخلي للمكتبات والرسوم المعرفية والأرشيفات والمخطوطات ومستودعات الوسائط التي يمكن أن يعتمد عليها تَأْثِيل مستقبلًا.</p>
+  </div>
+  <div class="catalog-sync-state">
+    <span class="discovery-only">RESEARCHED · NOT CONNECTED</span>
+    <small>لا يوجد Connector مفعل من هذه القائمة</small>
+  </div>
+</header>
+
+<section class="provenance-flow">
+  <span>Knowledge Repository</span><b>↓</b>
+  <span>Repository Review</span><b>↓</b>
+  <span>Rights & Provenance Check</span><b>↓</b>
+  <span>Approved Connector</span><b>↓</b>
+  <span>AZWO Provenance Graph</span>
+</section>
+
+<section class="catalog-metrics knowledge-metrics">
+  <article><span>إجمالي المستودعات</span><strong id="repoTotal">—</strong><small>دفعة v1</small></article>
+  <article><span>تم بحثها</span><strong id="repoResearched">—</strong><small>Researched</small></article>
+  <article><span>عربية قوية</span><strong id="repoArabic">—</strong><small>Native / Substantial</small></article>
+  <article><span>تدعم IIIF</span><strong id="repoIiif">—</strong><small>كليًا أو جزئيًا</small></article>
+  <article><span>متعددة الوسائط</span><strong id="repoMultimodal">—</strong><small>صورة/صوت/فيديو/مخطوط</small></article>
+  <article><span>معتمدة ومتصلة</span><strong id="repoConnected">—</strong><small>0 حاليًا</small></article>
+</section>
+
+<section class="catalog-panel">
+  <div class="catalog-panel-head">
+    <div><span class="overline">Knowledge Repository Catalog v1</span><h2>اكتشاف مصادر المعرفة</h2></div>
+    <div class="repo-view-note">الدرجة = ملاءمة للاكتشاف، وليست اعتمادًا</div>
+  </div>
+
+  <div class="repo-filters">
+    <label>بحث<input id="repoSearch" placeholder="Wikidata، مخطوطات، صور، أبحاث..."></label>
+    <label>النوع<select id="repoType"><option value="">كل الأنواع</option></select></label>
+    <label>الوسائط<select id="repoMedia"><option value="">كل الوسائط</option></select></label>
+    <label>العربية<select id="repoArabicFilter"><option value="">كل المستويات</option></select></label>
+    <label>IIIF<select id="repoIiifFilter"><option value="">الكل</option></select></label>
+    <label>الحد الأدنى<select id="repoScore"><option value="">الكل</option><option value="95">95+</option><option value="90">90+</option><option value="85">85+</option><option value="80">80+</option></select></label>
+  </div>
+
+  <div class="catalog-result-bar">
+    <span id="repoCount">جارٍ التحميل…</span>
+    <span class="catalog-legend"><i class="dot relevant-dot"></i> غير متصل بمحرك عَزْو الداخلي</span>
+  </div>
+
+  <div id="knowledgeRepoGrid" class="knowledge-repo-grid">
+    <div class="catalog-loading">جارٍ قراءة knowledge_repository_catalog…</div>
+  </div>
+</section>
+
+<section class="catalog-footnote">
+  <h3>لماذا سجل مستقل عن API Catalog؟</h3>
+  <p>لأن بعض أقوى مصادر تَأْثِيل ليست API فقط: قد تكون Knowledge Graph كاملًا، Snapshot، مستودع مخطوطات، أرشيف وسائط، أو Corpus قابلًا للتنزيل. الـ API مجرد طريقة وصول؛ أما هذا السجل فيصف أصل المعرفة نفسه.</p>
+</section>
+</main>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="./config.js"></script><script src="./data-client.js"></script><script src="./knowledge-repositories.js"></script>
+</body></html>

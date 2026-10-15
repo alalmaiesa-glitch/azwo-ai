@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#075640">
+<meta name="description" content="تَأْثِيل — منصة لتتبّع أصول المحتوى والمعرفة ومصادرها ونسخها وتحولاتها.">
+<title>تَأْثِيل | اعرف أصل المحتوى</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Noto+Kufi+Arabic:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./styles.css">
+<link rel="stylesheet" href="./public.css">
+</head>
+<body class="azwo-public">
+<header class="azwo-header">
+  <a class="azwo-brand" href="#home">
+    <span class="tathil-mark" aria-hidden="true">ت</span>
+    <span><b>تَأْثِيل</b><small>اعرف أصل المحتوى</small></span>
+  </a>
+  <nav class="azwo-nav">
+    <a class="active" href="#home">الرئيسية</a>
+    <a href="#how">كيف يعمل</a>
+    <a href="#sources">المصادر</a>
+    <a href="#waqf">وقف تَأْثِيل</a>
+  </nav>
+  <div class="azwo-header-actions">
+    <button class="search-pill" aria-label="بحث">⌕</button>
+    <a class="header-start" href="#verify">تتبّع الأصل <span>‹</span></a>
+  </div>
+</header>
+
+<main>
+<section class="reference-hero" id="home">
+  <div class="library-ribbon" aria-hidden="true">
+    <div class="book-lines"></div>
+    <p>المعرفة<br><b>جذور أعمق</b><br>لمستقبل أوسع</p>
+  </div>
+  <div class="left-quote" aria-hidden="true">
+    <p>كلُّ معرفةٍ<br>بمصدرٍ<br>أقوى أثرًا</p>
+  </div>
+  <div class="leaf-shape" aria-hidden="true"></div>
+
+  <div class="hero-layout">
+    <section class="identity-column">
+      <div class="hero-wordmark">
+        <span class="gold-mark one"></span><span class="gold-mark two"></span>
+        <h1>تَأْثِيل</h1>
+      </div>
+      <h2>تتبّع أصول المعرفة والمحتوى</h2>
+      <p class="hero-description">منصة تتبّع أصل المحتوى والمعرفة،<br>وتكشف مصادرهما ونسخهما وتحولاتهما ومسار انتقالهما.</p>
+      <div class="hero-buttons">
+        <a class="hero-primary" href="#verify">تتبّع الأصل <span>‹</span></a>
+        <a class="hero-secondary" href="#how"><span class="play">▷</span> شاهد كيف يعمل</a>
+      </div>
+      <div class="trust-features">
+        <article><span class="trust-icon">◇</span><div><b>مصادر موثوقة</b><small>منظومة مصادر معتمدة</small></div></article>
+        <article><span class="trust-icon">▣</span><div><b>نتائج موثقة</b><small>مع إسناد دقيق</small></div></article>
+        <article><span class="trust-icon">✦</span><div><b>معرفة أصيلة</b><small>تجمع بين التقنية والتراث</small></div></article>
+      </div>
+    </section>
+
+    <section class="verification-studio" id="verify">
+      <div class="studio-grid">
+        <div class="studio-input">
+          <div class="multimodal-tabs" aria-label="أنواع المحتوى">
+            <button class="active" type="button"><b>نص</b><small>يعمل الآن</small></button>
+            <button disabled type="button"><b>وثيقة</b><small>قريبًا</small></button>
+            <button disabled type="button"><b>صورة</b><small>قريبًا</small></button>
+            <button disabled type="button"><b>مخطوط</b><small>قريبًا</small></button>
+            <button disabled type="button"><b>صوت</b><small>قريبًا</small></button>
+            <button disabled type="button"><b>فيديو</b><small>قريبًا</small></button>
+            <button disabled type="button"><b>رابط</b><small>قريبًا</small></button>
+          </div>
+          <div class="studio-title"><b>أصّل المحتوى</b><span>ابدأ الآن بالنص؛ البنية متعددة الوسائط أصبحت جاهزة للتوسع</span></div>
+          <textarea id="verifyText" maxlength="10000" placeholder="أدخل نصًا تريد معرفة أصله ومصادره وأدلته...&#10;يمكن أن يكون معلومة، اقتباسًا، فقرة من بحث، نصًا تاريخيًا أو محتوى معرفيًا."></textarea>
+          <div class="char-row"><span><b id="charCount">0</b>/10000</span></div>
+          <div class="studio-controls">
+            <button class="clip-btn" type="button">⌕</button>
+            <select id="domainSelect">
+              <option>عام</option>
+              <option>علوم شرعية</option>
+              <option>أبحاث علمية</option>
+              <option>تاريخ وتراث</option>
+              <option>لغة وأدب</option>
+              <option>طب وصحة</option>
+              <option>اقتصاد وأعمال</option>
+              <option>تقنية وهندسة</option>
+              <option>علوم اجتماعية وإنسانية</option>
+            </select>
+            <select id="langSelect" class="language-select"><option>العربية</option><option>الإنجليزية</option></select>
+            <button id="verifyBtn" class="studio-submit" type="button">✦ أصّل المحتوى</button>
+          </div>
+          <button id="exampleBtn" class="try-example" type="button">جرّب مثالًا جاهزًا</button>
+        </div>
+
+        <aside class="studio-result" id="studioResult">
+          <div class="result-title"><b>نتيجة التأثيل</b><span id="miniResultStatus">جاهز للتحليل</span></div>
+          <div class="result-success" id="miniSuccess">
+            <span class="check">✓</span>
+            <div><b id="miniHeadline">أدخل نصًا للبدء</b><small id="miniSubline">سيعرض تَأْثِيل المصادر وخريطة الأصل هنا.</small></div>
+          </div>
+          <div class="mini-source-list" id="miniSourceList">
+            <div><span class="num">1</span><p><b>القرآن الكريم</b><small>Tanzil — مصدر متصل</small></p></div>
+            <div><span class="num">2</span><p><b>الحديث النبوي</b><small>الدرر السنية — مصدر متصل</small></p></div>
+            <div><span class="num">3</span><p><b>الترجمات</b><small>QuranEnc — مصدر متصل</small></p></div>
+          </div>
+          <a class="all-sources" href="#sources">عرض جميع المصادر <span>‹</span></a>
+        </aside>
+      </div>
+      <div class="studio-caption">▤ تَأْثِيل يبني سلسلة أصل للمحتوى: مصدره، نسخته، موضع الدليل، والعلاقات التي تربطه بما سبقه</div>
+    </section>
+  </div>
+</section>
+
+<section class="results-section hidden public-results" id="resultsSection">
+  <div class="section-head">
+    <div><span class="section-kicker">نتيجة التأثيل</span><h2>خريطة المعرفة والمصادر</h2></div>
+    <div class="result-actions"><button class="secondary-btn" id="copyReport" type="button">نسخ التقرير</button><button class="secondary-btn" id="downloadReport" type="button">تنزيل JSON</button></div>
+  </div>
+  <div class="analysis-summary">
+    <div class="summary-score"><span>تغطية الأدلة</span><strong id="scoreValue">—</strong><small>مؤشر تغطية المصادر، وليس حكمًا شرعيًا نهائيًا.</small></div>
+    <div class="summary-items">
+      <div><b id="supportedCount">0</b><span>مدعوم</span></div>
+      <div><b id="partialCount">0</b><span>دعم جزئي</span></div>
+      <div><b id="unsupportedCount">0</b><span>غير مسند</span></div>
+      <div><b id="reviewCount">0</b><span>مراجعة مختص</span></div>
+    </div>
+  </div>
+  <div class="claim-list" id="claimList"></div>
+</section>
+
+<section class="how-reference" id="how">
+  <div class="how-heading"><h2>كيف يعمل تَأْثِيل؟</h2><p>ثلاث خطوات للوصول من المحتوى إلى أصله ودليله</p></div>
+  <div class="how-cards">
+    <article><span class="step-no">1</span><div class="step-symbol">✎</div><h3>أدخل النص أو السؤال</h3><p>اكتب ما تريد التحقق من مصادره بكل سهولة</p></article>
+    <article><span class="step-no">2</span><div class="step-symbol">⌕</div><h3>يحلل المحتوى ويبحث عن أصوله</h3><p>يوجه كل معلومة إلى المصدر الأنسب ويبحث عن الدليل</p></article>
+    <article><span class="step-no">3</span><div class="step-symbol">▤</div><h3>احصل على خريطة الأصل والدليل</h3><p>تعرّف على المصدر والموضع وحالة التأثيل بوضوح</p></article>
+  </div>
+</section>
+
+<section class="connected-strip" id="sources">
+  <div class="sources-copy"><h2>المصادر المتصلة</h2><p>يبحث تَأْثِيل في مصادر موثوقة ومتعددة</p></div>
+  <div class="source-chips">
+    <span><b>القرآن الكريم</b><small>Tanzil</small></span>
+    <span><b>الدرر السنية</b><small>الحديث</small></span>
+    <span><b>QuranEnc</b><small>الترجمات</small></span>
+    <span class="muted-source"><b>OpenITI</b><small>مقيّد</small></span>
+    <span class="muted-source"><b>الشاملة</b><small>مخطط</small></span>
+  </div>
+  <a href="./sources.html">استعرض جميع المصادر <span>‹</span></a>
+</section>
+
+<section class="waqf-block" id="waqf">
+  <div><span>وقف تَأْثِيل</span><h2>معرفة موثوقة… وأثر ممتد</h2><p>وقف معرفي رقمي يبني بنية مستدامة لتتبّع أصول المعرفة والمحتوى وخدمة الباحثين والمؤسسات.</p></div>
+  <div class="waqf-points"><b>أصل معرفي محفوظ</b><b>منفعة عامة مستدامة</b><b>حوكمة قابلة للتتبع</b></div>
+</section>
+</main>
+
+<footer class="azwo-footer">
+  <a class="footer-logo" href="#home"><span class="tathil-mark footer-mark" aria-hidden="true">ت</span><span><b>تَأْثِيل</b><small>اعرف أصل المحتوى</small></span></a>
+  <p>وقف معرفي رقمي — لكل محتوى أصل يمكن تتبّعه.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="./config.js"></script>
+<script src="./data-client.js"></script>
+<script src="./app.js"></script>
+</body>
+</html>
